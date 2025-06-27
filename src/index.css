@@ -10,3 +10,7 @@ body{
   font-family: var(--font-primary);
 }
 
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
