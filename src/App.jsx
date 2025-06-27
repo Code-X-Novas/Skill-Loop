@@ -1,10 +1,17 @@
-import React from 'react'
+import Hero from "./components/Hero"
+import Info from "./components/Info"
+import Navbar from "./components/Navbar"
+import WhySkillLoop from "./components/WhySkillLoop"
+
 
 function App() {
   return (
-    <h1 class="text-3xl font-bold underline">
-    Hello world!
-    </h1>
+    <>
+      <Navbar />
+      <Hero />
+      <Info />
+      <WhySkillLoop />
+    </>
   )
 }
 
