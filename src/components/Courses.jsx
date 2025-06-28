@@ -63,7 +63,7 @@ const CourseCarousel = () => {
                 Join us and be part of a transformative learning journey! Together, we'll create exceptional educational experiences that empower growth.
             </p>
 
-            <div className="flex w-full justify-end mb-6">
+            <div className="flex w-full justify-end my-6">
                 <button className="text-xs md:text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-1 md:py-2 px-4 md:px-8">
                     View All
                 </button>

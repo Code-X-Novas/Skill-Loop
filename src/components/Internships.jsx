@@ -124,12 +124,12 @@ function Internships() {
     ];    
 
     return (
-        <section className="p-16">
-            <h1 className="text-5xl font-bold">Internships</h1>
-            <p className="text-gray-600 max-w-3xl mt-4">
+        <section className="lg:p-16 md:p-8 p-4" id="internship">
+            <h1 className="md:text-6xl text-4xl font-bold">Internships</h1>
+            <p className="text-gray-600 md:text-md text-sm max-w-3xl mt-4">
                 Kickstart your future with an internship that matters. Learn, contribute, and grow alongside industry leaders in a dynamic environment.
             </p>
-            <div className="flex w-full justify-end mb-8">
+            <div className="flex w-full justify-end my-8">
                 <button className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-2 px-8">View ALL</button>
             </div>
 
@@ -137,17 +137,17 @@ function Internships() {
                 <div className="flex space-x-4 w-max pb-4">
                     {internshipData.map((internship) => (
                     <div key={internship.id} className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 w-80 flex-shrink-0 space-y-4">
-                        <span className="inline-block bg-[#FDF1DF] text-[#D97706] text-sm font-medium px-3 py-1 rounded-md">
+                        <span className="inline-block bg-[#FDF1DF] text-[#D97706] md:text-sm text-xs font-medium px-3 py-1 rounded-md">
                         {internship.type}
                         </span>
                         <div>
-                            <h2 className="text-lg font-bold text-gray-900">{internship.title}</h2>
-                            <p className="text-gray-500 text-sm mt-1 line-clamp-2">
-                                {internship.description}
+                            <h2 className="md:text-lg text-md font-bold text-gray-900">{internship.title}</h2>
+                            <p className="text-gray-500 md:text-sm text-xs mt-1 line-clamp-2">
+                                {internship.description.trim().length > 20 ? internship.description.trim().substring(0, 100) + '...' : internship.description.trim()}
                             </p>
                         </div>
 
-                        <div className="flex justify-between text-sm text-gray-500 font-medium">
+                        <div className="flex justify-between md:text-sm text-xs text-gray-500 font-medium">
                             <span>{internship.postedDate}</span>
                             <span className="text-gray-700 font-semibold">{internship.stipend_range}</span>
                         </div>
@@ -156,11 +156,11 @@ function Internships() {
                             <img
                                 src={internship.company_img}
                                 alt={internship.company_name}
-                                className="w-10 h-10 rounded-full object-cover"
+                                className="md:w-10 md:h-10 w-8 h-8 rounded-full object-cover"
                             />
                             <div>
-                                <p className="font-semibold text-gray-900">{internship.company_name}</p>
-                                <p className="text-sm text-gray-500">{internship.company_location}</p>
+                                <p className="font-semibold text-sm text-gray-900">{internship.company_name}</p>
+                                <p className="md:text-sm text-xs text-gray-500">{internship.company_location}</p>
                             </div>
                         </div>
                     </div>))}

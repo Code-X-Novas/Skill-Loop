@@ -2,10 +2,10 @@
 
 function Hero() {
   return (
-    <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center h-[78vh] w-[95vw] grid grid-cols-2 items-start justify-between px-8 py-12 mx-8 rounded-4xl">
+    <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center md:grid md:grid-cols-2 flex flex-col items-start justify-between lg:mx-16 md:mx-8 mx-4 py-12 p-8 rounded-4xl">
 
-        <div className='flex flex-col justify-between h-full'>
-            <h1 className='text-6xl font-bold leading-tight'>Future-Proof Your Skills: AI & Finance</h1>
+        <div className='flex flex-col gap-8 justify-between h-full'>
+            <h1 className='lg:text-6xl text-4xl font-bold leading-tight'>Future-Proof Your Skills: AI & Finance</h1>
             <a href="/" className="inline-flex items-center group">
                 <div className="relative flex items-center bg-gradient-to-b from-[#F4B860] to-[#D35244] text-white px-6 py-3 rounded-full font-semibold text-sm sm:text-base z-10">
                     KNOW MORE
@@ -50,7 +50,7 @@ function Hero() {
         </div>
 
 
-        <div className="grid grid-rows-3">
+        <div className="hidden md:grid md:grid-rows-3">
             <div className="relative h-[22vh]">
                 <img src="https://picsum.photos/200/300" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl right-12" alt="Hero Image" />
                 <div className="absolute -bottom-15 right-0 bg-white rounded-xl px-4 py-2 z-10">

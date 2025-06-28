@@ -18,7 +18,7 @@ function Navbar() {
         
         {/* Hamburger menu button - visible on mobile */}
         <button 
-          className="md:hidden z-10" 
+          className="lg:hidden z-30" 
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -38,7 +38,7 @@ function Navbar() {
         </button>
         
         {/* Desktop menu */}
-        <ul className="hidden md:flex space-x-8 items-center">
+        <ul className="hidden lg:flex space-x-8 items-center">
           <li>
             <a href="/" className="text-sm">Home</a>
           </li>
@@ -56,26 +56,26 @@ function Navbar() {
           </li>
         </ul>
         
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4">
           <a href="/login" className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8">Login</a>
           <a href="/signup" className="text-sm bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8">Create an Account</a>
         </div>
         
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden absolute top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-0">
+          <div className="lg:hidden absolute top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-20 transition-all duration-500 ease-in-out">
             <ul className="flex flex-col space-y-4">
               <li>
                 <a href="/" className="text-sm block py-2" onClick={closeMenu}>Home</a>
               </li>
               <li>
-                <a href="/about" className="text-sm block py-2" onClick={closeMenu}>Courses</a>
+                <a href="#about" className="text-sm block py-2" onClick={closeMenu}>Courses</a>
               </li>
               <li>
-                <a href="/blog" className="text-sm block py-2" onClick={closeMenu}>Internship</a>
+                <a href="#internship" className="text-sm block py-2" onClick={closeMenu}>Internship</a>
               </li>
               <li>
-                <a href="/blog" className="text-sm block py-2" onClick={closeMenu}>Job Openings</a>
+                <a href="#job" className="text-sm block py-2" onClick={closeMenu}>Job Openings</a>
               </li>
               <li>
                 <a href="/contact" className="text-sm block py-2" onClick={closeMenu}>Contact</a>
