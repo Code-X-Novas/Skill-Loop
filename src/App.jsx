@@ -8,6 +8,7 @@ import Background from "./ui/Background"
 import Internships from "./components/Internships"
 import JobOpenings from "./components/JobOpenings"
 import CourseCarousel from "./components/Courses"
+import Testimonials from "./components/Testimonials"
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <CourseCarousel />
       <Internships />
       <JobOpenings />
+      <Testimonials />
       <Background>
         <Faqs />
         <Footer />

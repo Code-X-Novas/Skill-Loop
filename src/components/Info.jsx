@@ -1,3 +1,5 @@
+import AdvantageCarousel from "./Advantages"
+
 function Info() {
   return (
     <section className='grid grid-cols-2 space-x-4 pt-16 px-16'>
@@ -10,7 +12,7 @@ function Info() {
         </div>
         <div className='flex flex-col items-center justify-start gap-2 w-full'>
             <h1 className="text-6xl font-semibold leading-tight w-full text-right">Our Advantages</h1>
-            {/* Advantages Component */}
+            <AdvantageCarousel />
         </div>
     </section>
   )

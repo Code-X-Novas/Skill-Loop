@@ -1,109 +1,60 @@
-import { useState, useEffect } from 'react';
+import { useState } from "react";
+import CourseCard from "./CourseCard";
 
 const courses = [
-    {
-        id: 1,
-        title: "Digital Marketing",
-        students: 400,
-        description: "Learn the fundamentals of digital marketing, including SEO, social media, and content marketing. Perfect for beginners looking to enter the field.",
-        image: "https://picsum.photos/id/1015/500/300"
-    },
-    {
-        id: 2,
-        title: "Full Stack Web Dev",
-        students: 600,
-        description: "Master front-end and back-end development using modern tools like React, Node.js, and MongoDB.",
-        image: "https://picsum.photos/id/1018/500/300"
-    },
-    {
-        id: 3,
-        title: "Data Science",
-        students: 350,
-        description: "Explore Python, statistics, machine learning, and data visualization with hands-on projects.",
-        image: "https://picsum.photos/id/1024/500/300"
-    }
+  {
+    id: 1,
+    title: "Digital Marketing",
+    students: 400,
+    description:
+      "Learn SEO, social media, and content marketing. Ideal for beginners.",
+    image: "https://picsum.photos/id/1015/500/300",
+  },
+  {
+    id: 2,
+    title: "Cybersecurity Essentials",
+    students: 300,
+    description: "Understand core cybersecurity principles and protection.",
+    image: "https://picsum.photos/id/1011/500/300",
+  },
+  {
+    id: 3,
+    title: "Full Stack Web Dev",
+    students: 600,
+    description:
+      "Master front-end and back-end using React, Node.js, and MongoDB.",
+    image: "https://picsum.photos/id/1012/500/300",
+  },
+  {
+    id: 4,
+    title: "UI/UX Design",
+    students: 250,
+    description:
+      "Design beautiful, user-centric interfaces with modern tools.",
+    image: "https://picsum.photos/id/1016/500/300",
+  },
+  {
+    id: 5,
+    title: "Cloud Computing",
+    students: 350,
+    description:
+      "Explore AWS, Azure, and deployment models in cloud systems.",
+    image: "https://picsum.photos/id/1019/500/300",
+  },
 ];
 
-const CarouselItem = ({ content, level, isActive }) => {
-    const levelStyles = {
-        0: "z-30",
-        1: "z-20",
-        '-1': "z-20",
+const CourseCarousel = () => {
+    const [activeIndex, setActiveIndex] = useState(2);
+
+    const next = () => {
+        setActiveIndex((prev) => (prev + 1) % courses.length);
     };
 
-    const [dimensions, setDimensions] = useState({
-        height: "h-72",
-        width: "w-64"
-    });
-
-    useEffect(() => {
-        const handleResize = () => {
-            if (window.innerWidth < 640) {
-                setDimensions({
-                    height: level === 0 ? "h-52" : "h-36",
-                    width: "w-48"
-                });
-            } else if (window.innerWidth < 1024) {
-                setDimensions({
-                    height: level === 0 ? "h-64" : "h-40",
-                    width: "w-56"
-                });
-            } else {
-                setDimensions({
-                    height: level === 0 ? "h-72" : "h-48",
-                    width: "w-64"
-                });
-            }
-        };
-
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [level]);
-
-    return (
-        <div
-            className={`absolute rounded-3xl shadow-lg text-white font-semibold overflow-hidden p-6 transition-all duration-500 ease-in-out ${levelStyles[level] || "hidden"} ${dimensions.height} ${dimensions.width}`}
-            style={{
-                left: `${(level + 2) * 20}%`,
-                backgroundImage: `url(${content.image})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                transform: typeof window !== 'undefined' && window.innerWidth < 640
-                    ? `translateX(-${level === 0 ? 50 : 45}%)`
-                    : 'translateX(-50%)'
-            }}
-        >
-            <div className="bg-black/60 p-4 rounded-2xl h-full flex flex-col justify-between w-full">
-                <div>
-                    <h2 className="text-xl md:text-2xl">{content.title}</h2>
-                    <p className="text-sm md:text-base mt-1">{content.students} Students</p>
-                    {isActive && (
-                        <p className="text-sm mt-2 font-normal text-gray-200">{content.description}</p>
-                    )}
-                </div>
-                <button className="mt-4 text-sm border-2 border-white px-4 py-2 rounded-xl hover:bg-white hover:text-black transition">
-                    Join Now
-                </button>
-            </div>
-        </div>
-    );
-};
-
-export default function CourseCarousel() {
-    const [active, setActive] = useState(0);
-
-    const mod = (n, m) => ((n % m) + m) % m;
-
-    const getVisibleItems = () => {
-        return [-1, 0, 1].map((offset) => {
-            const index = mod(active + offset, courses.length);
-            return { index, level: offset };
-        });
+    const prev = () => {
+        setActiveIndex((prev) =>
+        prev === 0 ? courses.length - 1 : prev - 1
+        );
     };
-
-    const moveLeft = () => setActive((prev) => mod(prev - 1, courses.length));
-    const moveRight = () => setActive((prev) => mod(prev + 1, courses.length));
 
     return (
         <section className="p-4 md:p-8 lg:p-16">
@@ -117,40 +68,72 @@ export default function CourseCarousel() {
                     View All
                 </button>
             </div>
+            <div className="w-full px-4 py-10 flex flex-col items-center relative overflow-hidden">
+                <div className="relative w-full max-w-6xl h-[450px]">
+                    {courses.map((course, index) => {
+                    let position = index - activeIndex;
 
-            <div className="relative w-full h-80 md:h-96 flex flex-col items-center justify-center overflow-hidden">
-                <div className="relative w-full h-full flex items-center justify-center">
-                    {getVisibleItems().map(({ index, level }) => (
-                        <CarouselItem
-                            key={index}
-                            content={courses[index]}
-                            level={level}
-                            isActive={level === 0}
-                        />
-                    ))}
+                    // Loop positioning
+                    if (position < -2) position += courses.length;
+                    if (position > 2) position -= courses.length;
+
+                    const isActive = position === 0;
+                    const opacity = Math.abs(position) > 1 ? 0 : 1;
+                    const translateX = position * 110;
+                    const translateY = isActive ? 0 : 30;
+
+                    return (
+                        <div
+                        key={course.id}
+                        className="absolute top-0 left-1/2 transition-all duration-500 ease-in-out"
+                        style={{
+                            transform: `translateX(${translateX}%) translateX(-50%) translateY(${translateY}px)`,
+                            zIndex: 10 - Math.abs(position),
+                            opacity,
+                            transition: "transform 0.5s, opacity 0.5s",
+                            height: isActive ? "420px" : "360px",
+                        }}
+                        >
+                            <CourseCard {...course} isActive={isActive} />
+                        </div>
+                    );
+                    })}
                 </div>
 
-                <div className="mt-6 flex items-center space-x-4">
-                    <button onClick={moveLeft} className="p-2 rounded-full border border-orange-400 text-orange-500 hover:bg-orange-100">
+                {/* Navigation Buttons */}
+                <div className="flex items-center justify-center mt-6 gap-6 z-10">
+                    <button
+                        onClick={prev}
+                        className="bg-white border-2 border-orange-400 text-orange-500 hover:bg-orange-500 hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
+                    >
                         ←
                     </button>
 
-                    <div className="flex space-x-2">
+                    
+                    <div className="flex gap-2">
                         {courses.map((_, idx) => (
-                            <div
-                                key={idx}
-                                className={`h-2 rounded-full ${
-                                    idx === active ? 'bg-orange-400 w-4' : 'bg-gray-300 w-2'
-                                } transition-all duration-300`}
-                            ></div>
+                        <div
+                            key={idx}
+                            onClick={() => setActiveIndex(idx)}
+                            className={`w-3 h-3 rounded-full cursor-pointer transition ${
+                            idx === activeIndex ? "bg-orange-500 w-6" : "bg-gray-300"
+                            }`}
+                        />
                         ))}
                     </div>
 
-                    <button onClick={moveRight} className="p-2 rounded-full border border-orange-400 text-orange-500 hover:bg-orange-100">
+                    <button
+                        onClick={next}
+                        className="bg-white border-2 border-orange-400 text-orange-500 hover:bg-orange-500 hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
+                    >
                         →
                     </button>
                 </div>
+
             </div>
         </section>
     );
-}
+};
+
+export default CourseCarousel;
+
