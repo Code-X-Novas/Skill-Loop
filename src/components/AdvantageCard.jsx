@@ -1,7 +1,8 @@
+import { motion } from 'framer-motion';
 function AdvantageCard ({ title, description, color, isActive }) {
 
   return (
-    <div
+    <motion.div
       className="relative w-[280px] h-[420px] rounded-2xl overflow-hidden text-white"
     >
       <div 
@@ -10,10 +11,10 @@ function AdvantageCard ({ title, description, color, isActive }) {
       >
         <div>
           <h2 className="text-xl font-bold leading-tight mb-2">{title}</h2>
-          {isActive && (<p className="text-sm leading-snug">{description}</p>)}
+          <p className="text-sm leading-snug">{description}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

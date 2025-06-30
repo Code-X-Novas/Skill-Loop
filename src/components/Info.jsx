@@ -29,8 +29,7 @@ function Info() {
               alt='About Us' 
               className='w-full md:max-w-2/3 sm:max-w-1/2 max-w-full h-auto mt-4' />
         </div>
-        <div className='flex flex-col items-center justify-start gap-2 w-full'>
-            <h1 className="md:text-6xl text-4xl font-semibold leading-tight w-full md:text-right text-left">Our Advantages</h1>
+        <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
             <AdvantageCarousel />
         </div>
     </section>
