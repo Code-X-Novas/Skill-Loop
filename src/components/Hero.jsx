@@ -8,7 +8,7 @@ function Hero() {
                 initial={{ opacity: 0, x: -400, y: 0, rotate: 10, scale: 1.2 }}
                 animate={{ opacity: [1, 1], x: [-800, 0, -300], y: [0, -100] , rotate: [0,-15] , scale: [1.3, 0.8] }}
                 transition={{ duration: 3, ease: "easeOut", times: [0, 0.5, 1] }}
-                className='absolute top-0 left-0 transform aspect-square w-screen h-screen z-0' />
+                className='absolute top-0 left-0 transform aspect-square w-screen h-screen z-0 lg:block hidden' />
             <div className='flex flex-col gap-8 justify-between h-full z-10 relative'>
                 <motion.h1
                     initial={{ opacity: 0, x: -100, y: 100 }}
@@ -54,7 +54,7 @@ function Hero() {
                     initial={{ opacity: 0, x: 1000, y: 0 }}
                     animate={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
                     transition={{ duration: 2, ease: "easeOut", delay: 2.5 }}
-                    className='grid grid-cols-2 gap-4 mt-8 md:text-xl text-sm'>
+                    className='sm:grid sm:grid-cols-2 gap-4 mt-8 md:text-xl flex flex-col text-sm'>
                     <div className='flex items-center gap-2'>
                         <p className="bg-[#F8D6A480] rounded-md px-4 py-2">🎯 Personalized Approach</p>
                     </div>
