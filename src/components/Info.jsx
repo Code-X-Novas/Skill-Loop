@@ -3,7 +3,8 @@ import { motion } from "framer-motion"
 
 function Info() {
   return (
-    <section className='md:grid md:grid-cols-2 flex flex-col space-x-4 lg:p-16 md:p-8 p-4' id="about">
+    <section className='md:grid md:grid-cols-2 flex flex-col space-x-4 lg:p-16 md:p-8 p-4 relative' id="about">
+        <span className='absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 aspect-square w-full max-h-screen bg-[#F98B2510] rounded-full  z-0 blur-3xl'></span>
         <div className='flex flex-col items-center justify-start gap-2 w-full'>
             <motion.h1 
               initial={{ opacity: 0, x: -100, y: 0 }}

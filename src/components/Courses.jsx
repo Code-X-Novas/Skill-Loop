@@ -1,7 +1,6 @@
 import { useState } from "react";
 import CourseCard from "./CourseCard";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
 const courses = [
   {
@@ -58,19 +57,6 @@ const CourseCarousel = () => {
         );
     };
 
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-        
-    useEffect(() => {
-        setWindowWidth(Number(window.innerWidth));
-        
-        const handleResize = () => {
-            setWindowWidth(Number(window.innerWidth));
-        };
-        
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
     return (
         <section className="p-4 md:p-8 lg:p-16">
             <motion.h1 
@@ -81,7 +67,7 @@ const CourseCarousel = () => {
               className="text-3xl md:text-4xl lg:text-5xl font-bold">Courses</motion.h1>
             <motion.p 
               initial={{ opacity: 0, x: 0, y: 0 }}
-              whileInView={{ opacity: 1, x: [windowWidth, -20, 0], y: 0 }}
+              whileInView={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
               transition={{ duration: 2, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.5 }}
               className="text-gray-600 max-w-3xl mt-2 md:mt-4 text-sm md:text-base">

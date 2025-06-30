@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 
 function JobOpenings() {
     const jobData = [
@@ -125,19 +124,6 @@ function JobOpenings() {
             company_location: "Gurgaon, India"
         }
     ];
-    
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-        
-    useEffect(() => {
-        setWindowWidth(Number(window.innerWidth));
-        
-        const handleResize = () => {
-            setWindowWidth(Number(window.innerWidth));
-        };
-        
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     return (
         <section className="lg:p-16 md:p-8 p-4" id="job">
@@ -149,7 +135,7 @@ function JobOpenings() {
                 className="md:text-6xl text-4xl font-bold">Job Openings</motion.h1>
             <motion.p 
                 initial={{ opacity: 0, x: 0, y: 0 }}
-                whileInView={{ opacity: 1, x: [windowWidth, -20, 0], y: 0 }}
+                whileInView={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
                 transition={{ duration: 2, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.5 }}
                 className="text-gray-600 md:text-md text-sm max-w-3xl mt-4">
@@ -168,10 +154,10 @@ function JobOpenings() {
 
             <motion.div 
                 initial={{ opacity: 0, x: 100, y: 0 }}
-                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                whileInView={{ opacity: 1, x: [0, -20, 0], y: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.5 }}
-                className="overflow-x-auto scrollbar-hide">
+                className="overflow-x-auto scrollbar-hide relative z-10">
                 <div className="flex space-x-4 w-max pb-4">
                     {jobData.map((job) => (
                     <div key={job.id} className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 w-80 flex-shrink-0 space-y-4">
