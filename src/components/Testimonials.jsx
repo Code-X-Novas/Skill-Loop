@@ -73,17 +73,17 @@ const Testimonials = () => {
                 <div className="relative flex flex-col items-center text-center font-semibold bg-white p-10 rounded-br-full md:text-3xl text-sm">
                     <p>Millions search for answers every month…</p>
                     <p>But true growth comes from structured learning</p>
-                    <span className="absolute top-0 right-0 transform translate-x-1/2  md:h-24 md:w-24 h-12 w-12 bg-[#F4B860] rounded-full shadow-[#FF727242] shadow-lg"></span>
+                    <span className="absolute top-0 right-0 transform md:translate-x-1/2 -translate-y-1/2 md:translate-y-0 md:h-24 md:w-24 h-12 w-12 bg-[#F4B860] rounded-full shadow-[#FF727242] shadow-lg"></span>
                 </div>
 
                 <div className="bg-white">
                     <div className="bg-[#F9F6F0] p-6 rounded-tl-[150px] flex md:flex-row flex-col items-center justify-around md:px-24 px-4 py-12 gap-8">
                         <div className="relative">
-                            <div className="bg-[#E28050]/50 rounded-md p-1 -mb-3 z-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[200px] h-[340px]"></div>
+                            <div className="bg-[#E28050]/50 rounded-md p-1 -mb-3 z-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[200px] md:h-[340px] sm:w-[100px] sm:h-[240px] w-[50px] h-[190px]"></div>
                             <img
                                 src={active.image}
                                 alt={active.name}
-                                className="rounded-lg relative z-10 w-[300px] h-[300px] object-cover "
+                                className="rounded-lg relative z-10 md:w-[300px] md:h-[300px] sm:w-[200px] sm:h-[200px] w-[150px] h-[150px] object-cover "
                             />
                         </div>
                         <div className="text-gray-600 text-sm mt-8 md:mt-0 text-left max-w-xl transition-all duration-500 ease-in-out">

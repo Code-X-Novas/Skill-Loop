@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 
 function Info() {
   return (
-    <section className='md:grid md:grid-cols-2 flex flex-col space-x-4 lg:p-16 md:p-8 p-4 relative' id="about">
+    <section className='md:grid md:grid-cols-2 flex flex-col space-x-4 lg:p-16 md:p-8 p-4 relative overflow-hidden' id="about">
         <span className='absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 aspect-square w-full max-h-screen bg-[#F98B2510] rounded-full  z-0 blur-3xl'></span>
         <div className='flex flex-col items-center justify-start gap-2 w-full'>
             <motion.h1 
@@ -29,7 +29,7 @@ function Info() {
               alt='About Us' 
               className='w-full md:max-w-2/3 sm:max-w-1/2 max-w-full h-auto mt-4' />
         </div>
-        <div className='flex flex-col items-start justify-start gap-2 w-full h-full'>
+        <div className='flex flex-col items-start justify-start gap-2 w-full h-full overflow-hidden'>
             <AdvantageCarousel />
         </div>
     </section>

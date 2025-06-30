@@ -126,7 +126,7 @@ function JobOpenings() {
     ];
 
     return (
-        <section className="lg:p-16 md:p-8 p-4" id="job">
+        <section className="lg:p-16 md:p-8 p-4 overflow-hidden" id="job">
             <motion.h1 
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}

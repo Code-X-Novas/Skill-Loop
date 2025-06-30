@@ -58,7 +58,7 @@ const CourseCarousel = () => {
     };
 
     return (
-        <section className="p-4 md:p-8 lg:p-16">
+        <section className="p-4 md:p-8 lg:p-16 overflow-hidden">
             <motion.h1 
               initial={{ opacity: 0, x: -100, y: 0 }}
               whileInView={{ opacity: 1, x: 0, y: 0 }}
