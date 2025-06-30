@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 function Faqs () {
   const [openFaq, setOpenFaq] = useState(null);
@@ -39,16 +40,31 @@ function Faqs () {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+          <motion.h2 
+            initial={{ opacity: 0, x: -100, y: 0 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.5 }}
+            className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
             Frequently Asked Questions
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, x: -100, y: 0 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.5 }}
+            className="text-lg text-gray-600 max-w-2xl mx-auto">
             Our platform is built to help you work smarter, not harder. It adapts to your needs and supports your goals. Make the most of every feature.
-          </p>
+          </motion.p>
         </div>
 
         {/* FAQ Items */}
-        <div className="space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, x: 0, y: -100 }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.5 }}
+          className="space-y-4">
           {faqs.map((faq) => (
             <div
               key={faq.id}
@@ -117,7 +133,7 @@ function Faqs () {
               </div>
             </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

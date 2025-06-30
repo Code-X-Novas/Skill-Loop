@@ -54,7 +54,7 @@ function AdvantageCarousel (){
 
     return (
         <section className="lg:p-16 md:p-8 p-0">
-            <div className="md:w-[50vw] w-[100vw] px-4 py-10 flex flex-col items-center justify-center relative overflow-hidden">
+            <div className="md:w-[42vw] w-[100vw] px-4 py-10 flex flex-col items-center justify-center relative overflow-hidden">
                 {/* Navigation Buttons */}
                 <div className="flex items-center justify-center gap-6 mb-6 z-10">
                     <button

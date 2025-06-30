@@ -9,6 +9,7 @@
 body{
   font-family: var(--font-primary);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

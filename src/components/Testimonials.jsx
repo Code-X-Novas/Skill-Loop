@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -41,14 +42,34 @@ const Testimonials = () => {
 
   return (
     <div className="lg:p-16 md:p-8 p-4 mb-8 overflow-hidden">
-        <h1 className="md:text-6xl text-4xl font-bold text-gray-900 mb-8">Testimonials</h1>
+        <motion.h1 
+          initial={{ opacity: 0, x: -100, y: 0 }}
+          whileInView={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.5 }}
+          className="md:text-6xl text-4xl font-bold text-gray-900 mb-8">Testimonials</motion.h1>
         <div className="justify-center relative flex flex-col items-center md:gap-8 gap-2">
             
-            <div className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-md md:w-24 md:h-24 h-12 w-12">
-                <img src='/quote.svg' alt="Quote Icon" className="w-full h-full" />
-            </div>
+            <motion.div 
+              initial={{ opacity: 1, x: 0, y: 100 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.5 }}
+              className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-md md:w-20 md:h-20 h-12 w-12">
+                <motion.img src='/quote.svg' alt="Quote Icon" 
+                  initial={{ opacity: 0, x: -100, y: 0 }}
+                  whileInView={{ opacity: 1, x: [0, 10, 0], y: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  className="w-full h-full" />
+            </motion.div>
 
-            <div className="rounded-t-xl shadow-2xl bg-[#F9F6F0] md:w-[80vw] w-full flex flex-col">
+            <motion.div 
+              initial={{ opacity: 1, x: 0, y: 100 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="rounded-t-xl shadow-2xl bg-[#F9F6F0] md:w-[80vw] w-full flex flex-col">
                 <div className="relative flex flex-col items-center text-center font-semibold bg-white p-10 rounded-br-full md:text-3xl text-sm">
                     <p>Millions search for answers every month…</p>
                     <p>But true growth comes from structured learning</p>
@@ -123,8 +144,8 @@ const Testimonials = () => {
                     </button>
                     </div>
                 </div>          
+            </motion.div>
         </div>
-      </div>
     </div>
   );
 };

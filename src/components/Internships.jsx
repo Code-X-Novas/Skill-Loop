@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
 function Internships() {
     const internshipData = [
         {
@@ -121,19 +124,54 @@ function Internships() {
             company_name: "InfraTech",
             company_location: "Gurgaon, India"
         }
-    ];    
+    ];
+    
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+        
+    useEffect(() => {
+        setWindowWidth(Number(window.innerWidth));
+        
+        const handleResize = () => {
+            setWindowWidth(Number(window.innerWidth));
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
         <section className="lg:p-16 md:p-8 p-4" id="internship">
-            <h1 className="md:text-6xl text-4xl font-bold">Internships</h1>
-            <p className="text-gray-600 md:text-md text-sm max-w-3xl mt-4">
+            <motion.h1 
+                initial={{ opacity: 0, x: -100, y: 0 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="md:text-6xl text-4xl font-bold">Internships</motion.h1>
+            <motion.p 
+                initial={{ opacity: 0, x: 0, y: 0 }}
+                whileInView={{ opacity: 1, x: [windowWidth, -20, 0], y: 0 }}
+                transition={{ duration: 2, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="text-gray-600 md:text-md text-sm max-w-3xl mt-4">
                 Kickstart your future with an internship that matters. Learn, contribute, and grow alongside industry leaders in a dynamic environment.
-            </p>
+            </motion.p>
             <div className="flex w-full justify-end my-8">
-                <button className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-2 px-8">View ALL</button>
+                <motion.button 
+                    initial={{ opacity: 0, x: 100, y: 0 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    viewport={{ once: true, amount: 0.1 }}
+                    className="text-xs md:text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-1 md:py-2 px-4 md:px-8">
+                    View All
+                </motion.button>
             </div>
 
-            <div className="overflow-x-auto scrollbar-hide">
+            <motion.div 
+                initial={{ opacity: 0, x: 100, y: 0 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="overflow-x-auto scrollbar-hide">
                 <div className="flex space-x-4 w-max pb-4">
                     {internshipData.map((internship) => (
                     <div key={internship.id} className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 w-80 flex-shrink-0 space-y-4">
@@ -165,7 +203,7 @@ function Internships() {
                         </div>
                     </div>))}
                 </div>
-            </div>
+            </motion.div>
 
         </section>
     )

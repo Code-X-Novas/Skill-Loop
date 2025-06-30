@@ -1,5 +1,7 @@
 import { useState } from "react";
 import CourseCard from "./CourseCard";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 const courses = [
   {
@@ -56,19 +58,52 @@ const CourseCarousel = () => {
         );
     };
 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+        
+    useEffect(() => {
+        setWindowWidth(Number(window.innerWidth));
+        
+        const handleResize = () => {
+            setWindowWidth(Number(window.innerWidth));
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
         <section className="p-4 md:p-8 lg:p-16">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">Courses</h1>
-            <p className="text-gray-600 max-w-3xl mt-2 md:mt-4 text-sm md:text-base">
+            <motion.h1 
+              initial={{ opacity: 0, x: -100, y: 0 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.5 }}
+              className="text-3xl md:text-4xl lg:text-5xl font-bold">Courses</motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, x: 0, y: 0 }}
+              whileInView={{ opacity: 1, x: [windowWidth, -20, 0], y: 0 }}
+              transition={{ duration: 2, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.5 }}
+              className="text-gray-600 max-w-3xl mt-2 md:mt-4 text-sm md:text-base">
                 Join us and be part of a transformative learning journey! Together, we'll create exceptional educational experiences that empower growth.
-            </p>
+            </motion.p>
 
             <div className="flex w-full justify-end my-6">
-                <button className="text-xs md:text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-1 md:py-2 px-4 md:px-8">
+                <motion.button 
+                  initial={{ opacity: 0, x: 100, y: 0 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  className="text-xs md:text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-1 md:py-2 px-4 md:px-8">
                     View All
-                </button>
+                </motion.button>
             </div>
-            <div className="w-full px-4 py-10 flex flex-col items-center relative overflow-hidden">
+            <motion.div 
+              initial={{ opacity: 0, x: 0, y: 100 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.1 }}
+              className="w-full px-4 py-10 flex flex-col items-center relative overflow-hidden">
                 <div className="relative w-full max-w-6xl h-[450px]">
                     {courses.map((course, index) => {
                     let position = index - activeIndex;
@@ -130,7 +165,7 @@ const CourseCarousel = () => {
                     </button>
                 </div>
 
-            </div>
+            </motion.div>
         </section>
     );
 };
