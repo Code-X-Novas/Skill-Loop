@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 
 function WhySkillLoop() {
     return (
-        <section className="min-h-screen lg:p-16 md:p-8 p-4 -mt-16 relative">
+        <section className="min-h-screen lg:p-16 md:p-8 p-4 md:-mt-16 mt-4  relative overflow-hidden">
             <span className='absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 aspect-square w-full max-h-[100vh] bg-[#E2D65010] rounded-full  z-0 blur-3xl'></span>
             <motion.h1 
-                initial={{ opacity: 0, x: -100, y: 0 }}
+                initial={{ opacity: 0, x: -30, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.9 }}

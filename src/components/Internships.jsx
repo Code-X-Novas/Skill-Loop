@@ -136,7 +136,7 @@ function Internships() {
                 className="md:text-6xl text-4xl font-bold z-10">Internships</motion.h1>
             <motion.p 
                 initial={{ opacity: 0, x: 0, y: 0 }}
-                whileInView={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
+                whileInView={{ opacity: 1, x: [200, -20, 0], y: 0 }}
                 transition={{ duration: 2, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.5 }}
                 className="text-gray-600 md:text-md text-sm max-w-3xl mt-4 z-10">
@@ -144,7 +144,7 @@ function Internships() {
             </motion.p>
             <div className="flex w-full justify-end my-8 z-10">
                 <motion.button 
-                    initial={{ opacity: 0, x: 100, y: 0 }}
+                    initial={{ opacity: 0, x: 10, y: 0 }}
                     whileInView={{ opacity: 1, x: 0, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.1 }}
