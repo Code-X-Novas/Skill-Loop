@@ -223,10 +223,10 @@ function AdvantageCarousel() {
             const translateY = Math.abs(position) * 5;
 
             const zIndex = isActive
-              ? 998
+              ? 48
               : isSlidingOut
-              ? 999
-              : 100 - Math.abs(position);
+              ? 49
+              : 45 - Math.abs(position);
 
             return (
               <motion.div

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,12 +19,12 @@ function Navbar() {
         
         {/* Hamburger menu button - visible on mobile */}
         <button 
-          className="lg:hidden z-30 fixed right-4" 
+          className="lg:hidden" 
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
           <svg 
-            className="w-6 h-6" 
+            className={`w-6 h-6 ${isOpen ? 'fixed z-[51] right-4' : ''}`} 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24" 
@@ -62,8 +63,15 @@ function Navbar() {
         </div>
         
         {/* Mobile menu */}
+        <AnimatePresence>
         {isOpen && (
-          <div className="lg:hidden fixed top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-20 transition-all duration-500 ease-in-out">
+          <motion.div
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="lg:hidden fixed top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-50"
+          >
             <ul className="flex flex-col space-y-4">
               <li>
                 <a href="/" className="text-sm block py-2" onClick={closeMenu}>Home</a>
@@ -87,8 +95,9 @@ function Navbar() {
                 <a href="/signup" className="text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center" onClick={closeMenu}>Create an Account</a>
               </li>
             </ul>
-          </div>
+          </motion.div>
         )}
+        </AnimatePresence>
       </div>
     </nav>
   );

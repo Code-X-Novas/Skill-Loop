@@ -15,7 +15,7 @@ function WhySkillLoop() {
                 <motion.div 
                     initial={{ opacity: 0, x: -100, y: 0 }}
                     whileInView={{ opacity: 1, x: 0, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    transition={{ duration: 1, ease: "easeOut", staggerChildren: 1}}
                     viewport={{ once: true, amount: 0.3 }}
                     className="flex flex-col justify-around">
                     <motion.div 
