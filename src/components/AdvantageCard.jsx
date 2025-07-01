@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-function AdvantageCard ({ title, description, color, isActive }) {
+function AdvantageCard ({ title, description, color }) {
 
   return (
     <motion.div

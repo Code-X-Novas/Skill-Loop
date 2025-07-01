@@ -18,7 +18,7 @@ function Navbar() {
         
         {/* Hamburger menu button - visible on mobile */}
         <button 
-          className="lg:hidden z-30" 
+          className="lg:hidden z-30 fixed right-4" 
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -63,7 +63,7 @@ function Navbar() {
         
         {/* Mobile menu */}
         {isOpen && (
-          <div className="lg:hidden absolute top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-20 transition-all duration-500 ease-in-out">
+          <div className="lg:hidden fixed top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-20 transition-all duration-500 ease-in-out">
             <ul className="flex flex-col space-y-4">
               <li>
                 <a href="/" className="text-sm block py-2" onClick={closeMenu}>Home</a>
