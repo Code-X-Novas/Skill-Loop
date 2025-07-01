@@ -6,13 +6,11 @@ function AdvantageCard ({ title, description, color }) {
       className="relative w-[280px] h-[420px] rounded-2xl overflow-hidden text-white"
     >
       <div 
-        className="absolute inset-0 p-6 flex flex-col justify-between"
+        className="absolute inset-0 p-6 flex flex-col justify-center h-full w-full"
         style={{ backgroundColor: color }}
       >
-        <div>
-          <h2 className="text-xl font-bold leading-tight mb-2">{title}</h2>
-          <p className="text-sm leading-snug">{description}</p>
-        </div>
+        <h2 className="text-xl font-bold leading-tight mb-2">{title}</h2>
+        <p className="text-sm leading-snug">{description}</p>
       </div>
     </motion.div>
   );

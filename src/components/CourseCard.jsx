@@ -1,4 +1,4 @@
-function CourseCard ({ title, students, description, image, isActive }) {
+function CourseCard ({ title, description, image, isActive }) {
 
   return (
     <div
@@ -12,7 +12,7 @@ function CourseCard ({ title, students, description, image, isActive }) {
       <div className="absolute inset-0 bg-black/60 p-6 flex flex-col justify-between">
         <div>
           <h2 className="text-xl font-bold leading-tight mb-2">{title}</h2>
-          <p className="font-semibold text-sm mb-2">{students} Students</p>
+          {/* <p className="font-semibold text-sm mb-2">{students} Students</p> */}
           {isActive && (<p className="text-sm leading-snug">{description}</p>)}
         </div>
         <button className="mt-6 w-fit px-4 py-2 text-sm bg-transparent text-white font-semibold rounded-md border-2 border-white hover:bg-white hover:text-black transition">

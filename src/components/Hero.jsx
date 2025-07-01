@@ -16,7 +16,8 @@ function Hero() {
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5}}
                     className='md:text-6xl text-4xl font-bold leading-tight'
                     >
-                    Future-Proof Your Skills: AI & Finance
+                    Learn Today <br />
+                    Lead Tomorrow
                 </motion.h1>
 
                 <motion.a href="/" 

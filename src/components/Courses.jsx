@@ -5,44 +5,41 @@ import { motion } from "framer-motion";
 const courses = [
   {
     id: 1,
-    title: "Digital Marketing",
-    students: 400,
+    title: "Data Analytics for MBAs",
     description:
-      "Learn SEO, social media, and content marketing. Ideal for beginners.",
-    image: "https://picsum.photos/id/1015/500/300",
+      "Covers Excel, Power BI, and Tableau — from basics to building integrated dashboards and interpreting business performance data.",
+    image: "https://picsum.photos/id/1050/500/300",
   },
   {
     id: 2,
-    title: "Cybersecurity Essentials",
-    students: 300,
-    description: "Understand core cybersecurity principles and protection.",
-    image: "https://picsum.photos/id/1011/500/300",
+    title: "HR Operations & Analytics",
+    description:
+      "Focuses on recruitment, HRMS, ATS, and progresses to advanced analytics, budgeting, and HR scorecards.",
+    image: "https://picsum.photos/id/1051/500/300",
   },
   {
     id: 3,
-    title: "Full Stack Web Dev",
-    students: 600,
+    title: "Marketing & Digital Growth",
     description:
-      "Master front-end and back-end using React, Node.js, and MongoDB.",
-    image: "https://picsum.photos/id/1012/500/300",
+      "Introduces the marketing funnel, SEO, and social media basics, then dives into ads, analytics, automation, and campaign strategy.",
+    image: "https://picsum.photos/id/1052/500/300",
   },
   {
     id: 4,
-    title: "UI/UX Design",
-    students: 250,
+    title: "Finance Tools & Strategy",
     description:
-      "Design beautiful, user-centric interfaces with modern tools.",
-    image: "https://picsum.photos/id/1016/500/300",
+      "Starts with financial statements and budgeting, then covers valuation tools, forecasting, dashboards, and investor-focused planning.",
+    image: "https://picsum.photos/id/1053/500/300",
   },
   {
     id: 5,
-    title: "Cloud Computing",
-    students: 350,
+    title: "AI & Prompt Engineering for MBAs",
     description:
-      "Explore AWS, Azure, and deployment models in cloud systems.",
-    image: "https://picsum.photos/id/1019/500/300",
+      "Teaches how to use tools like ChatGPT and Notion AI for automation, content generation, and AI-powered business workflows.",
+    image: "https://picsum.photos/id/1054/500/300",
   },
 ];
+
 
 const CourseCarousel = () => {
     const [activeIndex, setActiveIndex] = useState(2);
@@ -70,9 +67,12 @@ const CourseCarousel = () => {
               whileInView={{ opacity: 1, x: [200, -20, 0], y: 0 }}
               transition={{ duration: 2, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.5 }}
-              className="text-gray-600 max-w-3xl mt-2 md:mt-4 text-sm md:text-base">
-                Join us and be part of a transformative learning journey! Together, we'll create exceptional educational experiences that empower growth.
+              className="text-gray-600 max-w-3xl mt-2 md:mt-4 text-sm md:text-base"
+            >
+              SkillLoop offers five carefully designed certification programs, each structured into three tiers — 
+              <span className="font-bold">Basic (₹599), Intermediate (₹799), and Advanced (₹999)</span> — allowing learners to grow progressively.
             </motion.p>
+
 
             <div className="flex w-full justify-end my-6">
                 <motion.button 
@@ -125,7 +125,7 @@ const CourseCarousel = () => {
                 <div className="flex items-center justify-center mt-6 gap-6 z-10">
                     <button
                         onClick={prev}
-                        className="bg-white border-2 border-orange-400 text-orange-500 hover:bg-orange-500 hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
+                        className="bg-white border-2 border-[#F9A825] hover:border-none text-orange-500 hover:bg-linear-to-b hover:from-[#F4B860] hover:to-[#D35244] hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
                     >
                         ←
                     </button>
@@ -145,11 +145,12 @@ const CourseCarousel = () => {
 
                     <button
                         onClick={next}
-                        className="bg-white border-2 border-orange-400 text-orange-500 hover:bg-orange-500 hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
+                        className="bg-white border-2 border-[#F9A825] hover:border-none text-orange-500 hover:bg-linear-to-b hover:from-[#F4B860] hover:to-[#D35244] hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
                     >
                         →
                     </button>
                 </div>
+                <div className="text-gray-600 mt-4 text-xs">Each course is slide-based, voiceover-enabled, and comes with a certificate after completion. Learners must purchase each tier separately. Courses are non-refundable and self-paced. </div>
 
             </motion.div>
         </section>

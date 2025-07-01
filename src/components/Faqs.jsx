@@ -7,29 +7,54 @@ function Faqs () {
   const faqs = [
     {
       id: 1,
-      question: "What makes your programs different from other educational offerings?",
+      question: "What is SkillLoop’s refund policy?",
       answer:
-        "Skill Loop is a comprehensive learning platform that helps you develop and master new skills through interactive courses, practical projects, and personalized learning paths. Our platform uses adaptive learning technology to customize the experience based on your progress and learning style.",
+        "All courses purchased on SkillLoop are non-refundable. Please review the course content and structure carefully before purchasing.",
     },
     {
       id: 2,
-      question: "Who are your typical participants?",
+      question: "Is there an option to upgrade from Basic to Intermediate or Advanced levels?",
       answer:
-        "We offer flexible pricing plans to suit different needs. Our basic plan starts at $19/month, with premium plans offering additional features like 1-on-1 mentoring, advanced certifications, and priority support. We also offer annual subscriptions with significant discounts.",
+        "No, SkillLoop follows a tiered purchase model. Each level (Basic, Intermediate, Advanced) must be purchased separately.",
     },
     {
       id: 3,
-      question: "What time commitment should I expect?",
+      question: "Will I receive a certificate for completing a course?",
       answer:
-        "Yes! With our mobile app, you can download courses and access them offline. This feature is available for premium subscribers and allows you to continue learning even without an internet connection.",
+        "Yes! Every learner receives a completion certificate for each level they complete — Basic, Intermediate, and Advanced.",
     },
     {
       id: 4,
-      question: "What funding options are available?",
+      question: "Can I take multiple courses at once?",
       answer:
-        "We provide industry-recognized certificates upon course completion. Our certificates are verified and can be shared on LinkedIn, added to your resume, or presented to employers. Premium users also get access to advanced certifications from our partner institutions.",
-    }
+        "Yes, you can enroll in as many SkillLoop courses as you'd like. Each course is sold and tracked separately.",
+    },
+    {
+      id: 5,
+      question: "Can I do the internship without purchasing any course?",
+      answer:
+        "Yes. Purchasing a course is not mandatory to apply for the internship. However, interns who enroll in a course gain deeper product knowledge, which often helps them perform better in HR or sales roles.",
+    },
+    {
+      id: 6,
+      question: "Is the internship remote?",
+      answer:
+        "Yes. All SkillLoop internships are 100% remote — allowing flexibility while delivering real-world exposure.",
+    },
+    {
+      id: 7,
+      question: "Will I get a Letter of Recommendation (LOR)?",
+      answer:
+        "Yes, top-performing interns will be awarded an LOR from the S&S Corporation leadership, in addition to their certificate and stipend.",
+    },
+    {
+      id: 8,
+      question: "Will I get a Pre-Placement Offer (PPO)?",
+      answer:
+        "Yes. All interns are eligible for a PPO of up to ₹8 LPA, based on performance during the internship and final interview with the SkillLoop core team.",
+    },
   ];
+
 
   const toggleFaq = (id) => {
     setOpenFaq(openFaq === id ? null : id);
