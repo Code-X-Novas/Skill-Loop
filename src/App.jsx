@@ -9,13 +9,11 @@ import Internships from "./components/Internships"
 import JobOpenings from "./components/JobOpenings"
 import CourseCarousel from "./components/Courses"
 import Testimonials from "./components/Testimonials"
-import SEO from "./components/SEO"
 
 
 function App() {
   return (
     <>
-      <SEO />
       <Navbar />
       <Hero />
       <Info />
