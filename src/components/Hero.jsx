@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 function Hero() {
 
     return (
-        <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center md:grid md:grid-cols-2 flex flex-col items-start justify-between lg:mx-16 md:mx-8 mx-4 py-12 p-8 rounded-4xl overflow-clip relative">
-            <motion.img src='/hero_ele_1.svg' alt="Hero Element 1" 
+        <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center md:grid md:grid-cols-2 flex flex-col items-start justify-between lg:mx-16 md:mx-8 mx-4 py-12 p-8 rounded-4xl overflow-clip relative" role="main" aria-label="Hero section">
+            <motion.img src='/hero_ele_1.svg' alt="Decorative hero element showcasing SkillLoop's dynamic learning environment" 
                 initial={{ opacity: 0, x: -400, y: 0, rotate: 10, scale: 1.2 }}
                 animate={{ opacity: [1, 1], x: [-800, 0, -300], y: [0, -100] , rotate: [0,-15] , scale: [1.3, 0.8] }}
                 transition={{ duration: 3, ease: "easeOut", times: [0, 0.5, 1] }}
@@ -17,14 +17,15 @@ function Hero() {
                     className='md:text-6xl text-4xl font-bold leading-tight'
                     >
                     Learn Today <br />
-                    Lead Tomorrow
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F4B860] to-[#D35244]">Lead Tomorrow</span>
                 </motion.h1>
 
-                <motion.a href="/" 
+                <motion.a href="#about" 
                     initial={{ opacity: 0, x: -1000, y: 0 }}
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     transition={{ duration: 2, ease: "easeOut", delay: 1.5}}
-                    className="inline-flex items-center group">
+                    className="inline-flex items-center group"
+                    aria-label="Learn more about SkillLoop's MBA-focused courses and internship programs">
                     <div className="relative flex items-center bg-gradient-to-b from-[#F4B860] to-[#D35244] text-white px-6 py-3 rounded-full font-semibold text-sm sm:text-base z-10">
                         KNOW MORE
                     </div>
@@ -55,18 +56,19 @@ function Hero() {
                     initial={{ opacity: 0, x: 1000, y: 0 }}
                     animate={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
                     transition={{ duration: 2, ease: "easeOut", delay: 2.5 }}
-                    className='sm:grid sm:grid-cols-2 gap-4 mt-8 md:text-xl flex flex-col text-sm'>
+                    className='sm:grid sm:grid-cols-2 gap-4 mt-8 md:text-xl flex flex-col text-sm'
+                    aria-label="SkillLoop's key features and advantages">
                     <div className='flex items-center gap-2'>
-                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2">🎯 Personalized Approach</p>
+                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2" role="button" aria-label="Personalized learning approach">🎯 Personalized Approach</p>
                     </div>
                     <div className='flex items-center gap-2'>
-                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2">📈 Relevant Skills</p>
+                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2" role="button" aria-label="Industry-relevant skills training">📈 Relevant Skills</p>
                     </div>
                     <div className='flex items-center gap-2'>
-                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2">👥 Small Groups</p>
+                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2" role="button" aria-label="Small group learning sessions">👥 Small Groups</p>
                     </div>
                     <div className='flex items-center gap-2'>
-                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2">🎓 MBA-Focused</p>
+                        <p className="bg-[#F8D6A480] rounded-md px-4 py-2" role="button" aria-label="MBA-focused curriculum">🎓 MBA-Focused</p>
                     </div>
                 </motion.section>
             </div>

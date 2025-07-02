@@ -52,7 +52,7 @@ const Testimonials = () => {
   const active = testimonials[activeIndex];
 
   return (
-    <div className="lg:p-16 md:p-8 p-4 mb-8 overflow-y-visible">
+    <div className="lg:p-16 md:p-8 p-4 mb-8 overflow-y-visible" id="testimonials">
         <motion.h1 
           initial={{ opacity: 0, x: -100, y: 0 }}
           whileInView={{ opacity: 1, x: 0, y: 0 }}

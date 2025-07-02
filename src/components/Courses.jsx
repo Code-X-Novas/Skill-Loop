@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CourseCard from "./CourseCard";
 import { motion } from "framer-motion";
+import { Helmet } from 'react-helmet';
 
 const courses = [
   {
@@ -9,6 +10,8 @@ const courses = [
     description:
       "Covers Excel, Power BI, and Tableau — from basics to building integrated dashboards and interpreting business performance data.",
     image: "https://picsum.photos/id/1050/500/300",
+    skills: ["Excel", "Power BI", "Tableau", "Data Visualization", "Business Intelligence"],
+    slug: "data-analytics"
   },
   {
     id: 2,
@@ -16,6 +19,8 @@ const courses = [
     description:
       "Focuses on recruitment, HRMS, ATS, and progresses to advanced analytics, budgeting, and HR scorecards.",
     image: "https://picsum.photos/id/1051/500/300",
+    skills: ["HRMS", "ATS", "Recruitment Analytics", "HR Scorecards", "Budgeting"],
+    slug: "hr-operations"
   },
   {
     id: 3,
@@ -23,6 +28,8 @@ const courses = [
     description:
       "Introduces the marketing funnel, SEO, and social media basics, then dives into ads, analytics, automation, and campaign strategy.",
     image: "https://picsum.photos/id/1052/500/300",
+    skills: ["SEO", "Social Media Marketing", "Marketing Analytics", "Campaign Strategy", "Marketing Automation"],
+    slug: "marketing-growth"
   },
   {
     id: 4,
@@ -30,6 +37,8 @@ const courses = [
     description:
       "Starts with financial statements and budgeting, then covers valuation tools, forecasting, dashboards, and investor-focused planning.",
     image: "https://picsum.photos/id/1053/500/300",
+    skills: ["Financial Modeling", "Valuation", "Forecasting", "Financial Dashboards", "Investment Planning"],
+    slug: "finance-strategy"
   },
   {
     id: 5,
@@ -37,12 +46,39 @@ const courses = [
     description:
       "Teaches how to use tools like ChatGPT and Notion AI for automation, content generation, and AI-powered business workflows.",
     image: "https://picsum.photos/id/1054/500/300",
+    skills: ["AI Automation", "Prompt Engineering", "ChatGPT", "Business AI Tools", "AI Workflows"],
+    slug: "ai-prompt-engineering"
   },
 ];
 
 
 const CourseCarousel = () => {
     const [activeIndex, setActiveIndex] = useState(2);
+
+    // Generate structured data for courses
+    const coursesStructuredData = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "SkillLoop MBA Certification Courses",
+      "description": "Comprehensive MBA-focused certification courses in Data Analytics, HR, Marketing, Finance, and AI",
+      "itemListElement": courses.map((course, index) => ({
+        "@type": "Course",
+        "position": index + 1,
+        "name": course.title,
+        "description": course.description,
+        "provider": {
+          "@type": "Organization",
+          "name": "SkillLoop",
+          "url": "https://skill-loop-three.vercel.app"
+        },
+        "educationalLevel": "Professional",
+        "courseMode": "Online",
+        "teaches": course.skills,
+        "inLanguage": "en",
+        "availableLanguage": "English",
+        "url": `https://skill-loop-three.vercel.app/courses/${course.slug}`
+      }))
+    };
 
     const next = () => {
         setActiveIndex((prev) => (prev + 1) % courses.length);
@@ -55,13 +91,19 @@ const CourseCarousel = () => {
     };
 
     return (
-        <section className="p-4 md:p-8 lg:p-16 overflow-hidden">
-            <motion.h1 
-              initial={{ opacity: 0, x: -100, y: 0 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.5 }}
-              className="text-3xl md:text-4xl lg:text-5xl font-bold">Courses</motion.h1>
+        <>
+            <Helmet>
+                <script type="application/ld+json">
+                    {JSON.stringify(coursesStructuredData)}
+                </script>
+            </Helmet>
+            <section className="p-4 md:p-8 lg:p-16 overflow-hidden" id="courses" aria-label="SkillLoop Courses">
+                <motion.h1 
+                  initial={{ opacity: 0, x: -100, y: 0 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  className="text-3xl md:text-4xl lg:text-5xl font-bold">Courses</motion.h1>
             <motion.p 
               initial={{ opacity: 0, x: 0, y: 0 }}
               whileInView={{ opacity: 1, x: [200, -20, 0], y: 0 }}
@@ -154,6 +196,7 @@ const CourseCarousel = () => {
 
             </motion.div>
         </section>
+        </>
     );
 };
 

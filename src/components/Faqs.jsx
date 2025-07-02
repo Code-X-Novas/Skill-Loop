@@ -61,7 +61,7 @@ function Faqs () {
   };
 
   return (
-    <section className="py-16 lg:px-16 md:px-8 px-4 mb-16">
+    <section className="py-16 lg:px-16 md:px-8 px-4 mb-16" id='faq'>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
