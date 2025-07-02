@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 const SEO = ({
   title = "SkillLoop - Learn Today, Lead Tomorrow | MBA-Focused EdTech Platform",
   description = "SkillLoop bridges the gap between education and industry with job-ready skills in Data Analytics, HR, Marketing, Finance, and AI. Get practical internship experience and certification courses designed for MBA professionals.",
-  keywords = "MBA courses, Data Analytics, HR Operations, Digital Marketing, Finance Strategy, AI Prompt Engineering, EdTech, Internships, Professional Development, Business Intelligence, Career Growth, Skill Loop",
+  keywords = "skillloop, Skill Loop, skill-loop, skill loop, learn app, MBA courses, Data Analytics, HR Operations, Digital Marketing, Finance Strategy, AI Prompt Engineering, EdTech, Internships, Professional Development, Business Intelligence, Career Growth",
   image = "/skillLoopLogo.svg",
   url = "https://skill-loop-three.vercel.app",
   type = "website",
