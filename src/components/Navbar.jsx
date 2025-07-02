@@ -44,13 +44,13 @@ function Navbar() {
             <a href="/" className="text-sm">Home</a>
           </li>
           <li>
-            <a href="/about" className="text-sm">Courses</a>
+            <a href="#courses" className="text-sm">Courses</a>
           </li>
           <li>
-            <a href="/blog" className="text-sm">Internship</a>
+            <a href="#internships" className="text-sm">Internship</a>
           </li>
           <li>
-            <a href="/blog" className="text-sm">Job Openings</a>
+            <a href="#job" className="text-sm">Job Openings</a>
           </li>
           <li>
             <a href="/contact" className="text-sm">Contact</a>
@@ -77,7 +77,7 @@ function Navbar() {
                 <a href="/" className="text-sm block py-2" onClick={closeMenu}>Home</a>
               </li>
               <li>
-                <a href="#about" className="text-sm block py-2" onClick={closeMenu}>Courses</a>
+                <a href="#courses" className="text-sm block py-2" onClick={closeMenu}>Courses</a>
               </li>
               <li>
                 <a href="#internship" className="text-sm block py-2" onClick={closeMenu}>Internship</a>

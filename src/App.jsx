@@ -14,7 +14,7 @@ import SEO from "./components/SEO"
 
 function App() {
   return (
-    <>
+    <div className="scroll-smooth">
       <SEO />
       <Navbar />
       <Hero />
@@ -28,7 +28,7 @@ function App() {
         <Faqs />
         <Footer />
       </Background>
-    </>
+    </div>
   )
 }
 

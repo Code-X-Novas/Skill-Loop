@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CourseCard from "./CourseCard";
 import { motion } from "framer-motion";
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const courses = [
   {

@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const SEO = ({
   title = "SkillLoop - Learn Today, Lead Tomorrow | MBA-Focused EdTech Platform",
@@ -14,8 +14,8 @@ const SEO = ({
     "@type": "EducationalOrganization",
     "name": "SkillLoop",
     "description": description,
-    "url": url,
-    "logo": `${url}/skillLoopLogo.svg`,
+    "url": "https://skill-loop-three.vercel.app/",
+    "logo": "https://skill-loop-three.vercel.app/skillLoopLogo.svg",
     "foundingDate": "2024",
     "contactPoint": {
       "@type": "ContactPoint",
@@ -122,15 +122,6 @@ const SEO = ({
         {JSON.stringify(structuredData)}
       </script>
       
-      {/* Preconnect to external domains for performance */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link rel="preconnect" href="https://picsum.photos" />
-      
-      {/* DNS Prefetch */}
-      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-      <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-      <link rel="dns-prefetch" href="//picsum.photos" />
     </Helmet>
   );
 };
