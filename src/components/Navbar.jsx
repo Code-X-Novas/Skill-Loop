@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import SignIn from './SignIn';
+import { ChevronDown } from 'lucide-react';
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [signin, setSignin] = useState(false);
+  const login = localStorage.getItem('login');
+
+  const handleSignin = () => {
+    setSignin(!signin);
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -24,7 +32,7 @@ function Navbar() {
           aria-label="Toggle menu"
         >
           <svg 
-            className={`w-6 h-6 ${isOpen ? 'fixed z-[51] right-4' : ''}`} 
+            className={`w-6 h-6 ${isOpen ? 'fixed z-50 right-4' : ''}`} 
             fill="none" 
             stroke="currentColor" 
             viewBox="0 0 24 24" 
@@ -57,10 +65,38 @@ function Navbar() {
           </li>
         </ul>
         
-        <div className="hidden lg:flex items-center space-x-4">
-          <a href="/login" className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8">Login</a>
-          <a href="/signup" className="text-sm bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8">Create an Account</a>
-        </div>
+        {(login) ? (
+            <div className="hidden lg:flex items-center space-x-4">
+              <img src='/shopping.svg' className="w-6 h-6 text-gray-700 cursor-pointer bg-" />
+              <div className="text-xs flex items-center border-2 border-gray-200 rounded-lg p-2 gap-4 cursor-pointer">
+                <img src='https://picsum.photos/200' alt="Profile" className="w-8 h-8" />
+                <div>
+                  <p>Username</p>
+                  <p>test@gmail.com</p>
+                </div>
+                <ChevronDown className="w-4 h-4 text-gray-700" />
+              </div>
+            </div>
+        ) : 
+          (
+            <div className="hidden lg:flex items-center space-x-4">
+              <button onClick={handleSignin} className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 cursor-pointer">Login</button>
+              <a href="/signup" className="text-sm bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8">Create an Account</a>
+            </div>
+          )}
+        
+
+        {signin && (
+          <motion.div
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "100%" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className="fixed inset-0 bg-white/85 z-[51] overflow-y-auto"
+          >
+            <SignIn onClose={() => setSignin(false)} />
+          </motion.div>
+        )}
         
         {/* Mobile menu */}
         <AnimatePresence>
@@ -70,7 +106,7 @@ function Navbar() {
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="lg:hidden fixed top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-50"
+          className="lg:hidden fixed top-0 left-0 right-0 bg-white min-h-screen p-5 pt-28 z-[49]"
           >
             <ul className="flex flex-col space-y-4">
               <li>
@@ -89,10 +125,10 @@ function Navbar() {
                 <a href="/contact" className="text-sm block py-2" onClick={closeMenu}>Contact</a>
               </li>
               <li className="pt-4">
-                <a href="/login" className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center" onClick={closeMenu}>Login</a>
+                <button onClick={handleSignin} className="w-full text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center cursor-pointer">Login</button>
               </li>
               <li className="pt-2">
-                <a href="/signup" className="text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center" onClick={closeMenu}>Create an Account</a>
+                <button href="/signup" className="w-full text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center" onClick={closeMenu}>Create an Account</button>
               </li>
             </ul>
           </motion.div>
