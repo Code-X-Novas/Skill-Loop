@@ -1,8 +1,8 @@
 import React from 'react';
-import GlanceCard from '../Components/cards/GlanceCard';
-import StudentEnrollCharts from '../Components/Chart/StudentEnrollChart';
-import JobOpeningsChart from '../Components/Chart/JobOpeningsChart';
-import StudentTable from '../Components/tables/StudentTable';
+import GlanceCard from '../components/cards/GlanceCard';
+import StudentEnrollCharts from '../components/Chart/StudentEnrollChart';
+import JobOpeningsChart from '../components/Chart/JobOpeningsChart';
+import StudentTable from '../components/tables/StudentTable';
 import { FaFilter, FaSearch } from 'react-icons/fa';
 
 const ManageStudents = () => {

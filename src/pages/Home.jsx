@@ -1,12 +1,12 @@
 import React from 'react';
-import GlanceCard from '../Components/cards/GlanceCard';
-import EnrollmentTable from "../Components/tables/EnrollmentTable";
-import Internships from "../Components/tables/InternshipApplicant";
-import PaymentConfirmation from "../Components/tables/PaymentConfirmation";
+import GlanceCard from '../components/cards/GlanceCard';
+import EnrollmentTable from "../components/tables/EnrollmentTable";
+import Internships from "../components/tables/InternshipApplicant";
+import PaymentConfirmation from "../components/tables/PaymentConfirmation";
 
-import JobOpeningsChart from "../Components/Chart/JobOpeningsChart";
-import StudentEnrollCharts from '../Components/Chart/StudentEnrollChart';
-import CourseGridDisplay from '../Components/Chart/CourseGridDisplay';
+import JobOpeningsChart from "../components/Chart/JobOpeningsChart";
+import StudentEnrollCharts from '../components/Chart/StudentEnrollChart';
+import CourseGridDisplay from '../components/Chart/CourseGridDisplay';
 
 
 const Home = () => (

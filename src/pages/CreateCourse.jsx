@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import { LuArrowUpFromLine } from "react-icons/lu";
-import InputField from '../Components/Form/InputField';
-import TextAreaField from '../Components/Form/TextAreaField';
-import UploadBox from "../Components/Form/UploadBox";
+import InputField from '../components/Form/InputField';
+import TextAreaField from '../components/Form/TextAreaField';
+import UploadBox from "../components/Form/UploadBox";
 
 const CreateCourse = () => {
   const navigate = useNavigate();

@@ -126,13 +126,13 @@ function Internships() {
     ];
 
     return (
-        <section className="lg:p-16 md:p-8 p-4 relative overflow-hidden" id="internships">
-            <span className='absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 aspect-square w-full max-h-[100vh] bg-[#F98B2509] rounded-full  z-0 blur-3xl'></span>
+        <>
             <motion.h1 
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.5 }}
+                id="internships"
                 className="md:text-6xl text-4xl font-bold z-10">Internships</motion.h1>
             <motion.p 
                 initial={{ opacity: 0, x: 0, y: 0 }}
@@ -192,7 +192,7 @@ function Internships() {
                 </div>
             </motion.div>
 
-        </section>
+        </>
     )
 }
 

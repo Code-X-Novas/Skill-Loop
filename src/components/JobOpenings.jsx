@@ -126,13 +126,14 @@ function JobOpenings() {
     ];
 
     return (
-        <section className="lg:p-16 md:p-8 p-4 overflow-hidden" id="job">
+        <>
             <motion.h1 
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.5 }}
-                className="md:text-6xl text-4xl font-bold">Job Openings</motion.h1>
+                id='job'
+                className="md:text-6xl text-4xl font-bold mt-4">Job Openings</motion.h1>
             <motion.p 
                 initial={{ opacity: 0, x: 0, y: 0 }}
                 whileInView={{ opacity: 1, x: [200, -20, 0], y: 0 }}
@@ -191,7 +192,7 @@ function JobOpenings() {
                 </div>
             </motion.div>
 
-        </section>
+        </>
     )
 }
 

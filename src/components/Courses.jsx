@@ -52,7 +52,7 @@ const courses = [
 ];
 
 
-const CourseCarousel = () => {
+const Courses = () => {
     const [activeIndex, setActiveIndex] = useState(2);
 
     // Generate structured data for courses
@@ -97,7 +97,7 @@ const CourseCarousel = () => {
                     {JSON.stringify(coursesStructuredData)}
                 </script>
             </Helmet>
-            <section className="p-4 md:p-8 lg:p-16 overflow-hidden" id="courses" aria-label="SkillLoop Courses">
+            <section className="p-4 md:p-8 lg:p-16 overflow-x-hidden" id="courses" aria-label="SkillLoop Courses">
                 <motion.h1 
                   initial={{ opacity: 0, x: -100, y: 0 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -200,5 +200,5 @@ const CourseCarousel = () => {
     );
 };
 
-export default CourseCarousel;
+export default Courses;
 

@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './layouts/Landing';
 
-import LayoutWithSidebar from './Components/Layout/LayoutWithSidebar';
-import LayoutWithoutSidebar from './Components/Layout/LayoutWithoutSidebar';
+import LayoutWithSidebar from './components/Layout/LayoutWithSidebar';
+import LayoutWithoutSidebar from './components/Layout/LayoutWithoutSidebar';
 
 import ManageCourses from './pages/ManageCourses';
 import CreateCourse from './pages/CreateCourse';

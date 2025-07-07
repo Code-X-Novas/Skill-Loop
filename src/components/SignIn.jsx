@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff, X } from 'lucide-react';
 
-const SignIn = ({ onClose }) => {
+const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
   const [activeTab, setActiveTab] = useState('admin');
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({});
@@ -28,7 +28,7 @@ const SignIn = ({ onClose }) => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
+    <div className="flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8 scrollbar-hide">
       <div className="w-full max-w-sm sm:max-w-md relative">
         {/* Close Button */}
         {onClose && (
@@ -86,8 +86,8 @@ const SignIn = ({ onClose }) => {
           {/* Form */}
           <div className="space-y-4 sm:space-y-6 relative z-10">
             {/* Email */}
-            <div>
-              <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
+            <div className='bg-radial from-[#99999910] to-[#00000010] p-4 rounded-lg sm:rounded-xl'>
+              <label htmlFor="email" className="block text-xs sm:text-sm font-medium text-gray-700">
                 Email
               </label>
               <input 
@@ -95,13 +95,13 @@ const SignIn = ({ onClose }) => {
                 id="email" 
                 name="email"
                 onChange={handleInputChange}
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                className="w-full focus:outline-none text-sm sm:text-base"
                 placeholder="Enter your email"
               />
             </div>
 
             {/* Password*/}
-            <div>
+            <div className='bg-radial from-[#99999910] to-[#00000010] p-4 rounded-lg sm:rounded-xl'>
               <label htmlFor="password" className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
@@ -111,7 +111,7 @@ const SignIn = ({ onClose }) => {
                   id="password" 
                   name="password"
                   onChange={handleInputChange}
-                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gray-50 border border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 pr-10 sm:pr-12 text-sm sm:text-base"
+                  className="w-full focus:outline-none text-sm sm:text-base"
                   placeholder="Enter your password"
                 />
                 <button 
@@ -126,10 +126,17 @@ const SignIn = ({ onClose }) => {
 
             <button 
               onClick={handleSubmit}
-              className="w-full bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white py-2.5 sm:py-3 px-4 rounded-lg sm:rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-sm sm:text-base"
+              className="w-full bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white py-2.5 sm:py-3 px-4 rounded-lg sm:rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 text-sm sm:text-base mb-0"
             >
               Sign in
             </button>
+
+            <div className="flex items-center justify-center gap-4 my-6">
+              <div className="flex-grow h-px bg-gray-300"></div>
+              <span className="text-gray-600 text-sm font-medium">OR</span>
+              <div className="flex-grow h-px bg-gray-300"></div>
+            </div>
+
 
             <button 
               type="button" 
@@ -143,9 +150,12 @@ const SignIn = ({ onClose }) => {
           <div className="text-center mt-6 sm:mt-8 relative z-10">
             <p className="text-gray-600 text-xs sm:text-sm">
               Don't have an account? 
-              <a href="#" className="text-red-500 font-semibold hover:text-red-600 transition-colors duration-200 ml-1">
+              <button 
+                onClick={onSwitchToCreateAccount}
+                className="text-red-500 font-semibold hover:text-red-600 transition-colors duration-200 ml-1 cursor-pointer underline"
+              >
                 Create Account
-              </a>
+              </button>
             </p>
           </div>
         </div>

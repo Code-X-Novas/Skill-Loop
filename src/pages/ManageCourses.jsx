@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaPlus, FaSearch, FaFilter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import CourseTable from '../Components/tables/CourseTable';
-import OngoingCourses from '../Components/Chart/OngoingCourses';
+import CourseTable from '../components/tables/CourseTable';
+import OngoingCourses from '../components/Chart/OngoingCourses';
 
 const ManageCourses = () => {
   const [courses, setCourses] = useState([]);

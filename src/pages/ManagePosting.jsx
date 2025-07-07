@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaFilter, FaPlusCircle, FaSearch } from 'react-icons/fa';
-import ApplicantTable from '../Components/tables/ApplicantTable';
+import ApplicantTable from '../components/tables/ApplicantTable';
 
 const ManagePosting = () => {
   return (

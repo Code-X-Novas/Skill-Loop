@@ -22,3 +22,14 @@ body {
 .sidebar-shadow {
   box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.2);
 }
+
+
+@layer base {
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
