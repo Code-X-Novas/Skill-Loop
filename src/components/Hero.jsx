@@ -79,7 +79,7 @@ function Hero() {
                     initial={{ opacity: 0, x: 300, y: 300 }}
                     animate={{ opacity: [1, 1], x: [300, 0, 0], y: [300, 0 ,0], scale: [1, 1.2, 1] }}
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5, times: [0, 0.5, 1] }}
-                    className="relative h-[22vh] w-full">
+                    className="relative h-[22vh] w-full xl:relative invisible xl:visible pointer-events-none xl:pointer-events-auto">
                     <img src="https://picsum.photos/200/300" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl right-12" alt="Hero Image" />
                     <div className="absolute -bottom-15 right-0 bg-white rounded-xl px-4 py-2 z-10">
                         <h1 className="text-md font-semibold">Lorem Ipsum</h1>

@@ -16,7 +16,7 @@ function Landing() {
         <Navbar />
         <Hero />
         <Info />
-        <div className="relative">
+        <div className="relative overflow-hidden">
           <span className='absolute bottom-0 right-0 transform translate-x-1/2 -translate-y-1/2 aspect-square w-full max-h-[100vh] bg-[#E2D65015] rounded-full  z-0 blur-3xl'></span>
           <WhySkillLoop />
           <Courses />

@@ -128,7 +128,7 @@ function Navbar() {
                   <button onClick={openSignInModal} className="w-full text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center cursor-pointer">Login</button>
                 </li>
                 <li className="pt-2">
-                  <button href="/signup" className="w-full text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center" onClick={closeMenu}>Create an Account</button>
+                  <button onClick={openCreateAccountModal} className="w-full text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center">Create an Account</button>
                 </li>
               </ul>
             </motion.div>
