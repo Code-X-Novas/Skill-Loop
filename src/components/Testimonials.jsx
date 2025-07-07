@@ -58,7 +58,7 @@ const Testimonials = () => {
           whileInView={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.5 }}
-          className="md:text-6xl text-4xl font-bold text-gray-900 md:mb-8 mb-4">Testimonials</motion.h1>
+          className="md:text-6xl text-4xl font-bold text-gray-900 mb-4">Testimonials</motion.h1>
         <div className="justify-center relative flex flex-col items-center md:gap-8 gap-2">
             
             <motion.div 
@@ -66,7 +66,7 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.5 }}
-              className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-md md:w-20 md:h-20 h-12 w-12">
+              className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-md md:w-16 md:h-16 h-12 w-12">
                 <motion.img src='/quote.svg' alt="Quote Icon" 
                   initial={{ opacity: 0, x: -100, y: 0 }}
                   whileInView={{ opacity: 1, x: [0, 10, 0], y: 0 }}
@@ -81,20 +81,20 @@ const Testimonials = () => {
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.2 }}
               className="rounded-t-xl shadow-2xl bg-[#F9F6F0] md:w-[80vw] w-full flex flex-col">
-                <div className="relative flex flex-col items-center text-center font-semibold bg-white p-10 rounded-br-full md:text-3xl text-sm">
+                <div className="relative flex flex-col items-center text-center font-semibold bg-white rounded-br-full md:text-xl text-sm md:py-4 p-10">
                     <p>Millions search for answers every month…</p>
                     <p>But true growth comes from structured learning</p>
-                    <span className="absolute top-0 right-0 transform md:translate-x-1/2 -translate-y-1/2 md:translate-y-0 md:h-24 md:w-24 h-12 w-12 bg-[#F4B860] rounded-full shadow-[#FF727242] shadow-lg"></span>
+                    <span className="absolute top-0 right-0 transform md:translate-x-1/2 -translate-y-1/2 md:h-16 md:w-16 h-12 w-12 bg-[#F4B860] rounded-full shadow-[#FF727242] shadow-lg"></span>
                 </div>
 
                 <div className="bg-white">
                     <div className="bg-[#F9F6F0] p-6 rounded-tl-[150px] flex md:flex-row flex-col items-center justify-around md:px-24 px-4 md:py-12 py-2 md:gap-8 gap-4">
-                        <div className="relative">
-                            <div className="bg-[#E28050]/50 rounded-md p-1 -mb-3 z-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:w-[200px] md:h-[340px] sm:w-[100px] sm:h-[240px] w-[50px] h-[140px]"></div>
+                        <div className="relative min-w-[150px] min-h-[150px] flex items-center justify-center">
+                            <div className="bg-[#E28050]/50 rounded-md p-1 -mb-3 z-0 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 sm:w-[75px] sm:h-[190px] w-[50px] h-[140px]"></div>
                             <img
                                 src={active.image}
                                 alt={active.name}
-                                className="rounded-lg relative z-10 md:w-[300px] md:h-[300px] sm:w-[200px] sm:h-[200px] w-[100px] h-[100px] object-cover "
+                                className="rounded-lg relative z-10 sm:w-[150px] sm:h-[150px] w-[100px] h-[100px] object-cover "
                             />
                         </div>
                         <div className="text-gray-600 text-sm mt-8 md:mt-0 text-left max-w-xl transition-all duration-500 ease-in-out">
@@ -104,9 +104,9 @@ const Testimonials = () => {
                 </div>
 
                 <div className="relative">
-                    <span className="absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 sm:h-48 sm:w-48 h-16 w-16 rounded-full bg-[#E28050] z-5 blur-sm opacity-50 "></span>
-                    <div className="relative flex justify-center items-center gap-6 md:py-6 py-4 overflow-clip">
-                    <span className="absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 sm:h-48 sm:w-48 h-16 w-16 md:border-[1rem] border-4 rounded-full border-[#E28050] bg-[#F9F6F0] z-5"></span>
+                    <span className="absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 sm:h-32 sm:w-32 h-16 w-16 rounded-full bg-[#E28050] z-5 blur-sm opacity-50 "></span>
+                    <div className="relative flex justify-center items-center gap-6 md:py-0 py-4 overflow-clip">
+                    <span className="absolute bottom-0 left-0 transform -translate-x-1/2 translate-y-1/2 sm:h-32 sm:w-32 h-16 w-16 md:border-[1rem] border-4 rounded-full border-[#E28050] bg-[#F9F6F0] z-5"></span>
                     
                     <button
                         onClick={prev}
@@ -133,7 +133,7 @@ const Testimonials = () => {
                                     src={t.image}
                                     alt={`Avatar ${t.name}`}
                                     className={`rounded-full cursor-pointer transition-all duration-500 ease-in-out absolute ${
-                                        isActive ? "sm:h-24 sm:w-24 h-12 w-12 opacity-100" : "sm:h-12 sm:w-12 h-6 w-6 opacity-40"
+                                        isActive ? "sm:h-16 sm:w-16 h-12 w-12 opacity-100" : "sm:h-8 sm:w-8 h-6 w-6 opacity-40"
                                     }`}
                                     style={{
                                         transform: `translateX(${translateX}px)`,

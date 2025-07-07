@@ -81,7 +81,7 @@ function Info() {
             viewport={{ once: true, amount: 0.3 }}
             src='/about_us.gif'
             alt='About Us'
-            className='w-full md:max-w-2/3 sm:max-w-1/2 max-w-full h-auto mt-4'
+            className='w-full md:max-w-xl sm:max-w-1/2 h-auto mt-4'
           />
         )}
       </div>

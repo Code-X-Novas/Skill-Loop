@@ -8,11 +8,13 @@ import JobOpenings from "../components/JobOpenings"
 import Testimonials from "../components/Testimonials"
 import WhySkillLoop from "../components/WhySkillLoop"
 import Background from "../ui/Background"
+import Navbar from "../components/Navbar"
 
 
 function Landing() {
   return (
     <>
+        <Navbar />
         <Hero />
         <Info />
         <WhySkillLoop />

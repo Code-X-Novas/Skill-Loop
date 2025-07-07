@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 function Hero() {
 
     return (
-        <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center md:grid md:grid-cols-2 flex flex-col items-start justify-between lg:mx-16 md:mx-8 mx-4 py-12 p-8 rounded-4xl overflow-clip relative" role="main" aria-label="Hero section">
+        <main className="bg-[url(/hero_bg.svg)] bg-cover bg-no-repeat bg-center md:grid md:grid-cols-2 flex flex-col items-start justify-between lg:mx-16 md:mx-8 mx-4 py-12 p-8 rounded-3xl overflow-clip relative" role="main" aria-label="Hero section">
             <motion.img src='/hero_ele_1.svg' alt="Decorative hero element showcasing SkillLoop's dynamic learning environment" 
                 initial={{ opacity: 0, x: -400, y: 0, rotate: 10, scale: 1.2 }}
                 animate={{ opacity: [1, 1], x: [-800, 0, -300], y: [0, -100] , rotate: [0,-15] , scale: [1.3, 0.8] }}

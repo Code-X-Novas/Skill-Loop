@@ -86,7 +86,7 @@ function AdvantageCarousel() {
   const prev = () => goTo(-1);
 
   return (
-    <section className="flex flex-col items-center justify-center w-full h-full">
+    <section className="flex flex-col items-center justify-start w-full h-full">
        <motion.h1 
         initial={{ opacity: 0, x: 100, y: 0 }}
         whileInView={{ opacity: 1, x: 0, y: 0 }}
