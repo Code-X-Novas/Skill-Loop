@@ -1,4 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Landing from './layouts/Landing';
+import Navbar from './components/Navbar';
 
 import LayoutWithSidebar from './Components/Layout/LayoutWithSidebar';
 import LayoutWithoutSidebar from './Components/Layout/LayoutWithoutSidebar';
