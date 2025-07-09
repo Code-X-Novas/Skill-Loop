@@ -65,7 +65,7 @@ function Navbar() {
               <a href="/" className="text-sm">Home</a>
             </li>
             <li>
-              <a href="#courses" className="text-sm">Courses</a>
+              <a href="/coursedetail" className="text-sm">Courses</a>
             </li>
             <li>
               <a href="#internships" className="text-sm">Internship</a>
