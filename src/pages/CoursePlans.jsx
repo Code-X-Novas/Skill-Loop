@@ -7,8 +7,8 @@ import enrollBtn from '../img/enroll-button.png';
 import { HiOutlineLightBulb } from 'react-icons/hi';
 import { MdAccessTime } from 'react-icons/md';
 import { IoRocketOutline } from 'react-icons/io5';
-import vector7 from '../img/vector 7.png';
-import vector10 from '../img/vector 10.png';
+import vector7 from '../img/vector7.png';
+import vector10 from '../img/vector10.png';
 
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { fireDB } from '../firebase/FirebaseConfig';
