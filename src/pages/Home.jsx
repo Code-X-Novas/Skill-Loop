@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import GlanceCard from '../components/cards/GlanceCard';
 import EnrollmentTable from "../components/tables/EnrollmentTable";
 import Internships from "../components/tables/InternshipApplicant";
@@ -7,9 +7,24 @@ import PaymentConfirmation from "../components/tables/PaymentConfirmation";
 import JobOpeningsChart from "../components/Chart/JobOpeningsChart";
 import StudentEnrollCharts from '../components/Chart/StudentEnrollChart';
 import CourseGridDisplay from '../components/Chart/CourseGridDisplay';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 
-const Home = () => (
+const Home = () => {
+  const navigate = useNavigate()
+
+  const user = useSelector((state) => state.auth.user);
+  console.log("user from home dashboard" , user)
+
+ // ✅ Only run once on mount or when `user` changes
+  useEffect(() => {
+    if (user == null || user.role !== "admin") {
+      navigate("/");
+    }
+  }, [user, navigate]); // ✅ Added dependency array
+  
+  return (
   <div className="flex-1 p-8 space-y-8 bg-white overflow-auto">
     <h2 className="text-xl font-bold">Numbers at a Glance</h2>
 
@@ -33,5 +48,9 @@ const Home = () => (
     </div>
   </div>
 );
+}
 
 export default Home;
+
+
+

@@ -1,44 +1,67 @@
-import React from 'react';
-import { FaFilter, FaPlusCircle, FaSearch } from 'react-icons/fa';
+
+import React, { useEffect, useState } from 'react';
+import { FaPlus, FaFilter, FaSearch } from 'react-icons/fa';
 import ApplicantTable from '../components/tables/ApplicantTable';
+import { Link, useNavigate } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
+import { fireDB } from '../firebase/FirebaseConfig';
 
 const ManagePosting = () => {
+  const navigate = useNavigate();
+  const [internships, setInternships] = useState([]);
+
+  useEffect(() => {
+    const fetchInternships = async () => {
+      try {
+        const snapshot = await getDocs(collection(fireDB, 'internships'));
+        const internshipData = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setInternships(internshipData);
+      } catch (error) {
+        console.error('Error fetching internships:', error);
+      }
+    };
+
+    fetchInternships();
+  }, []);
+
   return (
     <div className="p-4 md:p-6 text-gray-700 space-y-6">
-   
-      <div className="flex flex-wrap gap-6">
-       
-        <div className="w-full sm:w-[280px] space-y-2">
-          <p className="text-sm font-semibold text-gray-800">View Existing Forms</p>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg h-40 p-4 flex items-center justify-center">
-            <div className="w-full h-full flex gap-3">
-              <div className="flex-1 bg-gray-200 rounded-lg" />
-              <div className="flex-1 bg-gray-200 rounded-lg" />
-            </div>
-          </div>
-        </div>
+      {/* Internship Grid */}
+      <div>
+        <p className="text-lg font-semibold mb-4 text-gray-800">Internship Postings</p>
 
-        <div className="w-full sm:w-[280px] space-y-2">
-          <p className="text-sm font-semibold text-gray-800">Upload New Form</p>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg h-40 p-4 flex items-center justify-center relative">
-            <label className="cursor-pointer w-full h-full flex items-center justify-center">
-              <div className="w-[150px] h-[90px] bg-gray-200 transition rounded-lg flex items-center justify-center shadow-inner">
-                <FaPlusCircle className="text-6xl text-white" />
-              </div>
-            </label>
+        <div className="flex flex-wrap gap-4">
+          {internships.map((internship) => (
+           <Link
+      key={internship.id}
+      to={`/postings/edit/${internship.id}`}
+      className="w-64 p-4 border border-gray-300 rounded-lg bg-white shadow hover:shadow-md transition no-underline"
+    >
+      <h3 className="font-bold text-base mb-1">{internship.internshipName}</h3>
+      <p className="text-sm text-gray-600 mb-1">Duration: {internship.duration}</p>
+      <p className="text-sm text-gray-600">Place: {internship.place}</p>
+    </Link>
+          ))}
 
-            <input className="hidden"
-            />
+          {/* Add Internship Card */}
+          <div
+            onClick={() => navigate('/postings/new')}
+            className="w-64 h-[132px] flex flex-col items-center justify-center border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:bg-gray-50 transition"
+          >
+            <FaPlus className="text-4xl text-gray-500 mb-2" />
+            <p className="text-sm font-medium text-gray-600">Add New Internship</p>
           </div>
         </div>
       </div>
 
-     
+      {/* Applicants Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h2 className="text-xl font-semibold text-gray-800">Internship Applicants</h2>
 
         <div className="flex flex-col md:flex-row items-start md:items-center gap-3 w-full md:w-auto">
-       
           <div className="relative w-full md:w-64">
             <input
               type="text"
@@ -48,7 +71,6 @@ const ManagePosting = () => {
             <FaSearch className="absolute left-3 top-3 text-gray-400 text-sm" />
           </div>
 
-    
           <button className="flex items-center gap-2 border border-gray-300 px-4 py-2 rounded text-sm bg-white hover:bg-gray-100 transition">
             <FaFilter />
             Filter

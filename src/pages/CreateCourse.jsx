@@ -1,19 +1,115 @@
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
-import { LuArrowUpFromLine } from "react-icons/lu";
+import { LuArrowUpFromLine } from 'react-icons/lu';
 import InputField from '../components/Form/InputField';
 import TextAreaField from '../components/Form/TextAreaField';
-import UploadBox from "../components/Form/UploadBox";
+import UploadBox from '../components/Form/UploadBox';
+
+import { collection, doc, setDoc, getDocs } from 'firebase/firestore';
+import { fireDB } from '../firebase/FirebaseConfig';
+import { toast } from 'react-toastify';
 
 const CreateCourse = () => {
   const navigate = useNavigate();
-const [courseTitle, setCourseTitle] = useState('');
+
+  // MAIN COURSE FIELDS
+  const [courseTitle, setCourseTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [thumbnail, setThumbnail] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
+
+  // SEO FIELDS
+  const [seoTitle, setSeoTitle] = useState('');
+  const [metaDescription, setMetaDescription] = useState('');
+  const [slug, setSlug] = useState('');
+  const [socialPreview, setSocialPreview] = useState('');
+
+  // SUBCATEGORY FIELDS
+  const [subLevel, setSubLevel] = useState('Basic');
+  const [subPrice, setSubPrice] = useState(0);
+  const [subDescription, setSubDescription] = useState('');
+  const [subHighlights, setSubHighlights] = useState('');
+  const [subSections, setSubSections] = useState('');
+  const [subVideoDuration, setSubVideoDuration] = useState(0);
+  const [subLanguage, setSubLanguage] = useState('');
+
+  // Store already used levels so we can disable them in the dropdown
+  const [usedLevels, setUsedLevels] = useState([]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // 1️⃣ Create main course doc
+      const courseRef = doc(collection(fireDB, 'courses'));
+      await setDoc(courseRef, {
+        title: courseTitle,
+        onelineDescription: description,
+        thumbnail: thumbnail,
+        seo: {
+          title: seoTitle,
+          metaDescription: metaDescription,
+          slug: slug,
+          socialPreview: socialPreview,
+        },
+      });
+
+      // 2️⃣ Get existing subcategories under this course
+      const subCategoriesCollection = collection(courseRef, 'subCategories');
+      const snapshot = await getDocs(subCategoriesCollection);
+
+      const existingLevels = [];
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        existingLevels.push(data.level?.toLowerCase());
+      });
+
+      // Store for disabling dropdown options
+      setUsedLevels(existingLevels);
+
+      // 3️⃣ Check for duplicate level
+      if (existingLevels.includes(subLevel.toLowerCase())) {
+        toast.error(`A '${subLevel}' level subcategory already exists.`);
+        return;
+      }
+
+      // 4️⃣ Check for maximum 3 subcategories
+      if (existingLevels.length >= 3) {
+        toast.error('This course already has 3 subcategories. You cannot add more.');
+        return;
+      }
+
+      // 5️⃣ Create new subcategory
+      const subCategoryRef = doc(subCategoriesCollection);
+      await setDoc(subCategoryRef, {
+        level: subLevel,
+        videoUrl: videoUrl,
+        price: Number(subPrice),
+        courseDescription: subDescription,
+        highlightedHeadings: subHighlights.split(',').map((h) => h.trim()),
+        sections: subSections.split(',').map((s) => s.trim()),
+        videoDuration: Number(subVideoDuration),
+        language: subLanguage,
+        numberOfEnrolled: 0,
+        enrolledStudents: [],
+        reviews: [],
+      });
+
+      toast.success(`Course & '${subLevel}' subcategory created!`);
+      navigate('/courses');
+
+    } catch (error) {
+      console.error('Error creating course:', error);
+      toast.error('Error: ' + error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen font-sans flex">
-    
-
+      {/* Sidebar */}
       <div className="w-64 h-screen fixed top-0 left-0 bg-orange-200 border-r border-black flex flex-col z-10">
         <div className="p-6 text-xl font-bold text-black">SkillLoop</div>
         <nav className="flex-1">
@@ -32,50 +128,145 @@ const [courseTitle, setCourseTitle] = useState('');
         </button>
       </div>
 
+      {/* Main Form */}
       <div className="ml-64 flex-1 p-10 bg-white overflow-y-auto">
-        <h1 className="text-2xl font-semibold text-center mb-8">Create a New Course</h1>
+        <h1 className="text-2xl font-semibold text-center mb-8">
+          Create a New Course
+        </h1>
 
-        <form className="space-y-8 max-w-4xl mx-auto">
+        <form className="space-y-8 max-w-4xl mx-auto" onSubmit={handleSubmit}>
           <InputField
             label="Course Title *"
+            value={courseTitle}
+            onChange={(e) => setCourseTitle(e.target.value)}
+            type="text"
+            required
           />
 
           <TextAreaField
             label="Description *"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <UploadBox
-              label="Add a thumbnail"
-            />
-            <UploadBox
-              label="Add videos"
-            />
+          <UploadBox
+            label="Add Thumbnail"
+            id="thumbnail"
+            onUpload={(url) => setThumbnail(url)}
+          />
+
+          <UploadBox
+            label="Add Video"
+            id="video"
+            onUpload={(url) => setVideoUrl(url)}
+          />
+
+          <h2 className="text-xl font-semibold pt-4">Sub Category</h2>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Level (Basic/Intermediate/Advanced)
+            </label>
+            <select
+              value={subLevel}
+              onChange={(e) => setSubLevel(e.target.value)}
+              className="w-full border border-gray-300 rounded px-4 py-2"
+              required
+            >
+              <option value="Basic" disabled={usedLevels.includes('basic')}>
+                Basic {usedLevels.includes('basic') && '(Already exists)'}
+              </option>
+              <option value="Intermediate" disabled={usedLevels.includes('intermediate')}>
+                Intermediate {usedLevels.includes('intermediate') && '(Already exists)'}
+              </option>
+              <option value="Advanced" disabled={usedLevels.includes('advanced')}>
+                Advanced {usedLevels.includes('advanced') && '(Already exists)'}
+              </option>
+            </select>
           </div>
+
+          <InputField
+            label="Price"
+            value={subPrice}
+            onChange={(e) => setSubPrice(e.target.value)}
+            type="number"
+            required
+          />
+
+          <InputField
+            label="Highlighted Headings (comma separated)"
+            value={subHighlights}
+            onChange={(e) => setSubHighlights(e.target.value)}
+            type="text"
+            required
+          />
+
+          <TextAreaField
+            label="SubCategory Description"
+            value={subDescription}
+            onChange={(e) => setSubDescription(e.target.value)}
+            required
+          />
+
+          <InputField
+            label="Sections (comma separated)"
+            value={subSections}
+            onChange={(e) => setSubSections(e.target.value)}
+            type="text"
+            required
+          />
+
+          <InputField
+            label="Video Duration (minutes)"
+            value={subVideoDuration}
+            onChange={(e) => setSubVideoDuration(e.target.value)}
+            type="number"
+            required
+          />
+
+          <InputField
+            label="Language"
+            value={subLanguage}
+            onChange={(e) => setSubLanguage(e.target.value)}
+            type="text"
+            required
+          />
 
           <div className="pt-4">
             <h2 className="text-xl font-semibold mb-4">SEO Settings</h2>
+
             <InputField
               label="SEO Title *"
+              value={seoTitle}
+              onChange={(e) => setSeoTitle(e.target.value)}
+              type="text"
+              required
             />
+
             <TextAreaField
               label="Meta Description *"
+              value={metaDescription}
+              onChange={(e) => setMetaDescription(e.target.value)}
+              required
             />
+
             <InputField
               label="Slug / URL Handle *"
+              value={slug}
+              onChange={(e) => setSlug(e.target.value)}
+              type="text"
+              required
             />
+
             <UploadBox
               label="Social Share Preview"
+              id="socialPreview"
+              onUpload={(url) => setSocialPreview(url)}
             />
           </div>
 
           <div className="flex justify-around gap-4 pt-6">
-            <button
-              type="button"
-              className="px-6 py-2 border border-gray-400 bg-gray-100 hover:bg-gray-200 rounded"
-            >
-              Save
-            </button>
             <button
               type="submit"
               className="px-6 py-2 border border-gray-400 bg-gray-100 hover:bg-gray-200 rounded"
