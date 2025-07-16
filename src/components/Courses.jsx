@@ -10,7 +10,7 @@ const courses = [
     title: "Data Analytics for MBAs",
     description:
       "Covers Excel, Power BI, and Tableau — from basics to building integrated dashboards and interpreting business performance data.",
-    image: "https://picsum.photos/id/1050/500/300",
+    image: "/data_analytics.jpg",
     skills: ["Excel", "Power BI", "Tableau", "Data Visualization", "Business Intelligence"],
     slug: "data-analytics"
   },
@@ -19,7 +19,7 @@ const courses = [
     title: "HR Operations & Analytics",
     description:
       "Focuses on recruitment, HRMS, ATS, and progresses to advanced analytics, budgeting, and HR scorecards.",
-    image: "https://picsum.photos/id/1051/500/300",
+    image: "/HR_Operations.jpg",
     skills: ["HRMS", "ATS", "Recruitment Analytics", "HR Scorecards", "Budgeting"],
     slug: "hr-operations"
   },
@@ -28,7 +28,7 @@ const courses = [
     title: "Marketing & Digital Growth",
     description:
       "Introduces the marketing funnel, SEO, and social media basics, then dives into ads, analytics, automation, and campaign strategy.",
-    image: "https://picsum.photos/id/1052/500/300",
+    image: "Marketing.jpg",
     skills: ["SEO", "Social Media Marketing", "Marketing Analytics", "Campaign Strategy", "Marketing Automation"],
     slug: "marketing-growth"
   },
@@ -37,7 +37,7 @@ const courses = [
     title: "Finance Tools & Strategy",
     description:
       "Starts with financial statements and budgeting, then covers valuation tools, forecasting, dashboards, and investor-focused planning.",
-    image: "https://picsum.photos/id/1053/500/300",
+    image: "Finance.jpg",
     skills: ["Financial Modeling", "Valuation", "Forecasting", "Financial Dashboards", "Investment Planning"],
     slug: "finance-strategy"
   },
@@ -46,7 +46,7 @@ const courses = [
     title: "AI & Prompt Engineering for MBAs",
     description:
       "Teaches how to use tools like ChatGPT and Notion AI for automation, content generation, and AI-powered business workflows.",
-    image: "https://picsum.photos/id/1054/500/300",
+    image: "AI.jpg",
     skills: ["AI Automation", "Prompt Engineering", "ChatGPT", "Business AI Tools", "AI Workflows"],
     slug: "ai-prompt-engineering"
   },

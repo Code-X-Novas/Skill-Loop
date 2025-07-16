@@ -17,9 +17,20 @@ import AddSubCategory from './pages/AddSubCategory';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import CreateInternshipOffer from './pages/CreateInternshipOffer';
 import EditInternshipOffer from './pages/EditInternshipOffer';
+import StudentProtectedRoute from './components/UserProtectedRoute';
+import UserDashboard from './components/UserDashboard';
+import StudentLayout from './components/Layout/StudentLayout';
+import Navbar from './components/Navbar';
+import SavedCourse from './components/SavedCourse';
+import AppliedJobs from './components/AppliedJobs';
+import AppliedInternships from './components/AppliedInternships';
+import Certificates from './components/Certificates';
+import Transactions from './components/Transactions';
+import Settings from './components/Settings';
 
 function App() {
   return (
+    <>
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/courses/:slug/:id/enroll" element={<CoursePlans />} />
@@ -28,6 +39,8 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/coursedetail" element={<CourseDetails />} />
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
+
+      {/* Admin */}
       <Route element={
           <AdminProtectedRoute>
             <LayoutWithSidebar />
@@ -38,7 +51,7 @@ function App() {
         <Route path="/postings" element={<ManagePosting />} />
         <Route path="/students" element={<ManageStudents />} />
       </Route>
-        {/* ✅ Protected LayoutWithoutSidebar */}
+      {/* ✅ Protected LayoutWithoutSidebar */}
       <Route
         element={
           <AdminProtectedRoute>
@@ -54,7 +67,23 @@ function App() {
         <Route path="/postings/edit/:internshipId" element={<EditInternshipOffer />} />
       </Route>
 
-<Route path="/postings/new" element={ <CreateInternshipOffer /> } />
+      {/* Student Dashboard */}
+      <Route
+        element={
+          <StudentProtectedRoute>
+            <Navbar />
+            <StudentLayout />
+          </StudentProtectedRoute>
+        }
+        >
+          <Route path="/student/dashboard" element={<UserDashboard />} />
+          <Route path="/student/courses" element={<SavedCourse />} />
+          <Route path="/student/jobs" element={<AppliedJobs />} />
+          <Route path="/student/internships" element={<AppliedInternships />} />
+          <Route path="/student/certificates" element={<Certificates />} />
+          <Route path="/student/transactions" element={<Transactions />} />
+          <Route path="/student/settings" element={<Settings />} />
+      </Route>
 
 
       {/* Fallback */}
@@ -62,6 +91,7 @@ function App() {
 
 
     </Routes>
+    </>
   );
 }
 

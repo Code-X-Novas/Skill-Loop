@@ -4,24 +4,48 @@ import { motion } from "framer-motion";
 const testimonials = [
   {
     id: 1,
-    name: "John Doe",
-    role: "Software Engineer",
+    name: "NITYA LAMBA",
+    role: "SALES INTERN",
     image: "https://picsum.photos/id/1005/300",
-    text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.`,
+    text: `My experience at SkillLoop as a Sales Intern was truly enriching. I learned the fundamentals of 
+          sales, improved my communication skills, and gained real-world exposure to lead conversion 
+          and client interaction. The supportive team and performance-driven environment made this 
+          internship both challenging and rewarding. It boosted my confidence and helped me develop a 
+          result-oriented mindset. I’m thankful for the opportunity and the guidance I received throughout 
+          the journey. `,
   },
   {
     id: 2,
-    name: "Jane Smith",
-    role: "Data Analyst",
+    name: "Rohan Kapoor",
+    role: "Sales Intern",
     image: "https://picsum.photos/id/1011/300",
-    text: `Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+    text: `Interning at SkillLoop as a Sales Intern was an eye-opening experience. I gained hands-on 
+exposure to lead generation, cold pitching, and effective communication. The performance-based 
+structure kept me goal-focused and accountable. The mentorship from the team helped me 
+overcome hesitation and build confidence in real-time client interaction. This internship truly 
+enhanced my practical understanding of sales and teamwork. `,
   },
   {
     id: 3,
-    name: "Alex Johnson",
-    role: "UX Designer",
+    name: "Aditi Sharma",
+    role: "Sales Intern",
     image: "https://picsum.photos/id/1012/300",
-    text: `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.`,
+    text: `My internship journey at SkillLoop was extremely impactful. As a Sales Intern, I learned how to 
+handle rejections, pitch effectively, and manage leads systematically. The supportive 
+environment and regular performance tracking helped me stay consistent. I appreciated the 
+freedom to improve at my own pace while still being held to clear targets. It’s an experience I’ll 
+carry forward in my professional career. `,
+  },
+   {
+    id: 4,
+    name: "Mehak Arora",
+    role: "HR Intern",
+    image: "https://picsum.photos/id/1013/300",
+    text: `Being an HR Intern at SkillLoop allowed me to dive into real-time tasks like recruitment, 
+onboarding, and communication management. I gained clarity on how HR functions operate in a 
+growing organization. The internship gave me a platform to work independently while receiving 
+timely guidance when needed. It was a great mix of learning, responsibility, and exposure to 
+professional ethics and HR workflows.`,
   },
 ];
 
@@ -58,7 +82,7 @@ const Testimonials = () => {
           whileInView={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.5 }}
-          className="md:text-6xl text-4xl font-bold text-gray-900 mb-4">Testimonials</motion.h1>
+          className="md:text-5xl text-4xl font-bold text-gray-900 mb-4">Testimonials</motion.h1>
         <div className="justify-center relative flex flex-col items-center md:gap-8 gap-2">
             
             <motion.div 
@@ -98,6 +122,8 @@ const Testimonials = () => {
                             />
                         </div>
                         <div className="text-gray-600 text-sm mt-8 md:mt-0 text-left max-w-xl transition-all duration-500 ease-in-out">
+                            <p className="font-semibold text-lg mb-2">{active.name}</p>
+                            <p className="text-gray-500">{active.role}</p>
                             <p>{active.text}</p>
                         </div>
                     </div>   

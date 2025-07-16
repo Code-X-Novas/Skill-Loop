@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const AdminProtectedRoute = ({ children }) => {
+const StudentProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate()
 
@@ -11,9 +11,9 @@ const AdminProtectedRoute = ({ children }) => {
   
   useEffect (() => {
     if(role === 'student'){
-        navigate("/")
+        navigate("/student/dashboard")
     }
-  })
+  }, [user, navigate, role]);
 
   if (role !== 'admin') {
     return <Navigate to="/adminsignin" replace />;
@@ -22,4 +22,4 @@ const AdminProtectedRoute = ({ children }) => {
   return children;
 };
 
-export default AdminProtectedRoute;
+export default StudentProtectedRoute;

@@ -32,7 +32,7 @@ function Internships() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.5 }}
         id="internships"
-        className="md:text-6xl text-4xl font-bold z-10"
+        className="md:text-5xl text-4xl font-bold z-10"
       >
         Internships
       </motion.h1>

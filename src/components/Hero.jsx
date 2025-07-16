@@ -14,7 +14,7 @@ function Hero() {
                     initial={{ opacity: 0, x: -100, y: 100 }}
                     animate={{ opacity: 1, x: 0, y: 0 }}
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5}}
-                    className='md:text-6xl text-4xl font-bold leading-tight'
+                    className='md:text-5xl text-4xl font-bold leading-tight'
                     >
                     Learn Today <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F4B860] to-[#D35244]">Lead Tomorrow</span>

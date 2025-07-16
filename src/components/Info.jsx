@@ -15,7 +15,7 @@ function Info() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.9 }}
-          className="md:text-6xl text-4xl font-semibold leading-tight w-full"
+          className="md:text-5xl text-4xl font-semibold leading-tight w-full"
         >
           About Us
         </motion.h1>

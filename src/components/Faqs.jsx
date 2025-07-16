@@ -70,7 +70,7 @@ function Faqs () {
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             viewport={{ once: true, amount: 0.5 }}
-            className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+            className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
             Frequently Asked Questions
           </motion.h2>
           <motion.p 

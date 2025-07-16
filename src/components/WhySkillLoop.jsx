@@ -8,7 +8,7 @@ function WhySkillLoop() {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.9 }}
-                className="md:text-6xl text-4xl font-semibold text-left mb-8">Why SkillLoop ?
+                className="md:text-5xl text-4xl font-semibold text-left mb-8">Why SkillLoop ?
             </motion.h1>
             <div className="lg:grid lg:grid-cols-2 flex flex-col gap-4">
                 <motion.div 
