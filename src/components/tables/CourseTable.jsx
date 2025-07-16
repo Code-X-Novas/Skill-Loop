@@ -1,62 +1,116 @@
+
+
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const CourseTable = () => {
-  const colCount = 6;
-  const rowCount = 12;
-
-  const actionButtons = (
-    <div className="flex gap-4 justify-center">
-      <button className="px-3 py-1 rounded text-xs text-black bg-gray-200 hover:bg-gray-400 transition">
-        View Course
-      </button>
-      <button className="px-3 py-1 rounded text-xs text-black bg-gray-200 hover:bg-gray-400 transition">
-        Edit Course
-      </button>
-      <button className="px-3 py-1 rounded text-xs text-black bg-gray-200 hover:bg-gray-400 transition">
-        Delete Course
-      </button>
-    </div>
-  );
-
+const CourseTable = ({ courses, onDeleteMain, onDeleteSub }) => {
   return (
     <div className="overflow-auto border rounded-lg">
       <table className="min-w-full text-xs text-center border border-gray-200 bg-white">
         <thead className="bg-gray-100 text-gray-500">
           <tr>
-            {['Course Title', 'Tier', 'Price', 'Students Enrolled', 'Status', 'Actions'].map(
-              (heading, i) => (
-                <th
-                  key={i}
-                  className="px-4 py-2 border border-gray-400 text-cente text-xs"
-                >
-                  {heading}
-                </th>
-              )
-            )}
+            <th className="px-4 py-2 border">Thumbnail</th>
+            <th className="px-4 py-2 border">Course Title</th>
+            <th className="px-4 py-2 border">Level</th>
+            <th className="px-4 py-2 border">Price</th>
+            <th className="px-4 py-2 border">Students</th>
+            <th className="px-4 py-2 border">Subcategory Actions</th>
+            <th className="px-4 py-2 border">Main Course Actions</th>
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: rowCount }).map((_, rowIndex) => (
-            <tr key={rowIndex} className="border-b border-orange-300 text-gray-500 ">
-              
-              {rowIndex % 3 === 0 && (
-                <td rowSpan={3} className="border-r border-orange-300 align-top"></td>
-              )}
-            
-              {Array.from({ length: colCount - 1 }).map((_, colIndex) => (
-                <td
-                  key={colIndex}
-                  className={`px-4 py-2 ${
-                    colIndex !== colCount - 2 ? 'border-r border-orange-300' : ''
-                  }`}
-                >
-                  <div className="flex items-center justify-center">
-                    {colIndex === colCount - 2 ? actionButtons : ''}
-                  </div>
-                </td>
-              ))}
-            </tr>
-          ))}
+          {courses.map((course) => {
+            const hasSubs = course.subCategories && course.subCategories.length > 0;
+
+            if (hasSubs) {
+              return course.subCategories.map((sub, subIdx) => (
+                <tr key={sub.id} className="border-b">
+                  {subIdx === 0 && (
+                    <>
+                      <td rowSpan={course.subCategories.length} className="border px-4 py-2">
+                        <img
+                          src={course.thumbnail}
+                          alt={course.title}
+                          className="w-32 h-18 object-cover rounded ml-10"
+                        />
+                      </td>
+                      <td rowSpan={course.subCategories.length} className="border px-4 py-2">
+                        {course.title}
+                      </td>
+                    </>
+                  )}
+                  <td className="border px-4 py-2">{sub.level}</td>
+                  <td className="border px-4 py-2">Rs.₹ {sub.price}/-</td>
+                  <td className="border px-4 py-2">{sub.numberOfEnrolled}</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex gap-2 justify-center">
+                      <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">View</button>
+                      {/* <button className="text-xs px-2 py-1 bg-gray-200 rounded">Edit</button> */}
+                      <Link
+                      to={`/courses/${course.id}/subcategory/${sub.id}/edit`}
+                      className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer"
+                       >
+                      Edit
+                      </Link>
+                      <button
+                        onClick={() => onDeleteSub(course.id, sub.id)}
+                        className="text-xs px-2 py-1 bg-red-200 rounded cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                  {subIdx === 0 && (
+                    <td rowSpan={course.subCategories.length} className="border px-4 py-2">
+                      <div className="flex gap-2 justify-center">
+                        <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">View</button>
+                        {/* <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">Edit</button> */}
+                        <Link to={`/courses/${course.id}/edit`} className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">
+                        Edit
+                        </Link>
+
+                        <button
+                          onClick={() => onDeleteMain(course.id)}
+                          className="text-xs px-2 py-1 bg-red-200 rounded cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              ));
+            } else {
+              return (
+                <tr key={course.id} className="border-b">
+                  <td className="border px-4 py-2">
+                    <img
+                      src={course.thumbnail}
+                      alt={course.title}
+                      className="w-20 h-12 object-cover rounded"
+                    />
+                  </td>
+                  <td className="border px-4 py-2">{course.title}</td>
+                  <td className="border px-4 py-2 italic text-gray-400">None</td>
+                  <td className="border px-4 py-2 italic text-gray-400">None</td>
+                  <td className="border px-4 py-2 italic text-gray-400">None</td>
+                  <td className="border px-4 py-2 italic text-gray-400">No subcategory</td>
+                  <td className="border px-4 py-2">
+                    <div className="flex gap-2 justify-center ">
+                      <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">View</button>
+                      <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">Edit</button>
+                      <button
+                        onClick={() => onDeleteMain(course.id)}
+                        className="text-xs px-2 py-1 bg-red-200 rounded cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              );
+            }
+          })}
         </tbody>
       </table>
     </div>
