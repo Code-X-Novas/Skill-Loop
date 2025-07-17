@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import StudentSidebar from './StudentSidebar';
+import StudentNavbar from '../StudentNavbar';
 
 const StudentLayout = () => {
   return (
@@ -7,9 +8,8 @@ const StudentLayout = () => {
       <div className="flex-shrink-0 w-64">
         <StudentSidebar />
       </div>
-
-      {/* Main content (takes remaining space) */}
       <div className="flex-1 overflow-y-auto bg-white">
+        <StudentNavbar />
         <Outlet />
       </div>
     </div>

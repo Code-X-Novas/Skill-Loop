@@ -77,7 +77,6 @@ function App() {
       <Route
         element={
           <StudentProtectedRoute>
-            <Navbar />
             <StudentLayout />
           </StudentProtectedRoute>
         }
