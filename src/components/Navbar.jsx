@@ -9,7 +9,7 @@ import { signOut } from "firebase/auth";
 import { setAuthUser } from "../redux/authSlice";
 import { auth } from "../firebase/FirebaseConfig";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,7 +128,7 @@ function Navbar() {
             <li><a href="/" className="text-sm">Home</a></li>
             <li><a href="/coursedetail" className="text-sm">Courses</a></li>
             <li><a href="#internships" className="text-sm">Internship</a></li>
-            <li><a href="#job" className="text-sm">Job Openings</a></li>
+            <li><a href="/jobopenings" className="text-sm">Job Openings</a></li>
             <li><a href="/contact" className="text-sm">Contact</a></li>
           </ul>
 
@@ -200,7 +200,7 @@ function Navbar() {
                   <li><a href="/" onClick={closeMenu} className="text-sm block py-2">Home</a></li>
                   <li><a href="#courses" onClick={closeMenu} className="text-sm block py-2">Courses</a></li>
                   <li><a href="#internship" onClick={closeMenu} className="text-sm block py-2">Internship</a></li>
-                  <li><a href="#job" onClick={closeMenu} className="text-sm block py-2">Job Openings</a></li>
+                  <li><a href="/jobopenings" onClick={closeMenu} className="text-sm block py-2">Job Openings</a></li>
                   <li><a href="/contact" onClick={closeMenu} className="text-sm block py-2">Contact</a></li>
 
                   {user ? (
@@ -250,6 +250,7 @@ function Navbar() {
             )}
         </div>
       </nav>
+      <Outlet />
     </>
   );
 }

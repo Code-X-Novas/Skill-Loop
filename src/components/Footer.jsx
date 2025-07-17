@@ -71,7 +71,7 @@ function Footer() {
         <p className="text-sm text-gray-600">© 2025 Skill Loop. All rights reserved.</p>
         <div className="flex items-center mt-4 space-x-4 sm:mt-0">
           {["Privacy Policy", "Refund Policy", "Terms & Conditions"].map((text) => (
-            <a key={text} href="/" className="text-gray-500 underline">
+            <a key={text} href="/terms" className="text-gray-500 underline">
               {text}
             </a>
           ))}

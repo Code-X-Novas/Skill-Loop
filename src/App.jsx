@@ -27,17 +27,23 @@ import AppliedInternships from './components/AppliedInternships';
 import Certificates from './components/Certificates';
 import Transactions from './components/Transactions';
 import Settings from './components/Settings';
+import JobOpenings from './pages/JobOpenings';
+import Terms from './pages/Terms';
 
 function App() {
   return (
     <>
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/courses/:slug/:id/enroll" element={<CoursePlans />} />
-      <Route path="/courses/:slug/details" element={<CourseDetails />} />
-      <Route path="/courses/:slug/:id/overview" element={<CourseOverview />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/coursedetail" element={<CourseDetails />} />
+      <Route element={<Navbar />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/courses/:slug/:id/enroll" element={<CoursePlans />} />
+        <Route path="/courses/:slug/details" element={<CourseDetails />} />
+        <Route path="/courses/:slug/:id/overview" element={<CourseOverview />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/coursedetail" element={<CourseDetails />} />
+        <Route path="/jobopenings" element={<JobOpenings />} />
+        <Route path="/terms" element={<Terms />} />'
+      </Route>
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
 
       {/* Admin */}

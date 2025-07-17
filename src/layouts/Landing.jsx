@@ -5,7 +5,6 @@ import Info from "../components/Info"
 import Testimonials from "../components/Testimonials"
 import WhySkillLoop from "../components/WhySkillLoop"
 import Background from "../ui/Background"
-import Navbar from "../components/Navbar"
 import Openings from "./Openings"
 import Courses from "../components/Courses"
 
@@ -13,7 +12,6 @@ import Courses from "../components/Courses"
 function Landing() {
   return (
     <>
-        <Navbar />
         <Hero />
         <Info />
         <div className="relative overflow-hidden">

@@ -1,0 +1,119 @@
+import { useState } from "react"
+import { JobHeader } from "../components/JobHeader.jsx"
+import { JobSidebar } from "../components/Layout/JobSidebar.jsx"
+import JobCardComponent from "../components/JobCardComponent.jsx"
+import Footer from "../components/Footer.jsx"
+import Background from "../ui/Background.jsx"
+
+const initialFilters = {
+  types: [
+    { label: "Full Time", checked: false },
+    { label: "Part Time", checked: false },
+    { label: "Contract", checked: false },
+    { label: "Remote", checked: false },
+    { label: "Training", checked: false }
+  ],
+  experience: [
+    { label: "Entry Level", checked: false },
+    { label: "Mid-Level", checked: false },
+    { label: "Senior Level", checked: false },
+    { label: "No Experience", checked: false }
+  ]
+}
+
+const jobData = [
+  { title: "Financial Analyst", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1011/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Human Resource Coordinator", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1012/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Financial Analyst", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1013/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Human Resource Coordinator", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1014/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Financial Analyst", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1015/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Human Resource Coordinator", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1016/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Financial Analyst", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1020/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Human Resource Coordinator", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1018/300", employeer_image: "https://picsum.photos/200" },
+  { title: "Financial Analyst", location: "Babasora, Odisha", type: "Full Time", date: "June 8, 2022", by: "Gramecare", image: "https://picsum.photos/id/1019/300", employeer_image: "https://picsum.photos/200" }
+]
+
+const JOBS_PER_PAGE = 6
+
+export default function JobOpenings() {
+  const [filters, setFilters] = useState(initialFilters)
+  const [page, setPage] = useState(1)
+
+  const totalPages = Math.ceil(jobData.length / JOBS_PER_PAGE)
+
+  const handleFilterChange = (label) => {
+    const updatedFilters = { ...filters }
+    const updateGroup = (group) =>
+      group.map((f) => f.label === label ? { ...f, checked: !f.checked } : f)
+
+    updatedFilters.types = updateGroup(updatedFilters.types)
+    updatedFilters.experience = updateGroup(updatedFilters.experience)
+    setFilters(updatedFilters)
+  }
+
+  const handleShowMore = () => {
+    if (page < totalPages) {
+      setPage(prev => prev + 1)
+    }
+  }
+
+  const startIndex = (page - 1) * JOBS_PER_PAGE
+  const endIndex = startIndex + JOBS_PER_PAGE
+  const visibleJobs = jobData.slice(startIndex, endIndex)
+
+  return (
+    <>
+    <div className="min-h-screen">
+      <JobHeader />
+
+      <div className="flex flex-col lg:flex-row px-4 sm:px-8 lg:px-16 py-8 gap-8">
+        <JobSidebar filters={filters} onChange={handleFilterChange} />
+
+        <div className="flex-1">
+          <p className="text-xl my-4">
+            Showing <span className="font-bold">{visibleJobs.length}</span> jobs
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {visibleJobs.map((job, index) => (
+              <JobCardComponent key={index} job={job} />
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center mt-6">
+            {/* Page Numbers */}
+            <div className="flex gap-2">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={`w-8 h-8 rounded-md text-sm flex items-center justify-center border transition ${
+                    page === p
+                      ? "bg-orange-500 text-white border-orange-500"
+                      : "text-gray-500 border-gray-300 hover:border-orange-400"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+
+            {/* Show Me More */}
+            {page < totalPages && (
+              <button
+                onClick={handleShowMore}
+                className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center"
+              >
+                Show me more
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+    <Background>
+        <Footer />
+    </Background>
+    </>
+  )
+}

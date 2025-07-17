@@ -1,6 +1,6 @@
 function Background({ children }) {
   return (
-    <div className="relative w-full min-h-screen overflow-x-hidden -mt-16">
+    <div className="relative w-full overflow-x-hidden -mt-16">
         {/* Top Left */}
         <span className="absolute top-1/2 left-0 transform -translate-y-3/4 w-1/3 h-1/3 bg-[#E28050] opacity-20 blur-3xl"></span>
 
