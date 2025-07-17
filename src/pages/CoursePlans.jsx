@@ -72,7 +72,6 @@ const CoursePlans = () => {
       />
 
       <div className="relative z-10">
-        <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-10 text-gray-800">
           <h1 className="text-3xl font-bold mb-2">{courseTitle}</h1>
           <p className="text-gray-600 text-base mb-8">{courseDescription}</p>

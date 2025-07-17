@@ -240,7 +240,6 @@ const CourseOverview = () => {
 
   return (
     <>
-      <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-2 text-gray-800">
         <p className="text-sm text-gray-500">{course.seo?.title || ''}</p>

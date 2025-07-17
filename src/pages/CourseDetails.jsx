@@ -33,8 +33,6 @@ const CourseDetails = () => {
 
   return (
     <>
-      <Navbar />
-
       <div className="max-w-6xl mx-auto px-4 py-12 text-gray-800">
         <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center md:text-left">Explore Courses</h1>
 
