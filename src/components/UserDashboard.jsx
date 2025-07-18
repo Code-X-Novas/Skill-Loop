@@ -1,7 +1,5 @@
 import { RiCalendarScheduleLine } from "react-icons/ri";
-import { TbCertificate } from "react-icons/tb";
-import { TbChecklist } from "react-icons/tb";
-import { TbShoppingBagSearch } from "react-icons/tb";
+import { TbCertificate, TbChecklist, TbShoppingBagSearch } from "react-icons/tb";
 import CourseTopicCard from "./CourseTopicCard";
 
 const UserDashboard = () => {
@@ -32,69 +30,68 @@ const UserDashboard = () => {
   };
 
   return (
-    <div className="p-6 flex space-y-8 gap-4">
-      {/* Top Stat Cards */}
-      <div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { label: "Ongoing Courses", value: 13, icon: <RiCalendarScheduleLine size={32} className="text-[#2A9D8F]" />},
-          { label: "Certificates", value: 37, icon: <TbCertificate size={32} className="text-[#E76F51]" /> },
-          { label: "Internships", value: 20, icon: <TbChecklist size={32} className="text-[#A6CEAB]"/> },
-          { label: "Jobs", value: 30, icon: <TbShoppingBagSearch size={32} className="text-[#DDA89A]" /> },
-        ].map((stat, idx) => (
-          <div
-            key={idx}
-            className="border rounded-lg px-4 py-6 shadow-sm bg-white"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <div className="text-gray-500 font-semibold">{stat.icon}</div>
-              <p className="text-md text-gray-600">{stat.label}</p>
+    <div className="p-4 md:p-6 flex flex-col xl:flex-row gap-6">
+      {/* Main content */}
+      <div className="flex-1 flex flex-col gap-6">
+        {/* Top Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: "Ongoing Courses", value: 13, icon: <RiCalendarScheduleLine size={32} className="text-[#2A9D8F]" /> },
+            { label: "Certificates", value: 37, icon: <TbCertificate size={32} className="text-[#E76F51]" /> },
+            { label: "Internships", value: 20, icon: <TbChecklist size={32} className="text-[#A6CEAB]" /> },
+            { label: "Jobs", value: 30, icon: <TbShoppingBagSearch size={32} className="text-[#DDA89A]" /> },
+          ].map((stat, idx) => (
+            <div key={idx} className="border rounded-lg px-4 py-6 shadow-sm bg-white">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="text-gray-500 font-semibold">{stat.icon}</div>
+                <p className="text-md text-gray-600">{stat.label}</p>
+              </div>
+              <p className="text-3xl font-bold">{stat.value}</p>
             </div>
-            <p className="text-3xl font-bold">{stat.value}</p>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      {/* My Courses Table */}
-      <div className="bg-white p-6 rounded-lg">
-        <h2 className="text-lg font-semibold mb-4">My Course</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead>
-              <tr className="text-gray-500 border-b">
-                <th className="py-2">Course Name</th>
-                <th className="py-2">Lessons</th>
-                <th className="py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {courses.map((course, idx) => (
-                <tr key={idx} className="hover:bg-gray-50">
-                  <td className="flex items-center gap-3 py-3">
-                    <img
-                      src={course.image}
-                      alt={course.name}
-                      className="w-10 h-10 rounded-md object-cover"
-                    />
-                    <span>{course.name}</span>
-                  </td>
-                  <td>{course.lessons}</td>
-                  <td>
-                    <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full ${statusColor[course.status]}`}
-                    >
-                      {course.status}
-                    </span>
-                  </td>
+        {/* My Courses Table */}
+        <div className="bg-white rounded-lg">
+          <h2 className="text-lg font-semibold mb-4">My Course</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm min-w-[500px]">
+              <thead>
+                <tr className="text-gray-500 border-b">
+                  <th className="py-2">Course Name</th>
+                  <th className="py-2">Lessons</th>
+                  <th className="py-2">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {courses.map((course, idx) => (
+                  <tr key={idx} className="hover:bg-gray-50">
+                    <td className="flex items-center gap-3 py-3">
+                      <img
+                        src={course.image}
+                        alt={course.name}
+                        className="w-10 h-10 rounded-md object-cover"
+                      />
+                      <span>{course.name}</span>
+                    </td>
+                    <td>{course.lessons}</td>
+                    <td>
+                      <span
+                        className={`px-3 py-1 text-xs font-medium rounded-full ${statusColor[course.status]}`}
+                      >
+                        {course.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      </div>
 
-      <div className="w-[300px]">
+      {/* Course Topic Card */}
+      <div className="w-full lg:w-[300px] flex-shrink-0">
         <CourseTopicCard />
       </div>
     </div>

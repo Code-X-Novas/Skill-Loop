@@ -7,7 +7,7 @@ import { TbTransactionRupee } from "react-icons/tb";
 import { PiSquaresFourBold } from "react-icons/pi";
 import { Link, useLocation } from 'react-router-dom';
 
-const StudentSidebar = () => {
+const StudentSidebar = ({closeSidebar}) => {
   const location = useLocation();
 
   const menuItems = [
@@ -19,6 +19,16 @@ const StudentSidebar = () => {
     { path: '/student/transactions', label: 'Transaction', icon: <TbTransactionRupee size={18} /> },
   ];
 
+  const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            dispatch(setAuthUser(null));
+            toast.success("Logged out successfully");
+        } catch {
+            toast.error("Logout failed");
+        }
+    };
+
   return (
     <div className="h-screen fixed top-0 w-64 bg-white px-4 py-6 flex flex-col justify-start border-r border-[#00000033] font-medium text-sm">
         <div className="px-6 mb-8">
@@ -29,6 +39,7 @@ const StudentSidebar = () => {
             <li key={index}>
                 <Link
                 to={item.path}
+                onClick={closeSidebar}
                 className={`flex items-center gap-3 px-6 py-2 rounded-full transition-all ${
                     location.pathname === item.path ? 'bg-[#F8EEDD] text-[#D35244] font-semibold' : 'hover:bg-gray-100 text-[#535456]'
                 }`}
@@ -49,6 +60,13 @@ const StudentSidebar = () => {
                 <CiSettings size={18} />
                 Settings
             </Link>
+            <button
+                onClick={handleLogout}
+                className="flex items-center gap-3 px-6 py-2 rounded-full text-red-600 hover:bg-red-50 transition-all"
+            >
+                Logout
+            </button>
+            
         </div>
     </div>
   );

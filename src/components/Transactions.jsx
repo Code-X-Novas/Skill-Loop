@@ -33,10 +33,15 @@ const statusColor = {
   Failed: "bg-red-100 text-red-600",
 };
 
+const statusDot = {
+  Done: "bg-green-500",
+  Failed: "bg-red-500",
+};
+
 const Transactions = () => {
   return (
-    <div className="bg-white p-6 rounded-lg">
-      <div className="flex justify-between items-center mb-4">
+    <div className="bg-white p-4 sm:p-6 rounded-lg">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
         <h2 className="text-lg font-semibold">Transactions</h2>
         <button className="flex items-center gap-2 text-sm px-4 py-1 border rounded">
           <PiExport className="w-4 h-4" />
@@ -44,8 +49,9 @@ const Transactions = () => {
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
+      {/* Table layout for md+ screens */}
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full text-left text-sm min-w-[600px]">
           <thead className="text-gray-500 border-b">
             <tr>
               <th className="py-2">Transaction ID</th>
@@ -64,11 +70,7 @@ const Transactions = () => {
                   <span
                     className={`px-3 py-1 text-xs font-medium rounded-full flex items-center gap-2 w-fit ${statusColor[txn.status]}`}
                   >
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        txn.status === "Done" ? "bg-green-500" : "bg-red-500"
-                      }`}
-                    />
+                    <span className={`w-2 h-2 rounded-full ${statusDot[txn.status]}`} />
                     {txn.status}
                   </span>
                 </td>
@@ -82,6 +84,33 @@ const Transactions = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Card layout for mobile */}
+      <div className="md:hidden space-y-4">
+        {transactions.map((txn, index) => (
+          <div key={index} className="border rounded-lg p-4 shadow-sm space-y-2">
+            <p className="text-sm">
+              <span className="font-medium text-gray-600">Transaction ID:</span> {txn.id}
+            </p>
+            <p className="text-sm">
+              <span className="font-medium text-gray-600">Amount:</span> ₹{txn.amount.toFixed(2)}
+            </p>
+            <p className="text-sm">
+              <span className="font-medium text-gray-600">Date & Time:</span> {txn.dateTime}
+            </p>
+            <p className="text-sm flex items-center gap-2">
+              <span className="font-medium text-gray-600">Status:</span>
+              <span className={`inline-flex items-center gap-2 px-3 py-1 text-xs font-medium rounded-full ${statusColor[txn.status]}`}>
+                <span className={`w-2 h-2 rounded-full ${statusDot[txn.status]}`} />
+                {txn.status}
+              </span>
+            </p>
+            <button className="text-gray-700 hover:text-black mt-1">
+              <PiFileTextLight className="w-5 h-5" />
+            </button>
+          </div>
+        ))}
       </div>
     </div>
   );
