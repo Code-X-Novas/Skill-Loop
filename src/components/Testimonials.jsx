@@ -90,7 +90,7 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.5 }}
-              className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-md md:w-16 md:h-16 h-12 w-12">
+              className="bg-linear-to-b from-[#F9A825] to-[#F4B860] text-white p-4 rounded-full shadow-[-21px_34px_37.8px_rgba(0,0,0,0.25)] md:w-16 md:h-16 h-12 w-12">
                 <motion.img src='/quote.svg' alt="Quote Icon" 
                   initial={{ opacity: 0, x: -100, y: 0 }}
                   whileInView={{ opacity: 1, x: [0, 10, 0], y: 0 }}
@@ -104,7 +104,7 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.2 }}
-              className="rounded-t-xl shadow-2xl bg-[#F9F6F0] md:w-[80vw] w-full flex flex-col">
+              className="rounded-t-xl shadow-[-21px_34px_37.8px_rgba(0,0,0,0.25)] bg-[#F9F6F0] md:w-[80vw] w-full flex flex-col">
                 <div className="relative flex flex-col items-center text-center font-semibold bg-white rounded-br-full md:text-xl text-sm md:py-4 p-10">
                     <p>Millions search for answers every month…</p>
                     <p>But true growth comes from structured learning</p>

@@ -103,7 +103,7 @@ const Courses = () => {
                     {JSON.stringify(coursesStructuredData)}
                 </script>
             </Helmet>
-            <section className="p-4 md:p-8 lg:p-16 overflow-x-hidden" id="courses" aria-label="SkillLoop Courses">
+            <section className="px-4 pb-4 md:px-8 md:pb-8 lg:px-16 lg:pb-16 pt-0 overflow-x-hidden" id="courses" aria-label="SkillLoop Courses">
                 <motion.h1 
                   initial={{ opacity: 0, x: -100, y: 0 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
@@ -138,7 +138,7 @@ const Courses = () => {
               whileInView={{ opacity: 1, x: 0, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
               viewport={{ once: true, amount: 0.1 }}
-              className="w-full px-4 py-10 flex flex-col items-center relative overflow-hidden">
+              className="w-full px-4 flex flex-col items-center relative overflow-hidden">
                 <div className="relative w-full max-w-6xl h-[450px]">
                     {courses.map((course, index) => {
                     let position = index - activeIndex;

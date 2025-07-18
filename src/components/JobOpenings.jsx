@@ -41,7 +41,7 @@ function JobOpenings() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         viewport={{ once: true, amount: 0.5 }}
         id="job"
-        className="md:text-5xl text-4xl font-bold mt-4"
+        className="md:text-5xl text-4xl font-bold lg:mt-16 md:mt-8 mt-4"
       >
         Job Openings
       </motion.h1>
