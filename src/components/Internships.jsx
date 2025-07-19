@@ -3,10 +3,16 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 function Internships() {
   const [internshipData, setInternshipData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  const handleViewAllClick = () => {
+    navigate("/internships");
+  };
 
   useEffect(() => {
     const fetchInternships = async () => {

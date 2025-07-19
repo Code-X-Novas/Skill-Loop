@@ -136,7 +136,7 @@ function Navbar() {
           <ul className="hidden lg:flex space-x-8 items-center">
             <li><a href="/" className="text-sm">Home</a></li>
             <li><a href="/coursedetail" className="text-sm">Courses</a></li>
-            <li><a href="#internships" className="text-sm">Internship</a></li>
+            <li><a href="/internships" className="text-sm">Internship</a></li>
             <li><a href="/jobopenings" className="text-sm">Job Openings</a></li>
             <li><a href="/contact" className="text-sm">Contact</a></li>
           </ul>

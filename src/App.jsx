@@ -31,6 +31,7 @@ import JobOpenings from './pages/JobOpenings';
 import Terms from './pages/Terms';
 import Admin from './pages/Admin';
 import AdminManagement from './components/AdminManagement';
+import Internships from './pages/Internships';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/coursedetail" element={<CourseDetails />} />
         <Route path="/jobopenings" element={<JobOpenings />} />
+        <Route path="/internships" element={<Internships />} />
         <Route path="/terms" element={<Terms />} />
       </Route>
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
