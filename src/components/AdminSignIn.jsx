@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { Eye, EyeOff, X,Loader } from 'lucide-react';
+import { Eye, EyeOff, X, Loader } from 'lucide-react';
 import { auth, fireDB, googleProvider } from '../firebase/FirebaseConfig';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { toast } from 'react-toastify';
@@ -9,7 +8,10 @@ import { setAuthUser } from '../redux/authSlice';
 import { doc, getDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
-const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
+const SUPER_ADMIN_EMAIL = import.meta.env.VITE_APP_SUPER_ADMIN_EMAIL;
+const SUPER_ADMIN_PASSWORD = import.meta.env.VITE_APP_SUPER_ADMIN_PASSWORD;
+
+const AdminSignIn = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -28,86 +30,91 @@ const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
     }));
   };
 
+  const handleSubmit = async () => {
+    const { email, password } = formData;
 
-const handleSubmit = async () => {
-  const { email, password } = formData;
-
-  if (!email || !password) {
-    setError('Please enter both email and password.');
-    return;
-  }
-
-  setLoading(true);
-  setError('');
-
-  try {
-    const res = await signInWithEmailAndPassword(auth, email, password);
-
-    // 🔥 Fetch user data from Firestore
-    const userRef = doc(fireDB, 'users', res.user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      throw new Error('User data not found in Firestore.');
+    if (!email || !password) {
+      setError('Please enter both email and password.');
+      return;
     }
 
-    const userData = userSnap.data();
-    dispatch(setAuthUser({
-      ...userData,
-      uid: res.user.uid,
-      role: 'student'
-    }));
-    toast.success('Student signed in successfully');
+    setLoading(true);
+    setError('');
 
-    onClose?.();
+    try {
+      // Check if it's superadmin credentials
+      if (email === SUPER_ADMIN_EMAIL && password === SUPER_ADMIN_PASSWORD) {
+        const res = await signInWithEmailAndPassword(auth, email, password);
+        
+        // Fetch user data from Firestore
+        const userRef = doc(fireDB, 'users', res.user.uid);
+        const userSnap = await getDoc(userRef);
 
-  } catch (err) {
-    setError(err.message || 'Sign in failed');
-    toast.error(err.message || 'Sign in failed');
-  } finally {
-    setLoading(false);
-  }
-};
+        if (!userSnap.exists()) {
+          throw new Error('User data not found in Firestore.');
+        }
 
-const handleGoogleSignIn = async () => {
-  setLoading(true);
-  setError('');
+        const userData = userSnap.data();
+        console.log("Super Admin Data:", userData);
+        
+        dispatch(setAuthUser({
+          ...userData,
+          uid: res.user.uid,
+          role: 'superadmin'
+        }));
+        
+        navigate("/dashboard");
+        toast.success('Super Admin signed in successfully');
+        onClose?.();
+        return;
+      }
 
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const { user } = result;
+      // Check if it's a regular admin
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Check in admins collection
+      const adminRef = doc(fireDB, 'admins', res.user.uid);
+      const adminSnap = await getDoc(adminRef);
 
-    // 🔥 Fetch user data from Firestore
-    const userRef = doc(fireDB, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
+      if (adminSnap.exists()) {
+        const adminData = adminSnap.data();
+        
+        // Check if admin is active
+        if (adminData.status !== 'active') {
+          throw new Error('Admin account is deactivated. Contact super admin.');
+        }
 
-    if (!userSnap.exists()) {
-      throw new Error('User data not found in Firestore.');
+        dispatch(setAuthUser({
+          ...adminData,
+          uid: res.user.uid,
+          role: 'admin'
+        }));
+        
+        navigate("/dashboard");
+        toast.success('Admin signed in successfully');
+        onClose?.();
+      } else {
+        // Check if it's a regular user trying to access admin
+        const userRef = doc(fireDB, 'users', res.user.uid);
+        const userSnap = await getDoc(userRef);
+        
+        if (userSnap.exists()) {
+          throw new Error('Access denied. You are not authorized as an admin.');
+        } else {
+          throw new Error('Account not found. Please contact super admin.');
+        }
+      }
+
+    } catch (err) {
+      setError(err.message || 'Sign in failed');
+      toast.error(err.message || 'Sign in failed');
+    } finally {
+      setLoading(false);
     }
-
-    const userData = userSnap.data();
-
-    dispatch(setAuthUser({
-      ...userData,
-      uid: user.uid,
-      email: user.email,
-      photoURL: user.photoURL,
-      role: 'student' // or pull from Firestore if stored
-    }));
-
-    toast.success('Signed in with Google successfully');
-    onClose?.();
-  } catch (err) {
-    setError(err.message || 'Google sign-in failed');
-    toast.error(err.message || 'Google sign-in failed');
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8 scrollbar-hide">
+    <div className="flex items-center justify-center p-4 sm:p-6 md:p-8 scrollbar-hide">
       <div className="w-full max-w-sm sm:max-w-md relative">
         {onClose && (
           <button
@@ -124,9 +131,10 @@ const handleGoogleSignIn = async () => {
 
             {/* Header */}
             <div className="text-center mb-6 sm:mb-8 relative z-10">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Welcome back</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Welcome back Admin</h1>
               <p className="text-sm sm:text-base text-gray-600">Please enter your details to sign in</p>
             </div>
+
 
             {/* Form */}
             <div className="space-y-4 sm:space-y-6 relative z-10">
@@ -183,46 +191,6 @@ const handleGoogleSignIn = async () => {
                   </div>
                 ) : 'Sign In'}
               </button>
-
-              {/* Divider */}
-              <div className="flex items-center justify-center gap-4 my-6">
-                <div className="flex-grow h-px bg-gray-300"></div>
-                <span className="text-gray-600 text-sm font-medium">OR</span>
-                <div className="flex-grow h-px bg-gray-300"></div>
-              </div>
-
-              {/* Google */}
-              <button
-                type="button"
-                onClick={handleGoogleSignIn}
-                disabled={loading}
-                className="w-full bg-gray-100 text-gray-700 py-2.5 sm:py-3 px-4 rounded-lg sm:rounded-xl font-medium flex items-center justify-center gap-2 sm:gap-3 hover:bg-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 text-sm sm:text-base"
-              >
-                {loading ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <Loader className="w-4 h-4 animate-spin" />
-                    Please wait...
-                  </div>
-                ) : (
-                  <>
-                    <img src="/google.svg" alt="Google Icon" className="w-4 h-4 sm:w-5 sm:h-5" />
-                    Continue with Google
-                  </>
-                )}
-              </button>
-            </div>
-
-            {/* Switch to Create Account */}
-            <div className="text-center mt-6 sm:mt-8 relative z-10">
-              <p className="text-gray-600 text-xs sm:text-sm">
-                Don&apos;t have an account?
-                <button
-                  onClick={onSwitchToCreateAccount}
-                  className="text-red-500 font-semibold hover:text-red-600 transition-colors duration-200 ml-1 cursor-pointer underline"
-                >
-                  Create Account
-                </button>
-              </p>
             </div>
           </div>
         </div>
@@ -231,4 +199,4 @@ const handleGoogleSignIn = async () => {
   );
 };
 
-export default SignIn;
+export default AdminSignIn;

@@ -3,11 +3,13 @@ import { GoHome } from "react-icons/go";
 import { BiSolidArrowFromBottom } from "react-icons/bi";
 import { TbShoppingBagSearch } from "react-icons/tb";
 import { IoMdPerson } from "react-icons/io";
-import { MdLogout } from "react-icons/md";
+import { MdLogout, MdSupervisorAccount } from "react-icons/md";
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
   const location = useLocation();
+  const user = useSelector((state) => state.auth.user);
 
   const menuItems = [
     { path: '/dashboard', label: 'Home', icon: <GoHome /> },
@@ -16,31 +18,51 @@ const Sidebar = () => {
     { path: '/students', label: 'Manage Students', icon: <IoMdPerson /> },
   ];
 
+  // Add Admin Management only for super admin
+  if (user?.role === 'superadmin') {
+    menuItems.push({
+      path: '/admin-management',
+      label: 'Manage Admins',
+      icon: <MdSupervisorAccount />
+    });
+  }
+
   return (
     <div className="h-screen w-64 bg-orange-200 text-black py-6 flex flex-col justify-between rounded-2xl sidebar-shadow font-semibold">
       <div>
-        <h2 className="text-3xl font-bold mb-14 px-6">SkillLoop</h2>
+        <div className="px-6 mb-8">
+          <h2 className="text-xl font-bold text-gray-800">
+            {user?.role === 'superadmin' ? 'Super Admin' : 'Admin'} Panel
+          </h2>
+        </div>
+
         <ul className="space-y-2">
           {menuItems.map((item, index) => (
             <li key={index}>
               <Link
                 to={item.path}
-                className={`w-full flex items-center gap-4 px-6 py-2 rounded transition-colors duration-200 ${
-                  location.pathname === item.path ? 'bg-orange-300' : 'hover:bg-orange-100'
+                className={`flex items-center gap-3 px-6 py-3 rounded-r-full transition-all ${
+                  location.pathname === item.path 
+                    ? 'bg-orange-300 text-orange-900 font-bold border-r-4 border-orange-500' 
+                    : 'hover:bg-orange-100 text-gray-700'
                 }`}
               >
-                {item.icon}
+                <span className="text-lg">{item.icon}</span>
                 {item.label}
               </Link>
             </li>
           ))}
         </ul>
       </div>
+
       <div className="px-6">
-        <button className="w-full flex items-center gap-2 py-2 rounded cursor-pointer transition-colors duration-200 text-black">
+        <Link
+          to="/logout"
+          className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all"
+        >
           <MdLogout />
-          Log out
-        </button>
+          Logout
+        </Link>
       </div>
     </div>
   );

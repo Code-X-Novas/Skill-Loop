@@ -29,11 +29,14 @@ import Transactions from './components/Transactions';
 import Settings from './components/Settings';
 import JobOpenings from './pages/JobOpenings';
 import Terms from './pages/Terms';
+import Admin from './pages/Admin';
+import AdminManagement from './components/AdminManagement';
 
 function App() {
   return (
     <>
     <Routes>
+      <Route path="/admin" element={<Admin />} />
       <Route element={<Navbar />}>
         <Route path="/" element={<Landing />} />
         <Route path="/courses/:slug/:id/enroll" element={<CoursePlans />} />
@@ -42,7 +45,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/coursedetail" element={<CourseDetails />} />
         <Route path="/jobopenings" element={<JobOpenings />} />
-        <Route path="/terms" element={<Terms />} />'
+        <Route path="/terms" element={<Terms />} />
       </Route>
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
 
@@ -56,6 +59,7 @@ function App() {
         <Route path="/courses" element={<ManageCourses />} />
         <Route path="/postings" element={<ManagePosting />} />
         <Route path="/students" element={<ManageStudents />} />
+        <Route path="/admin-management" element={<AdminManagement />} />
       </Route>
       {/* ✅ Protected LayoutWithoutSidebar */}
       <Route

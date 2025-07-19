@@ -15,9 +15,10 @@ const Home = () => {
   const navigate = useNavigate()
 
   const user = useSelector((state) => state.auth.user);
+  console.log(user.role);
 
   useEffect(() => {
-    if (user == null || user.role !== "admin") {
+    if (user == null || (user.role != "admin" && user.role != "superadmin")) {
       navigate("/");
     }
   }, [user, navigate]);
