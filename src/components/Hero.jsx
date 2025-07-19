@@ -80,7 +80,7 @@ function Hero() {
                     animate={{ opacity: [1, 1], x: [300, 0, 0], y: [300, 0 ,0], scale: [1, 1.2, 1] }}
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5, times: [0, 0.5, 1] }}
                     className="relative h-[22vh] w-full xl:relative invisible xl:visible pointer-events-none xl:pointer-events-auto">
-                    <img src="https://picsum.photos/200/300" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl right-12" alt="Hero Image" />
+                    <img src="/top_right_photo.svg" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl right-12" alt="Hero Image" />
                     <div className="absolute -bottom-15 right-0 bg-white rounded-xl px-4 py-2 z-10">
                         <h1 className="text-md font-semibold">Lorem Ipsum</h1>
                         <p className="text-sm">15 years old</p>
@@ -91,7 +91,7 @@ function Hero() {
                     animate={{ opacity: [1, 1], x: [700,0,0], y: [300, 0,0], scale: [1, 1.2, 1] }}
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5, times: [0, 0.5, 1] }}
                     className="relative h-[22vh] w-full">
-                    <img src="https://picsum.photos/200/300" className="absolute h-full min-h-[250px] aspect-auto object-cover rounded-xl left-0 transform translate-x-1/2 bottom-2" alt="Hero Image" />
+                    <img src="/center_photo.svg" className="absolute h-full min-h-[250px] aspect-auto object-cover rounded-xl left-0 transform translate-x-1/2 bottom-2" alt="Hero Image" />
                     <div className="absolute bottom-0 left-0 transform translate-x-1/4 translate-y-1/2 bg-white rounded-xl px-4 py-2 z-10">
                         <h1 className="text-md font-semibold">Lorem Ipsum</h1>
                         <p className="text-sm">16 years old</p>
@@ -102,7 +102,7 @@ function Hero() {
                     animate={{ opacity: [1, 1], x: [300, 0,0], y: [300, 0,0], scale: [1, 1.2, 1] }}
                     transition={{ duration: 1, ease: "easeOut", delay: 1.5, times: [0, 0.5, 1] }} 
                     className="relative h-[22vh] w-full">
-                    <img src="https://picsum.photos/200/300" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl top-0 left-1/2 transform translate-x-1/2 -translate-y-1/4" alt="Hero Image" />
+                    <img src="/bottom_right_photo.svg" className="absolute h-full min-h-[200px] aspect-auto object-cover rounded-xl top-0 left-1/2 transform translate-x-1/2 -translate-y-1/4" alt="Hero Image" />
                     <div className="absolute bottom-0 left-1/2 transform translate-x-1/4 bg-white rounded-xl px-4 py-2 z-10">
                         <h1 className="text-md font-semibold">Lorem Ipsum</h1>
                         <p className="text-sm">15 years old</p>

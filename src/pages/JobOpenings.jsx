@@ -38,6 +38,7 @@ const JOBS_PER_PAGE = 6
 export default function JobOpenings() {
   const [filters, setFilters] = useState(initialFilters)
   const [page, setPage] = useState(1)
+  const [showMobileFilter, setShowMobileFilter] = useState(false)
 
   const totalPages = Math.ceil(jobData.length / JOBS_PER_PAGE)
 
@@ -66,8 +67,28 @@ export default function JobOpenings() {
     <div className="min-h-screen">
       <JobHeader />
 
-      <div className="flex flex-col lg:flex-row px-4 sm:px-8 lg:px-16 py-8 gap-8">
-        <JobSidebar filters={filters} onChange={handleFilterChange} />
+      {/* Mobile Filter Toggle */}
+      <div className="md:hidden flex justify-end px-4 sm:px-8 lg:px-16 mt-4">
+        <button
+          onClick={() => setShowMobileFilter(!showMobileFilter)}
+          className="px-4 py-2 border rounded-md border-gray-300 text-sm"
+        >
+          {showMobileFilter ? "Hide Filters" : "Show Filters"}
+        </button>
+      </div>
+
+      {/* Dropdown Filter for Mobile */}
+      {showMobileFilter && (
+        <div className="md:hidden px-4 sm:px-8 lg:px-16 py-4 bg-white z-10">
+          <JobSidebar filters={filters} onChange={handleFilterChange} />
+        </div>
+      )}
+
+      <div className="flex flex-col sm:flex-row px-4 sm:px-8 lg:px-16 py-8 gap-8">
+        {/* Sidebar for Desktop */}
+        <div className="hidden md:block">
+          <JobSidebar filters={filters} onChange={handleFilterChange} />
+        </div>
 
         <div className="flex-1">
           <p className="text-xl my-4">
@@ -81,8 +102,7 @@ export default function JobOpenings() {
           </div>
 
           <div className="flex justify-between items-center mt-6">
-            {/* Page Numbers */}
-            <div className="flex gap-2">
+            <div className="flex gap-2 z-40">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <button
                   key={p}
@@ -98,11 +118,10 @@ export default function JobOpenings() {
               ))}
             </div>
 
-            {/* Show Me More */}
             {page < totalPages && (
               <button
                 onClick={handleShowMore}
-                className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center"
+                className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center z-40"
               >
                 Show me more
               </button>

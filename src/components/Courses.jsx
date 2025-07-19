@@ -57,7 +57,7 @@ const Courses = () => {
     const [activeIndex, setActiveIndex] = useState(2);
   const navigate = useNavigate();
    const handleViewAllClick = (slug) => {
-    navigate(`/courses/${slug}/details`);
+    navigate(`/coursedetail`);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 

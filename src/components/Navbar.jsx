@@ -213,7 +213,7 @@ function Navbar() {
               >
                 <ul className="flex flex-col space-y-4">
                   <li><a href="/" onClick={closeMenu} className="text-sm block py-2">Home</a></li>
-                  <li><a href="#courses" onClick={closeMenu} className="text-sm block py-2">Courses</a></li>
+                  <li><a href="/coursedetail" onClick={closeMenu} className="text-sm block py-2">Courses</a></li>
                   <li><a href="#internship" onClick={closeMenu} className="text-sm block py-2">Internship</a></li>
                   <li><a href="/jobopenings" onClick={closeMenu} className="text-sm block py-2">Job Openings</a></li>
                   <li><a href="/contact" onClick={closeMenu} className="text-sm block py-2">Contact</a></li>

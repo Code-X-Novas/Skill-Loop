@@ -5,7 +5,7 @@ export default function JobCardComponent({ job }) {
   return (
     <motion.div
       whileHover={{ scale: 1.03 }}
-      className="bg-white rounded-4xl shadow-lg w-full max-w-xs"
+      className="bg-white rounded-4xl shadow-lg w-full max-w-sm"
     >
     <div className="relative">
       <img

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import GlanceCard from '../components/cards/GlanceCard';
 import EnrollmentTable from "../components/tables/EnrollmentTable";
 import Internships from "../components/tables/InternshipApplicant";
@@ -15,14 +15,12 @@ const Home = () => {
   const navigate = useNavigate()
 
   const user = useSelector((state) => state.auth.user);
-  console.log("user from home dashboard" , user)
 
- // ✅ Only run once on mount or when `user` changes
   useEffect(() => {
     if (user == null || user.role !== "admin") {
       navigate("/");
     }
-  }, [user, navigate]); // ✅ Added dependency array
+  }, [user, navigate]);
   
   return (
   <div className="flex-1 p-8 space-y-8 bg-white overflow-auto">
