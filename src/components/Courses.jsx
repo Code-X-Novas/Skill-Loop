@@ -56,7 +56,7 @@ const courses = [
 const Courses = () => {
     const [activeIndex, setActiveIndex] = useState(2);
   const navigate = useNavigate();
-   const handleViewAllClick = (slug) => {
+   const handleViewAllClick = () => {
     navigate(`/coursedetail`);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
@@ -124,14 +124,22 @@ const Courses = () => {
 
             <div className="flex w-full justify-end my-6">
                 <motion.button 
-                 onClick={() => handleViewAllClick(courses[activeIndex].slug)}
+                  onClick={() => handleViewAllClick()}
                   initial={{ opacity: 0, x: 100, y: 0 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
                   transition={{ duration: 1, ease: "easeOut" }}
                   viewport={{ once: true, amount: 0.1 }}
-                  className="z-[10] text-xs md:text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#F9A825] rounded-full py-1 md:py-2 px-4 md:px-8">
-                    View All
+                  className="z-[10] text-xs md:text-sm 
+                    bg-gradient-to-b from-[#F4B860] to-[#D35244] 
+                    bg-clip-text text-transparent 
+                    border-2 border-[#F9A825] rounded-full 
+                    py-1 md:py-2 px-4 md:px-8 cursor-pointer 
+                    transition-all duration-300
+                    hover:text-white hover:bg-gradient-to-b hover:from-[#D35244] hover:to-[#F4B860] hover:bg-clip-border hover:border-white"
+                >
+                  View All
                 </motion.button>
+
             </div>
             <motion.div 
               initial={{ opacity: 0, x: 0, y: 100 }}

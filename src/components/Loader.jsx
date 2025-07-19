@@ -1,6 +1,3 @@
-// components/Loading.jsx
-
-import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function Loading() {
@@ -11,7 +8,7 @@ export default function Loading() {
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
       ></motion.div>
-      <p className="mt-4 text-gray-600 font-medium">Loading, please wait...</p>
+      <div className="mt-4 text-gray-600 font-medium">Loading, please wait...</div>
     </div>
   );
 }

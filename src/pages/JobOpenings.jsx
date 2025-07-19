@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { JobHeader } from "../components/JobHeader.jsx"
 import { JobSidebar } from "../components/Layout/JobSidebar.jsx"
 import JobCardComponent from "../components/JobCardComponent.jsx"
 import Footer from "../components/Footer.jsx"
 import Background from "../ui/Background.jsx"
+import Loading from "../components/Loader.jsx"
 
 const initialFilters = {
   types: [
@@ -39,6 +40,7 @@ export default function JobOpenings() {
   const [filters, setFilters] = useState(initialFilters)
   const [page, setPage] = useState(1)
   const [showMobileFilter, setShowMobileFilter] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const totalPages = Math.ceil(jobData.length / JOBS_PER_PAGE)
 
@@ -58,9 +60,20 @@ export default function JobOpenings() {
     }
   }
 
-  const startIndex = (page - 1) * JOBS_PER_PAGE
-  const endIndex = startIndex + JOBS_PER_PAGE
-  const visibleJobs = jobData.slice(startIndex, endIndex)
+  const [visibleJobs, setVisibleJobs] = useState([])
+
+  useEffect(() => {
+    setLoading(true)
+    const startIndex = (page - 1) * JOBS_PER_PAGE
+    const endIndex = startIndex + JOBS_PER_PAGE
+    const sliced = jobData.slice(startIndex, endIndex)
+    setVisibleJobs(sliced)
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1000) // simulate 1s delay
+    return () => clearTimeout(timer)
+  }, [page, filters])
+  
 
   return (
     <>
@@ -90,44 +103,54 @@ export default function JobOpenings() {
           <JobSidebar filters={filters} onChange={handleFilterChange} />
         </div>
 
-        <div className="flex-1">
-          <p className="text-xl my-4">
-            Showing <span className="font-bold">{visibleJobs.length}</span> jobs
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {visibleJobs.map((job, index) => (
-              <JobCardComponent key={index} job={job} />
-            ))}
+        {loading ? (
+          <div className="w-full flex flex-col justify-center items-center py-10">
+            <Loading />
           </div>
+        ) : visibleJobs.length === 0 ? (
+          <div className="text-center text-gray-500 font-medium py-10">
+            No jobs found.
+          </div>
+        ) : (
+          <div className="flex-1">
+            <p className="text-xl my-4">
+              Showing <span className="font-bold">{visibleJobs.length}</span> jobs
+            </p>
 
-          <div className="flex justify-between items-center mt-6">
-            <div className="flex gap-2 z-40">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`w-8 h-8 rounded-md text-sm flex items-center justify-center border transition ${
-                    page === p
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : "text-gray-500 border-gray-300 hover:border-orange-400"
-                  }`}
-                >
-                  {p}
-                </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {visibleJobs.map((job, index) => (
+                <JobCardComponent key={index} job={job} />
               ))}
             </div>
 
-            {page < totalPages && (
-              <button
-                onClick={handleShowMore}
-                className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center z-40"
-              >
-                Show me more
-              </button>
-            )}
+            <div className="flex justify-between items-center mt-6">
+              <div className="flex gap-2 z-40">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`w-8 h-8 rounded-md text-sm flex items-center justify-center border transition ${
+                      page === p
+                        ? "bg-orange-500 text-white border-orange-500"
+                        : "text-gray-500 border-gray-300 hover:border-orange-400"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+
+              {page < totalPages && (
+                <button
+                  onClick={handleShowMore}
+                  className="text-sm block bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border-2 border-[#FDF1DF] rounded-full py-2 px-8 text-center z-40"
+                >
+                  Show me more
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
     <Background>

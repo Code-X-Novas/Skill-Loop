@@ -1,8 +1,7 @@
 
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { collection, getDocs } from 'firebase/firestore';
 import { fireDB } from '../firebase/FirebaseConfig';
@@ -37,7 +36,7 @@ const CourseDetails = () => {
         <h1 className="text-2xl md:text-4xl font-bold mb-6 text-center md:text-left">Explore Courses</h1>
 
         {courses.length === 0 ? (
-          <p><Loading/></p>
+          <Loading/>
         ) : (
           courses.map((course) => (
             <div
