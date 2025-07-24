@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom";
 function Internships() {
   const [internshipData, setInternshipData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  const handleViewAllClick = () => {
+    navigate("/internships");
+  };
 
   useEffect(() => {
     const fetchInternships = async () => {

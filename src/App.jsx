@@ -50,7 +50,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/coursedetail" element={<CourseDetails />} />
         <Route path="/jobopenings" element={<JobOpenings />} />
-        <Route path="/internship" element={<Internships />} />
+        <Route path="/internships" element={<Internships />} />
         <Route path="/terms" element={<Terms />} />
       </Route>
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
