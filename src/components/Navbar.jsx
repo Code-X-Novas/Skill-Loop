@@ -9,7 +9,7 @@ import { signOut } from "firebase/auth";
 import { setAuthUser } from "../redux/authSlice";
 import { auth } from "../firebase/FirebaseConfig";
 import { toast } from "react-toastify";
-import { Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +52,7 @@ function Navbar() {
     try {
       await signOut(auth);
       dispatch(setAuthUser(null));
+      navigate('/')
       toast.success("Logged out successfully");
     } catch (err) {
       toast.error("Logout failed");
@@ -134,11 +135,11 @@ function Navbar() {
 
           {/* Desktop Nav */}
           <ul className="hidden lg:flex space-x-8 items-center">
-            <li><a href="/" className="text-sm">Home</a></li>
-            <li><a href="/coursedetail" className="text-sm">Courses</a></li>
-            <li><a href="/internships" className="text-sm">Internship</a></li>
-            <li><a href="/jobopenings" className="text-sm">Job Openings</a></li>
-            <li><a href="/contact" className="text-sm">Contact</a></li>
+            <li><NavLink to="/" className="text-sm">Home</NavLink></li>
+            <li><NavLink to="/coursedetail" className="text-sm">Courses</NavLink></li>
+            <li><NavLink to="/internships" className="text-sm">Internship</NavLink></li>
+            <li><NavLink to="/jobopenings" className="text-sm">Job Openings</NavLink></li>
+            <li><NavLink to="/contact" className="text-sm">Contact</NavLink></li>
           </ul>
 
           {user ? (
@@ -214,7 +215,7 @@ function Navbar() {
                 <ul className="flex flex-col space-y-4">
                   <li><a href="/" onClick={closeMenu} className="text-sm block py-2">Home</a></li>
                   <li><a href="/coursedetail" onClick={closeMenu} className="text-sm block py-2">Courses</a></li>
-                  <li><a href="#internship" onClick={closeMenu} className="text-sm block py-2">Internship</a></li>
+                  <li><a href="/internship" onClick={closeMenu} className="text-sm block py-2">Internship</a></li>
                   <li><a href="/jobopenings" onClick={closeMenu} className="text-sm block py-2">Job Openings</a></li>
                   <li><a href="/contact" onClick={closeMenu} className="text-sm block py-2">Contact</a></li>
 

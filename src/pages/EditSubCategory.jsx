@@ -23,6 +23,8 @@ const EditSubCategory = () => {
 
   // Fields for subcategory
   const [videoUrl, setVideoUrl] = useState('');
+  const [uploadedVideo, setUploadedVideo] = useState('');
+  const [thumbnailUrl, setThumbnailUrl] = useState('');
   const [subPrice, setSubPrice] = useState(0);
   const [subDescription, setSubDescription] = useState('');
   const [subHighlights, setSubHighlights] = useState('');
@@ -45,7 +47,7 @@ const EditSubCategory = () => {
 
         if (subDoc.exists()) {
           const data = subDoc.data();
-          setVideoUrl(data.videoUrl);
+          setVideoUrl(data.videoUrl || '');
           setSubPrice(data.price);
           setSubDescription(data.courseDescription);
           setSubHighlights(data.highlightedHeadings?.join(', ') || '');
@@ -53,6 +55,7 @@ const EditSubCategory = () => {
           setSubVideoDuration(data.videoDuration);
           setSubLanguage(data.language);
           setSubLevel(data.level);
+          setThumbnailUrl(data.subThumbnail || '');
         } else {
           toast.error('Subcategory not found!');
           navigate('/courses');
@@ -71,6 +74,13 @@ const EditSubCategory = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
+      // ✅ Final video: URL or uploaded file
+      const finalVideoPath = videoUrl || uploadedVideo;
+      if (!finalVideoPath) {
+        toast.error('Please provide either a video URL or upload a video file.');
+        return;
+      }
+
       const subCategoryRef = doc(
         fireDB,
         'courses',
@@ -80,13 +90,14 @@ const EditSubCategory = () => {
       );
 
       await updateDoc(subCategoryRef, {
-        videoUrl: videoUrl,
+        videoUrl: finalVideoPath,
         price: Number(subPrice),
         courseDescription: subDescription,
         highlightedHeadings: subHighlights.split(',').map((h) => h.trim()),
         sections: subSections.split(',').map((s) => s.trim()),
         videoDuration: Number(subVideoDuration),
         language: subLanguage,
+        subThumbnail: thumbnailUrl,
       });
 
       toast.success(`Subcategory '${subLevel}' updated!`);
@@ -97,28 +108,28 @@ const EditSubCategory = () => {
     }
   };
 
-if (loading) return <Loading />;
+  if (loading) return <Loading />;
 
   return (
     <div className="min-h-screen font-sans flex">
       {/* Sidebar */}
       <div className="w-64 h-screen fixed top-0 left-0 bg-orange-200 border-r border-black flex flex-col z-10">
-              <div className="p-6 text-xl font-bold text-black">SkillLoop</div>
-              <nav className="flex-1">
-                <ul>
-                  <li className="px-6 py-3 hover:bg-orange-200 cursor-pointer flex items-center gap-2">
-                    <LuArrowUpFromLine /> Manage Courses
-                  </li>
-                  <li className="px-6 py-3 bg-orange-300 font-medium">Edit Sub-Course</li>
-                </ul>
-              </nav>
-              <button
-                onClick={() => navigate('/courses')}
-                className="mt-auto px-6 py-3 text-left flex items-center gap-2"
-              >
-                <FaArrowLeft /> Back
-              </button>
-            </div>
+        <div className="p-6 text-xl font-bold text-black">SkillLoop</div>
+        <nav className="flex-1">
+          <ul>
+            <li className="px-6 py-3 hover:bg-orange-200 cursor-pointer flex items-center gap-2">
+              <LuArrowUpFromLine /> Manage Courses
+            </li>
+            <li className="px-6 py-3 bg-orange-300 font-medium">Edit Sub-Course</li>
+          </ul>
+        </nav>
+        <button
+          onClick={() => navigate('/courses')}
+          className="mt-auto px-6 py-3 text-left flex items-center gap-2"
+        >
+          <FaArrowLeft /> Back
+        </button>
+      </div>
 
       {/* Main Form */}
       <div className="ml-64 flex-1 p-10 bg-white overflow-y-auto">
@@ -127,10 +138,37 @@ if (loading) return <Loading />;
         </h1>
 
         <form className="space-y-8 max-w-4xl mx-auto" onSubmit={handleUpdate}>
+          <h2 className="text-xl font-semibold">Update Video</h2>
+          <InputField
+            label="Video URL"
+            value={videoUrl}
+            onChange={(e) => {
+              setVideoUrl(e.target.value);
+              if (e.target.value) {
+                setUploadedVideo('');
+              }
+            }}
+            type="text"
+            placeholder="https://yourvideo.com/video.mp4"
+            disabled={uploadedVideo !== ''}
+          />
+
           <UploadBox
-            label="Update Video URL"
-            id="video"
-            onUpload={(url) => setVideoUrl(url)}
+            label="Or Upload Video File"
+            id="uploadVideoFile"
+            onUpload={(url) => {
+              setUploadedVideo(url);
+              if (url) {
+                setVideoUrl('');
+              }
+            }}
+            disabled={videoUrl !== ''}
+          />
+
+          <UploadBox
+            label="Update Sub-Thumbnail"
+            id="sub_thumbnail"
+            onUpload={(url) => setThumbnailUrl(url)}
           />
 
           <InputField

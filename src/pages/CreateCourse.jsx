@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
@@ -19,7 +17,10 @@ const CreateCourse = () => {
   const [courseTitle, setCourseTitle] = useState('');
   const [description, setDescription] = useState('');
   const [thumbnail, setThumbnail] = useState('');
+
+  // Video: Two input types
   const [videoUrl, setVideoUrl] = useState('');
+  const [uploadedVideo, setUploadedVideo] = useState('');
 
   // SEO FIELDS
   const [seoTitle, setSeoTitle] = useState('');
@@ -35,6 +36,7 @@ const CreateCourse = () => {
   const [subSections, setSubSections] = useState('');
   const [subVideoDuration, setSubVideoDuration] = useState(0);
   const [subLanguage, setSubLanguage] = useState('');
+  const [subThumbnail, setSubThumbnail] = useState('');
 
   // Store already used levels so we can disable them in the dropdown
   const [usedLevels, setUsedLevels] = useState([]);
@@ -43,6 +45,13 @@ const CreateCourse = () => {
     e.preventDefault();
 
     try {
+      // ✅ Final video source: URL or uploaded file
+      const finalVideoPath = videoUrl || uploadedVideo;
+      if (!finalVideoPath) {
+        toast.error('Please provide either a video URL or upload a video file.');
+        return;
+      }
+
       // 1️⃣ Create main course doc
       const courseRef = doc(collection(fireDB, 'courses'));
       await setDoc(courseRef, {
@@ -67,26 +76,24 @@ const CreateCourse = () => {
         existingLevels.push(data.level?.toLowerCase());
       });
 
-      // Store for disabling dropdown options
       setUsedLevels(existingLevels);
 
-      // 3️⃣ Check for duplicate level
       if (existingLevels.includes(subLevel.toLowerCase())) {
         toast.error(`A '${subLevel}' level subcategory already exists.`);
         return;
       }
 
-      // 4️⃣ Check for maximum 3 subcategories
       if (existingLevels.length >= 3) {
         toast.error('This course already has 3 subcategories. You cannot add more.');
         return;
       }
 
-      // 5️⃣ Create new subcategory
+      // 3️⃣ Create new subcategory
       const subCategoryRef = doc(subCategoriesCollection);
       await setDoc(subCategoryRef, {
         level: subLevel,
-        videoUrl: videoUrl,
+        videoUrl: finalVideoPath,
+        subThumbnail: subThumbnail,
         price: Number(subPrice),
         courseDescription: subDescription,
         highlightedHeadings: subHighlights.split(',').map((h) => h.trim()),
@@ -100,7 +107,6 @@ const CreateCourse = () => {
 
       toast.success(`Course & '${subLevel}' subcategory created!`);
       navigate('/courses');
-
     } catch (error) {
       console.error('Error creating course:', error);
       toast.error('Error: ' + error.message);
@@ -157,10 +163,39 @@ const CreateCourse = () => {
           />
 
           <UploadBox
-            label="Add Video"
-            id="video"
-            onUpload={(url) => setVideoUrl(url)}
+            label="Add Sub-Course Thumbnail"
+            id="sub_thumbnail"
+            onUpload={(url) => setSubThumbnail(url)}
           />
+
+          <h2 className="text-xl font-semibold pt-4">Video Upload</h2>
+          <div className="space-y-4">
+            <InputField
+              label="Video URL"
+              value={videoUrl}
+              onChange={(e) => {
+                setVideoUrl(e.target.value);
+                if (e.target.value) {
+                  setUploadedVideo('');
+                }
+              }}
+              type="text"
+              placeholder="https://yourvideo.com/video.mp4"
+              disabled={uploadedVideo !== ''}
+            />
+
+            <UploadBox
+              label="Or Upload Video File"
+              id="uploadVideoFile"
+              onUpload={(url) => {
+                setUploadedVideo(url);
+                if (url) {
+                  setVideoUrl('');
+                }
+              }}
+              disabled={videoUrl !== ''}
+            />
+          </div>
 
           <h2 className="text-xl font-semibold pt-4">Sub Category</h2>
 

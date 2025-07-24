@@ -34,6 +34,11 @@ function Internships() {
     fetchInternships();
   }, []);
 
+ const handleViewAll = () => {
+    navigate('/internship');
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <motion.h1
@@ -60,7 +65,7 @@ function Internships() {
 
       <div className="flex w-full justify-end my-8 z-10">
         <motion.button 
-          onClick={() => handleViewAllClick()}
+          onClick={handleViewAll}
           initial={{ opacity: 0, x: 100, y: 0 }}
           whileInView={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}

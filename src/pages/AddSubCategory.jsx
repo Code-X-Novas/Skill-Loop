@@ -20,7 +20,11 @@ const AddSubCategory = () => {
   const [subSections, setSubSections] = useState('');
   const [subVideoDuration, setSubVideoDuration] = useState(0);
   const [subLanguage, setSubLanguage] = useState('');
+  const [subThumbnail, setSubThumbnail] = useState('');
+
   const [videoUrl, setVideoUrl] = useState('');
+  const [uploadedVideo, setUploadedVideo] = useState('');
+
   const [usedLevels, setUsedLevels] = useState([]);
 
   const handleAdd = async (e) => {
@@ -47,10 +51,18 @@ const AddSubCategory = () => {
         return;
       }
 
+      // ✅ Final video: URL or uploaded
+      const finalVideo = videoUrl || uploadedVideo;
+      if (!finalVideo) {
+        toast.error('Please provide either a Video URL or upload a Video file.');
+        return;
+      }
+
       const newSub = doc(subCollection);
       await setDoc(newSub, {
         level: subLevel,
-        videoUrl,
+        videoUrl: finalVideo,
+        subThumbnail: subThumbnail,
         price: Number(subPrice),
         courseDescription: subDescription,
         highlightedHeadings: subHighlights.split(',').map((h) => h.trim()),
@@ -96,7 +108,7 @@ const AddSubCategory = () => {
         <h1 className="text-2xl font-bold mb-6 text-center">Add Subcategory</h1>
         <form onSubmit={handleAdd} className="space-y-6 max-w-4xl mx-auto">
           <div>
-            <label>Level</label>
+            <label className="block mb-1">Level</label>
             <select
               value={subLevel}
               onChange={(e) => setSubLevel(e.target.value)}
@@ -107,13 +119,79 @@ const AddSubCategory = () => {
               <option value="Advanced" disabled={usedLevels.includes('advanced')}>Advanced</option>
             </select>
           </div>
-          <InputField label="Price" type="number" value={subPrice} onChange={(e) => setSubPrice(e.target.value)} />
-          <UploadBox label="Video" id="video" onUpload={(url) => setVideoUrl(url)} />
-          <InputField label="Highlighted Headings" value={subHighlights} onChange={(e) => setSubHighlights(e.target.value)} />
-          <InputField label="Sections" value={subSections} onChange={(e) => setSubSections(e.target.value)} />
-          <TextAreaField label="Description" value={subDescription} onChange={(e) => setSubDescription(e.target.value)} />
-          <InputField label="Video Duration (min)" type="number" value={subVideoDuration} onChange={(e) => setSubVideoDuration(e.target.value)} />
-          <InputField label="Language" value={subLanguage} onChange={(e) => setSubLanguage(e.target.value)} />
+
+          <InputField
+            label="Price"
+            type="number"
+            value={subPrice}
+            onChange={(e) => setSubPrice(e.target.value)}
+          />
+
+          <h2 className="text-lg font-semibold">Add Video</h2>
+
+          <InputField
+            label="Video URL"
+            type="text"
+            value={videoUrl}
+            onChange={(e) => {
+              setVideoUrl(e.target.value);
+              if (e.target.value) {
+                setUploadedVideo('');
+              }
+            }}
+            placeholder="https://yourvideo.com/video.mp4"
+            disabled={uploadedVideo !== ''}
+          />
+
+          <UploadBox
+            label="Or Upload Video File"
+            id="uploadVideoFile"
+            onUpload={(url) => {
+              setUploadedVideo(url);
+              if (url) {
+                setVideoUrl('');
+              }
+            }}
+            disabled={videoUrl !== ''}
+          />
+
+            <UploadBox
+            label="Add Sub-Course Thumbnail"
+            id="sub_thumbnail"
+            onUpload={(url) => setSubThumbnail(url)}
+          />
+
+          <InputField
+            label="Highlighted Headings"
+            value={subHighlights}
+            onChange={(e) => setSubHighlights(e.target.value)}
+          />
+
+          <InputField
+            label="Sections"
+            value={subSections}
+            onChange={(e) => setSubSections(e.target.value)}
+          />
+
+          <TextAreaField
+            label="Description"
+            value={subDescription}
+            onChange={(e) => setSubDescription(e.target.value)}
+          />
+
+          <InputField
+            label="Video Duration (min)"
+            type="number"
+            value={subVideoDuration}
+            onChange={(e) => setSubVideoDuration(e.target.value)}
+          />
+
+          <InputField
+            label="Language"
+            value={subLanguage}
+            onChange={(e) => setSubLanguage(e.target.value)}
+          />
+
           <button
             type="submit"
             className="px-6 py-2 border border-gray-400 bg-gray-100 hover:bg-gray-200 rounded"
@@ -127,4 +205,3 @@ const AddSubCategory = () => {
 };
 
 export default AddSubCategory;
-

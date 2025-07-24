@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -41,7 +40,7 @@ const CourseTable = ({ courses, onDeleteMain, onDeleteSub }) => {
                   )}
                   <td className="border px-4 py-2">{sub.level}</td>
                   <td className="border px-4 py-2">Rs.₹ {sub.price}/-</td>
-                  <td className="border px-4 py-2">{sub.numberOfEnrolled}</td>
+                  <td className="border px-4 py-2">{sub.enrolledStudents.length}</td>
                   <td className="border px-4 py-2">
                     <div className="flex gap-2 justify-center">
                       <button className="text-xs px-2 py-1 bg-gray-200 rounded cursor-pointer">View</button>
