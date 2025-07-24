@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 function Internships() {
   const [internshipData, setInternshipData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchInternships = async () => {
@@ -27,6 +29,11 @@ function Internships() {
 
     fetchInternships();
   }, []);
+
+ const handleViewAll = () => {
+    navigate('/internship');
+    window.scrollTo(0, 0);
+  };
 
   return (
     <>
@@ -54,7 +61,7 @@ function Internships() {
 
       <div className="flex w-full justify-end my-8 z-10">
         <motion.button 
-          onClick={() => handleViewAllClick()}
+          onClick={handleViewAll}
           initial={{ opacity: 0, x: 100, y: 0 }}
           whileInView={{ opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}

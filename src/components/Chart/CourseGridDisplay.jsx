@@ -33,3 +33,22 @@ const CourseGridBox = () => {
 
 export default CourseGridBox;
 
+
+
+
+
+
+// const CourseGridDisplay = ({ courses }) => {
+//   return (
+//     <div className="w-full max-w-lg mx-auto space-y-4">
+//       <div className="flex justify-between">
+//         {courses.slice(0, 3).map((course, index) => (
+//           <div key={index} className="w-28 h-16 bg-white rounded-xl flex items-center justify-center text-xs font-medium shadow">
+//             {course.name || `Course ${index + 1}`}
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+// export default CourseGridDisplay;

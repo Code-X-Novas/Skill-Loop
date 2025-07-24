@@ -8,7 +8,6 @@ import LayoutWithoutSidebar from './components/Layout/LayoutWithoutSidebar';
 import ManageCourses from './pages/ManageCourses';
 import CreateCourse from './pages/CreateCourse';
 import Home from './pages/Home';
-import ManagePosting from './pages/ManagePosting';
 import ManageStudents from './pages/ManageStudent';
 import AddSubCourse from './pages/AddSubCategory';
 import EditSubCategory from './pages/EditSubCategory';
@@ -21,7 +20,7 @@ import StudentProtectedRoute from './components/UserProtectedRoute';
 import UserDashboard from './components/UserDashboard';
 import StudentLayout from './components/Layout/StudentLayout';
 import Navbar from './components/Navbar';
-import SavedCourse from './components/SavedCourse';
+import YourCourse from './components/YourCourse';
 import AppliedJobs from './components/AppliedJobs';
 import AppliedInternships from './components/AppliedInternships';
 import Certificates from './components/Certificates';
@@ -31,6 +30,12 @@ import JobOpenings from './pages/JobOpenings';
 import Terms from './pages/Terms';
 import Admin from './pages/Admin';
 import AdminManagement from './components/AdminManagement';
+import ManageInternship from './pages/ManageInternship';
+import ManagePosting from './pages/ManagePosting';
+import CreateJobPosting from './pages/CreateJobPosting';
+import EditJobPosting from './pages/EditJobPosting';
+import Internships from './pages/Internships';
+import AdminTransactions from './components/AdminTransaction';
 
 function App() {
   return (
@@ -45,6 +50,7 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/coursedetail" element={<CourseDetails />} />
         <Route path="/jobopenings" element={<JobOpenings />} />
+        <Route path="/internship" element={<Internships />} />
         <Route path="/terms" element={<Terms />} />
       </Route>
       {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
@@ -57,8 +63,10 @@ function App() {
         }>
         <Route path="/dashboard" element={<Home />} />
         <Route path="/courses" element={<ManageCourses />} />
+        <Route path="/internships" element={<ManageInternship />} />
         <Route path="/postings" element={<ManagePosting />} />
         <Route path="/students" element={<ManageStudents />} />
+        <Route path="/admin_transaction" element={<AdminTransactions />} />
         <Route path="/admin-management" element={<AdminManagement />} />
       </Route>
       {/* ✅ Protected LayoutWithoutSidebar */}
@@ -73,8 +81,10 @@ function App() {
         <Route path="/courses/:courseId/subcategory/:subCategoryId/edit" element={<EditSubCategory />} />
         <Route path="/courses/:courseId/edit" element={<EditMainCourse />} />
         <Route path="/courses/:courseId/subcategory/add" element={<AddSubCategory />} />
-        <Route path="/postings/new" element={ <CreateInternshipOffer /> } />
-        <Route path="/postings/edit/:internshipId" element={<EditInternshipOffer />} />
+        <Route path="/internships/new" element={ <CreateInternshipOffer /> } />
+        <Route path="/internships/edit/:internshipId" element={<EditInternshipOffer />} />
+        <Route path="/postings/new" element={ <CreateJobPosting /> } />
+        <Route path="/postings/edit/:jobId" element={<EditJobPosting />} />
       </Route>
 
       {/* Student Dashboard */}
@@ -86,7 +96,7 @@ function App() {
         }
         >
           <Route path="/student/dashboard" element={<UserDashboard />} />
-          <Route path="/student/courses" element={<SavedCourse />} />
+          <Route path="/student/courses" element={<YourCourse />} />
           <Route path="/student/jobs" element={<AppliedJobs />} />
           <Route path="/student/internships" element={<AppliedInternships />} />
           <Route path="/student/certificates" element={<Certificates />} />

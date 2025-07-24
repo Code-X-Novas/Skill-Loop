@@ -5,29 +5,37 @@ import { TbChecklist } from "react-icons/tb";
 import { LuBookMarked } from "react-icons/lu";
 import { TbTransactionRupee } from "react-icons/tb";
 import { PiSquaresFourBold } from "react-icons/pi";
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { signOut } from "firebase/auth";
+import { setAuthUser } from "../../redux/authSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { auth } from "../../firebase/FirebaseConfig";
 
 const StudentSidebar = ({closeSidebar}) => {
   const location = useLocation();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const menuItems = [
     { path: '/student/dashboard', label: 'Dashboard', icon: <PiSquaresFourBold size={18} /> },
-    { path: '/student/courses', label: 'Saved Course', icon: <LuBookMarked size={18} /> },
+    { path: '/student/courses', label: 'Your Courses', icon: <LuBookMarked size={18} /> },
     { path: '/student/jobs', label: 'Applied Jobs', icon: <TbShoppingBagSearch size={18} /> },
     { path: '/student/internships', label: 'Applied Internships', icon: <TbChecklist size={18} /> },
     { path: '/student/certificates', label: 'Certificates', icon: <TbCertificate size={18} /> },
     { path: '/student/transactions', label: 'Transaction', icon: <TbTransactionRupee size={18} /> },
   ];
 
-  const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            dispatch(setAuthUser(null));
-            toast.success("Logged out successfully");
-        } catch {
-            toast.error("Logout failed");
-        }
-    };
+const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      dispatch(setAuthUser(null));
+      navigate('/')
+      toast.success("Logged out successfully");
+    } catch (err) {
+      toast.error("Logout failed");
+    }
+  };
 
   return (
     <div className="h-screen fixed top-0 w-64 bg-white px-4 py-6 flex flex-col justify-start border-r border-[#00000033] font-medium text-sm">
@@ -62,7 +70,7 @@ const StudentSidebar = ({closeSidebar}) => {
             </Link>
             <button
                 onClick={handleLogout}
-                className="flex items-center gap-3 px-6 py-2 rounded-full text-red-600 hover:bg-red-50 transition-all"
+                className="flex items-center gap-3 px-6 py-2 rounded-full text-red-600 cursor-pointer hover:bg-red-50 transition-all"
             >
                 Logout
             </button>

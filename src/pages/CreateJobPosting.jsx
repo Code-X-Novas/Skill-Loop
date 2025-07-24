@@ -10,49 +10,46 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { fireDB } from '../firebase/FirebaseConfig';
 import { toast } from 'react-toastify';
 
-const CreateInternshipOffer = () => {
+const CreateJobPosting = () => {
   const navigate = useNavigate();
 
-  const [internshipName, setInternshipName] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
-  const [duration, setDuration] = useState('');
-  const [stipendMin, setStipendMin] = useState('');
-  const [stipendMax, setStipendMax] = useState('');
+  const [jobType, setJobType] = useState('Full-Time'); // or Part-Time, Contract, etc.
+  const [salaryMin, setSalaryMin] = useState('');
+  const [salaryMax, setSalaryMax] = useState('');
   const [companyName, setCompanyName] = useState('');
   const [companyLogo, setCompanyLogo] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
-  const [place, setPlace] = useState('Remote');
-  const [googleFormLink, setGoogleFormLink] = useState('');
-  const [capacity, setCapacity] = useState(1); // capacity of interns
+  const [location, setLocation] = useState('Remote');
+  const [applicationLink, setApplicationLink] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const internshipRef = doc(collection(fireDB, 'internships'));
-      await setDoc(internshipRef, {
-        internshipName,
+      const jobRef = doc(collection(fireDB, 'jobOpenings'));
+      await setDoc(jobRef, {
+        title: jobTitle,
         description,
         startDate,
-        duration,
-        // stipendRange: `Rs.${stipendMin} to Rs.${stipendMax}`,
-        MinStipend : stipendMin,
-        MaxStipend : stipendMax,
+        jobType,
+        MinSalary: salaryMin,
+        MaxSalary: salaryMax,
         company: {
           name: companyName,
           logo: companyLogo,
           address: companyAddress,
         },
-        place,
-        googleFormLink,
-        capacity: Number(capacity),
-        enrolledInterns: [],
+        location,
+        applicationLink,
+        applicants: [],
       });
 
-      toast.success('Internship offer created!');
+      toast.success('Job posting created!');
       navigate('/postings');
     } catch (error) {
-      console.error('Error creating internship:', error);
+      console.error('Error creating job posting:', error);
       toast.error('Error: ' + error.message);
     }
   };
@@ -67,11 +64,11 @@ const CreateInternshipOffer = () => {
             <li className="px-6 py-3 hover:bg-orange-200 cursor-pointer flex items-center gap-2">
               <LuArrowUpFromLine /> Manage Postings
             </li>
-            <li className="px-6 py-3 bg-orange-300 font-medium">Add new Internship</li>
+            <li className="px-6 py-3 bg-orange-300 font-medium">Add New Job</li>
           </ul>
         </nav>
         <button
-          onClick={() => navigate('/internships')}
+          onClick={() => navigate('/postings')}
           className="mt-auto px-6 py-3 text-left flex items-center gap-2"
         >
           <FaArrowLeft /> Back
@@ -81,14 +78,14 @@ const CreateInternshipOffer = () => {
       {/* Main Form */}
       <div className="ml-64 flex-1 p-10 bg-white overflow-y-auto">
         <h1 className="text-2xl font-semibold text-center mb-8">
-          Create a New Internship Offer
+          Create a New Job Posting
         </h1>
 
         <form className="space-y-8 max-w-4xl mx-auto" onSubmit={handleSubmit}>
           <InputField
-            label="Internship Name *"
-            value={internshipName}
-            onChange={(e) => setInternshipName(e.target.value)}
+            label="Job Title *"
+            value={jobTitle}
+            onChange={(e) => setJobTitle(e.target.value)}
             type="text"
             required
           />
@@ -108,26 +105,35 @@ const CreateInternshipOffer = () => {
             required
           />
 
-          <InputField
-            label="Duration (e.g., 3 months)"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-            type="text"
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Job Type *
+            </label>
+            <select
+              value={jobType}
+              onChange={(e) => setJobType(e.target.value)}
+              className="w-full border border-gray-300 rounded px-4 py-2"
+              required
+            >
+              <option value="Full-Time">Full-Time</option>
+              <option value="Part-Time">Part-Time</option>
+              <option value="Contract">Contract</option>
+              <option value="Internship">Internship</option>
+            </select>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <InputField
-              label="Minimum Stipend (Rs.)"
-              value={stipendMin}
-              onChange={(e) => setStipendMin(e.target.value)}
+              label="Minimum Salary (Rs.)"
+              value={salaryMin}
+              onChange={(e) => setSalaryMin(e.target.value)}
               type="number"
               required
             />
             <InputField
-              label="Maximum Stipend (Rs.)"
-              value={stipendMax}
-              onChange={(e) => setStipendMax(e.target.value)}
+              label="Maximum Salary (Rs.)"
+              value={salaryMax}
+              onChange={(e) => setSalaryMax(e.target.value)}
               type="number"
               required
             />
@@ -157,32 +163,25 @@ const CreateInternshipOffer = () => {
 
           <div>
             <label className="block text-sm font-medium mb-1">
-              Internship Place *
+              Job Location *
             </label>
             <select
-              value={place}
-              onChange={(e) => setPlace(e.target.value)}
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
               className="w-full border border-gray-300 rounded px-4 py-2"
               required
             >
               <option value="Remote">Remote</option>
-              <option value="In-Office">In-Office</option>
+              <option value="On-Site">On-Site</option>
+              <option value="Hybrid">Hybrid</option>
             </select>
           </div>
 
           <InputField
-            label="Google Form Link *"
-            value={googleFormLink}
-            onChange={(e) => setGoogleFormLink(e.target.value)}
+            label="Application Link *"
+            value={applicationLink}
+            onChange={(e) => setApplicationLink(e.target.value)}
             type="url"
-            required
-          />
-
-          <InputField
-            label="Total Intern Capacity *"
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-            type="number"
             required
           />
 
@@ -200,4 +199,4 @@ const CreateInternshipOffer = () => {
   );
 };
 
-export default CreateInternshipOffer;
+export default CreateJobPosting;

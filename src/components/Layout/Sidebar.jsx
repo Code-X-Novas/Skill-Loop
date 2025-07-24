@@ -1,21 +1,29 @@
 import React from 'react';
 import { GoHome } from "react-icons/go";
 import { BiSolidArrowFromBottom } from "react-icons/bi";
-import { TbShoppingBagSearch } from "react-icons/tb";
+import { TbShoppingBagSearch, TbTransactionRupee } from "react-icons/tb";
 import { IoMdPerson } from "react-icons/io";
 import { MdLogout, MdSupervisorAccount } from "react-icons/md";
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/FirebaseConfig';
+import { setAuthUser } from '../../redux/authSlice';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
   const location = useLocation();
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const menuItems = [
     { path: '/dashboard', label: 'Home', icon: <GoHome /> },
     { path: '/courses', label: 'Manage Courses', icon: <BiSolidArrowFromBottom /> },
+    { path: '/internships', label: 'Manage Internships', icon: <TbShoppingBagSearch /> },
     { path: '/postings', label: 'Manage Postings', icon: <TbShoppingBagSearch /> },
     { path: '/students', label: 'Manage Students', icon: <IoMdPerson /> },
+    { path: '/admin_transaction', label: 'Transaction', icon: <TbTransactionRupee /> },
   ];
 
   // Add Admin Management only for super admin
@@ -26,6 +34,18 @@ const Sidebar = () => {
       icon: <MdSupervisorAccount />
     });
   }
+
+
+  const handleLogout = async () => {
+      try {
+        await signOut(auth);
+        dispatch(setAuthUser(null));
+        navigate('/')
+        toast.success("Logged out successfully");
+      } catch (err) {
+        toast.error("Logout failed");
+      }
+    };
 
   return (
     <div className="h-screen w-64 bg-orange-200 text-black py-6 flex flex-col justify-between rounded-2xl sidebar-shadow font-semibold">
@@ -57,7 +77,7 @@ const Sidebar = () => {
 
       <div className="px-6">
         <Link
-          to="/logout"
+          onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all"
         >
           <MdLogout />
