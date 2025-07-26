@@ -8,11 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Internships() {
   const [internshipData, setInternshipData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
-
-  const handleViewAllClick = () => {
-    navigate("/internships");
-  };
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchInternships = async () => {
@@ -36,7 +32,7 @@ function Internships() {
 
  const handleViewAll = () => {
     navigate('/internship');
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   };
 
   return (

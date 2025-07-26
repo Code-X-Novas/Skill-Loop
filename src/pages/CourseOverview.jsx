@@ -44,6 +44,9 @@ const CourseOverview = () => {
 
   const [showCertGen, setShowCertGen] = useState(false);
 
+  const [isBuffering, setIsBuffering] = useState(false);
+const [videoError, setVideoError] = useState(false);
+
   const rpay = "4386 2894 0766 0153"
 
   const videoRef = useRef(null);
@@ -482,6 +485,90 @@ const handleBuyNow = async () => {
     </div>
   )}
 </div>
+
+{/* <div className="relative w-full max-h-[400px]">
+  {isBought ? (
+    <>
+      <video
+        ref={videoRef}
+        src={subCourse.videoUrl}
+        className="w-full h-full object-cover rounded-lg"
+        controls
+        controlsList="nodownload"
+        onWaiting={() => setIsBuffering(true)}
+        onPlaying={() => setIsBuffering(false)}
+        onError={() => setVideoError(true)}
+      />
+
+     
+      {isBuffering && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
+          <svg
+            className="animate-spin h-12 w-12 text-orange-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v8H4z"
+            ></path>
+          </svg>
+        </div>
+      )}
+
+   
+      {!isPlaying && !isBuffering && !videoError && (
+        <div
+          onClick={handlePlayVideo}
+          className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg cursor-pointer"
+        >
+          <img
+            src={subCourse.subThumbnail}
+            alt="Course Thumbnail"
+            className="w-full h-full object-cover rounded-lg"
+          />
+          <button className="absolute text-white text-3xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 px-6 py-3 rounded-full shadow-lg hover:scale-105 transition">
+            ▶️ Play Video
+          </button>
+        </div>
+      )}
+
+   
+      {videoError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/70 rounded-lg text-white text-center p-4">
+          <p>
+            ⚠️ Sorry! This video cannot be played right now.<br />
+            Please contact support.
+          </p>
+        </div>
+      )}
+    </>
+  ) : (
+    <div className="relative">
+      <img
+        src={subCourse.subThumbnail}
+        alt="Locked Course"
+        className="w-full h-full object-cover rounded-lg"
+      />
+      <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center rounded-lg">
+        <CiLock className="text-4xl text-white mb-2" />
+        <p className="text-white font-semibold">
+          Buy this course to unlock the video
+        </p>
+      </div>
+    </div>
+  )}
+</div> */}
 
 
             <div className="flex flex-wrap mt-6 font-semibold gap-4">

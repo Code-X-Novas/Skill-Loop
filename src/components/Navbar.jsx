@@ -135,10 +135,15 @@ function Navbar() {
 
           {/* Desktop Nav */}
           <ul className="hidden lg:flex space-x-8 items-center">
+            {/* <li><a href="/" className="text-sm">Home</a></li> */}
             <li><NavLink to="/" className="text-sm">Home</NavLink></li>
+            {/* <li><a href="/coursedetail" className="text-sm">Courses</a></li> */}
             <li><NavLink to="/coursedetail" className="text-sm">Courses</NavLink></li>
-            <li><NavLink to="/internships" className="text-sm">Internship</NavLink></li>
+            {/* <li><a href="/internship" className="text-sm">Internship</a></li> */}
+            <li><NavLink to="/internship" className="text-sm">Internship</NavLink></li>
+            {/* <li><a href="/jobopenings" className="text-sm">Job Openings</a></li> */}
             <li><NavLink to="/jobopenings" className="text-sm">Job Openings</NavLink></li>
+            {/* <li><a href="/contact" className="text-sm">Contact</a></li> */}
             <li><NavLink to="/contact" className="text-sm">Contact</NavLink></li>
           </ul>
 

@@ -1,3 +1,4 @@
+
 import { Search, MapPin } from 'lucide-react';
 
 export function InternshipHeader() {

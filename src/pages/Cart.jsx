@@ -4,13 +4,14 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { AiFillDelete } from "react-icons/ai";
-import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, arrayUnion, setDoc, collection } from 'firebase/firestore';
 import { fireDB } from '../firebase/FirebaseConfig';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { setAuthUser } from '../redux/authSlice.js'; // ✅ Use setAuthUser, NOT setCart
 import Loading from '../components/Loader';
 import { useNavigate } from 'react-router-dom';
+import { sendEmail } from '../utils/sendEmail.jsx';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -107,6 +108,112 @@ useEffect(() => {
   const tax = 40;
   const total = subtotal - discount + tax;
 
+// const handleCartBuyNow = async () => {
+//   if (!user) {
+//     toast.error("Please login first");
+//     navigate("/");
+//     return;
+//   }
+
+//   if (user.role === "admin") {
+//     toast.error("Admins cannot purchase courses");
+//     return;
+//   }
+
+//   if (cartItems.length === 0) {
+//     toast.error("Your cart is empty!");
+//     return;
+//   }
+
+//   try {
+//     const totalAmount = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+//     const orderOptions = {
+//       key: "rzp_test_bEgUYtg6yXPfNV",
+//       amount: parseInt(totalAmount * 100),
+//       currency: "INR",
+//       name: "SkillLoop",
+//       description: `Purchase: ${cartItems.length} courses`,
+//       order_receipt: `order_rcptid_${user.name}`,
+//       handler: async function (response) {
+//         const paymentId = response.razorpay_payment_id;
+//         const timestamp = new Date().toISOString();
+//         const userRef = doc(fireDB, "users", user.uid);
+
+//         const purchasedCourses = cartItems.map((item) => ({
+//           courseId: item.courseId,
+//           subCourseId: item.subCourseId,
+//           title: item.title,
+//           level: item.level,
+//           price: item.price,
+//           image: item.image,
+//           paymentId,
+//           purchasedAt: timestamp,
+//         }));
+
+//         const batchUpdates = cartItems.map((item) => {
+//           const subCourseRef = doc(
+//             fireDB,
+//             "courses",
+//             item.courseId,
+//             "subCategories",
+//             item.subCourseId
+//           );
+//           return updateDoc(subCourseRef, {
+//             enrolledStudents: arrayUnion({
+//               uid: user.uid,
+//               email: user.email,
+//               name: user.name,
+//               photoURL: user.photoURL,
+//               purchasedAt: timestamp,
+//             }),
+//           });
+//         });
+
+//         try {
+//           await Promise.all(batchUpdates);
+
+//           await updateDoc(userRef, {
+//             yourCourses: arrayUnion(...purchasedCourses),
+//             cart: [],
+//           });
+
+//           dispatch(
+//             setAuthUser({
+//               ...user,
+//               yourCourses: user.yourCourses
+//                 ? [...user.yourCourses, ...purchasedCourses]
+//                 : [...purchasedCourses],
+//               cart: [],
+//             })
+//           );
+
+//           toast.success("Payment successful! Courses unlocked.");
+//           setTimeout(() => navigate("/coursedetail"), 200);
+//         } catch (err) {
+//           console.error(err);
+//           toast.error("Something failed when saving your purchase.");
+//         }
+//       },
+//       theme: {
+//         color: "#D35244",
+//       },
+//     };
+
+//     const razorpay = new window.Razorpay(orderOptions);
+//     razorpay.open();
+//   } catch (error) {
+//     console.error(error);
+//     toast.error("Payment initiation failed");
+//   }
+// };
+
+
+
+
+
+
+
 const handleCartBuyNow = async () => {
   if (!user) {
     toast.error("Please login first");
@@ -136,7 +243,10 @@ const handleCartBuyNow = async () => {
       order_receipt: `order_rcptid_${user.name}`,
       handler: async function (response) {
         const paymentId = response.razorpay_payment_id;
+        const orderId = response.razorpay_order_id || null;
+        const signature = response.razorpay_signature || null;
         const timestamp = new Date().toISOString();
+
         const userRef = doc(fireDB, "users", user.uid);
 
         const purchasedCourses = cartItems.map((item) => ({
@@ -150,7 +260,8 @@ const handleCartBuyNow = async () => {
           purchasedAt: timestamp,
         }));
 
-        const batchUpdates = cartItems.map((item) => {
+        // ➜ Create batch updates for all subcourses
+        const updates = cartItems.map(async (item) => {
           const subCourseRef = doc(
             fireDB,
             "courses",
@@ -158,41 +269,68 @@ const handleCartBuyNow = async () => {
             "subCategories",
             item.subCourseId
           );
-          return updateDoc(subCourseRef, {
+
+          // Add student
+          await updateDoc(subCourseRef, {
             enrolledStudents: arrayUnion({
               uid: user.uid,
               email: user.email,
               name: user.name,
+              contact: user.contact,
               photoURL: user.photoURL,
+              paymentId,
               purchasedAt: timestamp,
             }),
           });
+
+          // ➜ Create transaction for this subcourse
+          const transactionRef = doc(collection(fireDB, "transactions"));
+          const transaction = {
+            uid: user.uid,
+            userName: user.name,
+            userEmail: user.email,
+            userContact: user.contact,
+            courseId: item.courseId,
+            subCourseId: item.subCourseId,
+            courseTitle: item.title,
+            pricePaid: item.price,
+            paymentId: paymentId,
+            paymentStatus: "SUCCESS",
+            paidAt: timestamp,
+            gateway: "Razorpay",
+            razorpay_order_id: orderId,
+            razorpay_signature: signature,
+            bank: null,
+            method: null,
+          };
+          await setDoc(transactionRef, transaction);
+
+          // ➜ Send email for each purchased course
+          await sendEmail(transaction);
         });
 
-        try {
-          await Promise.all(batchUpdates);
+        // Wait for all Firestore writes + emails
+        await Promise.all(updates);
 
-          await updateDoc(userRef, {
-            yourCourses: arrayUnion(...purchasedCourses),
+        // ✅ Update user doc: clear cart, add courses
+        await updateDoc(userRef, {
+          yourCourses: arrayUnion(...purchasedCourses),
+          cart: [],
+        });
+
+        // ✅ Update auth state in Redux
+        dispatch(
+          setAuthUser({
+            ...user,
+            yourCourses: user.yourCourses
+              ? [...user.yourCourses, ...purchasedCourses]
+              : [...purchasedCourses],
             cart: [],
-          });
+          })
+        );
 
-          dispatch(
-            setAuthUser({
-              ...user,
-              yourCourses: user.yourCourses
-                ? [...user.yourCourses, ...purchasedCourses]
-                : [...purchasedCourses],
-              cart: [],
-            })
-          );
-
-          toast.success("Payment successful! Courses unlocked.");
-          setTimeout(() => navigate("/coursedetail"), 200);
-        } catch (err) {
-          console.error(err);
-          toast.error("Something failed when saving your purchase.");
-        }
+        toast.success("Payment successful! Courses unlocked.");
+        navigate("/coursedetail");
       },
       theme: {
         color: "#D35244",

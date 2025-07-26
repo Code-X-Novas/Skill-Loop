@@ -14,12 +14,14 @@ import { fireDB } from '../firebase/FirebaseConfig';
 import { toast } from 'react-toastify';
 import { LuArrowUpFromLine } from 'react-icons/lu';
 import Loading from '../components/Loader';
+import { Loader } from 'lucide-react';
 
 const EditSubCategory = () => {
   const navigate = useNavigate();
   const { courseId, subCategoryId } = useParams();
 
   const [loading, setLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   // Fields for subcategory
   const [videoUrl, setVideoUrl] = useState('');
@@ -73,11 +75,13 @@ const EditSubCategory = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setButtonLoading(true);
+
     try {
-      // ✅ Final video: URL or uploaded file
       const finalVideoPath = videoUrl || uploadedVideo;
       if (!finalVideoPath) {
         toast.error('Please provide either a video URL or upload a video file.');
+        setButtonLoading(false);
         return;
       }
 
@@ -105,6 +109,8 @@ const EditSubCategory = () => {
     } catch (error) {
       console.error(error);
       toast.error('Update failed: ' + error.message);
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -139,22 +145,8 @@ const EditSubCategory = () => {
 
         <form className="space-y-8 max-w-4xl mx-auto" onSubmit={handleUpdate}>
           <h2 className="text-xl font-semibold">Update Video</h2>
-          <InputField
-            label="Video URL"
-            value={videoUrl}
-            onChange={(e) => {
-              setVideoUrl(e.target.value);
-              if (e.target.value) {
-                setUploadedVideo('');
-              }
-            }}
-            type="text"
-            placeholder="https://yourvideo.com/video.mp4"
-            disabled={uploadedVideo !== ''}
-          />
-
           <UploadBox
-            label="Or Upload Video File"
+            label="Upload Video File"
             id="uploadVideoFile"
             onUpload={(url) => {
               setUploadedVideo(url);
@@ -221,9 +213,13 @@ const EditSubCategory = () => {
           <div className="flex justify-center pt-6">
             <button
               type="submit"
-              className="px-6 py-2 border border-gray-400 bg-gray-100 hover:bg-gray-200 rounded"
+              className="px-6 py-2 flex items-center gap-2 border cursor-pointer border-gray-400 bg-gray-100 hover:bg-gray-200 rounded disabled:opacity-50"
+              disabled={buttonLoading}
             >
-              Update Subcategory
+              {buttonLoading && (
+                <Loader className="w-5 h-5 animate-spin text-gray-600" />
+              )}
+              {buttonLoading ? 'Updating...' : 'Update Subcategory'}
             </button>
           </div>
         </form>

@@ -6,12 +6,11 @@ import Loading from "../components/Loader.jsx";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
 import { InternshipHeader } from "../components/InternshipHeader.jsx";
-import JobCardComponent from "../components/JobCardComponent.jsx"
-import { InternshipSidebar } from "../components/Layout/InternshipSidebar.jsx"
-import InternshipCardComponent from "../components/InternshipCardComponent.jsx"
 
 const initialFilters = {
   types: [
+    { label: "Full Time", checked: false },
+    { label: "Part Time", checked: false },
     { label: "Remote", checked: false },
     { label: "Paid", checked: false },
     { label: "Unpaid", checked: false },

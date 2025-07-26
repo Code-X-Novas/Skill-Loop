@@ -1,79 +1,79 @@
-
 import React, { useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlusCircle, FaCheckCircle } from 'react-icons/fa';
 import { IoCloseCircle } from 'react-icons/io5';
 import { toast } from 'react-toastify';
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from '../../firebase/FirebaseConfig';
+import { Loader } from 'lucide-react';
 
 const UploadBox = ({ label, id, onUpload, accept = 'image/*,video/*' }) => {
   const [previewUrl, setPreviewUrl] = useState('');
   const [fileType, setFileType] = useState('');
   const [progress, setProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false); // ✅ New state
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // ✅ Validate type
     const validTypes = ['image/', 'video/'];
     const isValid = validTypes.some((type) => file.type.startsWith(type));
     if (!isValid) {
-      alert('Please select a valid image or video file.');
+      toast.error('Please select a valid image or video file.');
       return;
     }
 
-    // ✅ Preview + store type
     const localUrl = URL.createObjectURL(file);
     setPreviewUrl(localUrl);
     setFileType(file.type);
+    setIsUploading(true);
+    setIsUploaded(false); // Reset uploaded state
 
-    // ✅ Upload
     try {
-      const uploadedUrl = await uploadToCloudinary(file, setProgress);
-      onUpload(uploadedUrl);
-      toast.success("uploaded successfully")
+      const storageRef = ref(storage, `uploads/${Date.now()}_${file.name}`);
+
+      const metadata = {
+        contentType: file.type,
+        contentDisposition: 'inline',
+      };
+
+      const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const percent = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          setProgress(percent);
+        },
+        (error) => {
+          console.error(error);
+          toast.error('Upload failed.');
+          setIsUploading(false);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          onUpload(downloadURL);
+          toast.success("Uploaded successfully!");
+          setIsUploading(false);
+          setIsUploaded(true); // ✅ Mark as uploaded
+          setProgress(0); // ✅ Clear progress
+        }
+      );
     } catch (err) {
       console.error('Upload failed', err);
       toast.error('Upload failed.');
+      setIsUploading(false);
     }
-  };
-
-  const uploadToCloudinary = (file, setProgress) => {
-    return new Promise((resolve, reject) => {
-      const url = `https://api.cloudinary.com/v1_1/dfhrlgaxw/upload`;
-      const xhr = new XMLHttpRequest();
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'my_unsigned_upload');
-
-      xhr.open('POST', url);
-
-      xhr.upload.addEventListener('progress', (e) => {
-        if (e.lengthComputable) {
-          const percent = Math.round((e.loaded * 100) / e.total);
-          setProgress(percent);
-        }
-      });
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          const res = JSON.parse(xhr.responseText);
-          resolve(res.secure_url);
-        } else {
-          reject(new Error('Upload failed.'));
-        }
-      };
-
-      xhr.onerror = () => reject(new Error('Upload failed.'));
-
-      xhr.send(formData);
-    });
   };
 
   const handleRemove = () => {
     setPreviewUrl('');
     setFileType('');
     setProgress(0);
-    onUpload(''); // Clear in parent too
+    setIsUploading(false);
+    setIsUploaded(false); // Reset uploaded state
+    onUpload('');
   };
 
   const isImage = fileType.startsWith('image/');
@@ -86,9 +86,23 @@ const UploadBox = ({ label, id, onUpload, accept = 'image/*,video/*' }) => {
         <label htmlFor={id} className="cursor-pointer w-full h-full flex items-center justify-center">
           {previewUrl ? (
             isImage ? (
-              <img src={previewUrl} alt="preview" className="max-h-48 object-contain rounded" />
+              <div className="relative">
+                <img src={previewUrl} alt="preview" className="max-h-48 object-contain rounded" />
+                {isUploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                    <Loader className="animate-spin w-10 h-10 text-white" />
+                  </div>
+                )}
+              </div>
             ) : (
-              <video src={previewUrl} controls className="max-h-48 object-contain rounded" />
+              <div className="relative">
+                <video src={previewUrl} controls className="max-h-48 object-contain rounded" />
+                {isUploading && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40">
+                    <Loader className="animate-spin w-10 h-10 text-white" />
+                  </div>
+                )}
+              </div>
             )
           ) : (
             <div className="w-[250px] h-[160px] bg-[#eae8e8] flex items-center justify-center rounded">
@@ -107,12 +121,24 @@ const UploadBox = ({ label, id, onUpload, accept = 'image/*,video/*' }) => {
           </button>
         )}
 
-        {progress > 0 && progress < 100 && (
-          <div className="w-full bg-gray-200 rounded h-2 mt-2">
-            <div
-              className="bg-green-500 h-2 rounded"
-              style={{ width: `${progress}%` }}
-            ></div>
+        {/* ✅ Show progress while uploading */}
+        {progress > 0 && isUploading && (
+          <div className="w-full flex flex-col gap-1 mt-2">
+            <div className="w-full bg-gray-200 rounded h-2 overflow-hidden">
+              <div
+                className="h-2 rounded bg-gradient-to-b from-orange-300 to-orange-400 transition-all duration-300 ease-in-out"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <span className="text-xs text-gray-700 font-medium text-center">Uploading... {progress}%</span>
+          </div>
+        )}
+
+        {/* ✅ Show success message after upload */}
+        {isUploaded && (
+          <div className="flex items-center gap-2 text-green-600 mt-2">
+            <FaCheckCircle className="text-xl" />
+            <span className="text-sm font-medium">Upload Successful!</span>
           </div>
         )}
 
@@ -129,4 +155,3 @@ const UploadBox = ({ label, id, onUpload, accept = 'image/*,video/*' }) => {
 };
 
 export default UploadBox;
-
