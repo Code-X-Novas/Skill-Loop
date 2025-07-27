@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 
 function WhySkillLoop() {
     return (
-        <section className="min-h-screen lg:p-16 md:p-8 p-4 md:-mt-16 mt-4  relative overflow-hidden">
+        <section className=" lg:p-16 md:p-8 p-4 md:-mt-16 mt-4  relative overflow-hidden">
             <motion.h1 
                 initial={{ opacity: 0, x: -30, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.9 }}
-                className="md:text-5xl text-4xl font-semibold text-left mb-8">Why SkillLoop ?
+                className="md:text-5xl text-4xl font-semibold text-left lg:mb-8 lg:my-0 my-8">Why SkillLoop ?
             </motion.h1>
             <div className="lg:grid lg:grid-cols-2 flex flex-col gap-4">
                 <motion.div 
@@ -70,12 +70,13 @@ function WhySkillLoop() {
                     </motion.div>
 
                 </motion.div>
+                
                 <motion.div
                     initial={{ opacity: 0, x: 100, y: 0 }}
                     whileInView={{ opacity: 1, x: [0, -20, 0], y: 0 }}
                     transition={{ duration: 1, ease: "easeOut" }}
                     viewport={{ once: true, amount: 0.1 }} 
-                    className="hidden lg:grid lg:grid-rows-2 max-h-[80vh] gap-4 justify-around relative">
+                    className="hidden lg:grid lg:grid-rows-2 xl:max-h-[80vh] gap-4 justify-around relative">
                     <img src="/why_img_1.svg" alt="Why SkillLoop" className="w-full h-full object-contain" />
                     <img src="/why_img_2.svg" alt="Why SkillLoop" className="w-full h-full object-contain" />
                 </motion.div>
