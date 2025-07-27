@@ -142,9 +142,8 @@ function Internships() {
                                             {internship.startDate ||
                                                 internship.postedDate}
                                         </span>
-                                        <span className="text-gray-700 font-semibold">
-                                            ₹{internship.MinStipend} - ₹
-                                            {internship.MaxStipend}
+                                        <span className="text-gray-700 text-[13px] font-semibold">
+                                            ₹{internship.MinStipend}
                                         </span>
                                     </div>
 
@@ -166,10 +165,7 @@ function Internships() {
                                                     {internship.company?.name}
                                                 </p>
                                                 <p className="md:text-sm text-xs text-gray-500">
-                                                    {
-                                                        internship.company
-                                                            ?.address
-                                                    }
+                                                    {internship.company?.address || "Remote" }
                                                 </p>
                                             </div>
                                         </div>

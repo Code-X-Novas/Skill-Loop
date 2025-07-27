@@ -17,14 +17,20 @@ function JobOpenings() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const snapshot = await getDocs(
-                    collection(fireDB, "jobOpenings")
-                );
+                const snapshot = await getDocs(collection(fireDB, "jobOpenings"));
                 const jobsData = snapshot.docs.map((doc) => ({
                     id: doc.id,
                     ...doc.data(),
                 }));
-                setJobs(jobsData);
+
+                // Sort jobs: "ppo" titled jobs come first
+                const sortedJobs = jobsData.sort((a, b) => {
+                    const isA_PPO = a.title?.toLowerCase() === "ppo";
+                    const isB_PPO = b.title?.toLowerCase() === "ppo";
+                    return isB_PPO - isA_PPO; 
+                });
+
+                setJobs(sortedJobs);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching job openings:", error);
@@ -34,6 +40,7 @@ function JobOpenings() {
 
         fetchJobs();
     }, []);
+
 
     return (    
         <>  

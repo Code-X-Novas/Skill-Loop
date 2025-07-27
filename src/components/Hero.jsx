@@ -11,8 +11,10 @@ function Hero() {
                 transition={{ duration: 3, ease: "easeOut", times: [0, 0.5, 1] }}
                 className='absolute xl:top-20 lg:top-16 rotate-12 left-0 transform aspect-square w-screen h-screen z-0 lg:block hidden' 
             />
+            
             <div className='flex flex-col gap-8 justify-between h-full z-10 relative'>
 
+                {/* heading */}
                 <motion.h1
                     initial={{ opacity: 0, x: -100, y: 100 }}
                     animate={{ opacity: 1, x: 0, y: 0 }}
@@ -23,6 +25,7 @@ function Hero() {
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F4B860] to-[#D35244]">Lead Tomorrow</span>
                 </motion.h1>
 
+                {/* know more */}
                 <motion.a href="#about" 
                     initial={{ opacity: 0, x: -1000, y: 0 }}
                     animate={{ opacity: 1, x: 0, y: 0 }}
@@ -39,6 +42,7 @@ function Hero() {
 
                 </motion.a>
 
+                {/* 4 lines */}
                 <motion.section
                     initial={{ opacity: 0, x: 1000, y: 0 }}
                     animate={{ opacity: 1, x: [1000, -20, 0], y: 0 }}
@@ -60,7 +64,7 @@ function Hero() {
                 </motion.section>
             </div>
 
-            <div className="hidden md:grid md:grid-rows-3">
+            {/* <div className="hidden md:grid md:grid-rows-3">
                 <motion.div
                     initial={{ opacity: 0, x: 300, y: 300 }}
                     animate={{ opacity: [1, 1], x: [300, 0, 0], y: [300, 0 ,0], scale: [1, 1.2, 1] }}
@@ -94,7 +98,7 @@ function Hero() {
                         <p className="text-xs text-[#9D9D9F]">AI & Prompt Engineering</p>
                     </div>
                 </motion.div>
-            </div>
+            </div> */}
 
         </main>
     )

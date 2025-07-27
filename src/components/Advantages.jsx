@@ -28,7 +28,7 @@ const advantages = [
         id: 4,
         title: "Performance-Based Stipends",
         description:
-            "Earn while you learn — get ₹6,000 for meeting clear, achievable targets over two months.",
+            "Earn while you learn — get ₹10,000 for meeting clear, achievable targets over two months.",
         color: "#FF69B4",
     },
     {
@@ -59,6 +59,21 @@ const advantages = [
             "Whether you're a student or a fresher — start from scratch and build confidence step by step.",
         color: "#BA55D3",
     },
+    {
+        id: 9,
+        title: "Financial Independence",
+        description:
+            "A job empowers you to earn your own income, reducing dependence and giving control over your finances.",
+        color: "#4CAF50",
+    },
+    {
+        id: 10,
+        title: "Skill Development & Growth",
+        description:
+            "Gain real-world experience, enhance your skills, and grow both professionally and personally through challenges at work.",
+        color: "#2196F3",
+    }
+
 ];
 
 function AdvantageCarousel() {
@@ -93,7 +108,7 @@ function AdvantageCarousel() {
                 viewport={{ once: true, amount: 0.3 }}
                 className="md:text-5xl text-4xl font-semibold leading-tight w-full md:text-center text-left"
             >
-                Your Advantages
+                Our Advantages
             </motion.h1>
 
             {/* Navigation Buttons */}

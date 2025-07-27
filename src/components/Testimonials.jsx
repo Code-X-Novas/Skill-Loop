@@ -8,9 +8,9 @@ const testimonials = [
         role: "Advanced tier of Data Analytics",
         image: "/test1.png",
         text: `What I really liked was how this course pushed me to think like a business analyst. The integrated 
-dashboard project was very practical, and the case study on sales performance forced me to apply 
-everything — charts, KPIs, interpretation, and even recommendations. It felt more like a live assignment 
-than a tutorial. Definitely helped me during my internship presentations.`,
+            dashboard project was very practical, and the case study on sales performance forced me to apply 
+            everything — charts, KPIs, interpretation, and even recommendations. It felt more like a live assignment 
+            than a tutorial. Definitely helped me during my internship presentations.`,
     },
     {
         id: 2,
@@ -18,10 +18,10 @@ than a tutorial. Definitely helped me during my internship presentations.`,
         role: "AI & Prompt Engineering",
         image: "/test2.png",
         text: `"As a core engineer, I used to think AI was only for coders — this course proved me wrong. From basic 
-tools like ChatGPT and Copilot to building full AI-powered workflows, it made everything simple and 
-practical. A perfect upskilling path for any engineer looking to stay ahead. The tiered format helped me 
-grow step-by-step — from writing better prompts to solving real business problems. It’s not just a course, 
-it’s a career booster `,
+            tools like ChatGPT and Copilot to building full AI-powered workflows, it made everything simple and 
+            practical. A perfect upskilling path for any engineer looking to stay ahead. The tiered format helped me 
+            grow step-by-step — from writing better prompts to solving real business problems. It’s not just a course, 
+            it’s a career booster `,
     },
     {
         id: 3,
@@ -29,8 +29,8 @@ it’s a career booster `,
         role: "AI & Prompt Engineering",
         image: "/test3.png",
         text: `Before this course, AI felt like a buzzword reserved for tech experts. But SkillLoop’s AI for Engineers 
-broke it down brilliantly. From prompt writing to using AI in real-world tasks like reporting and decisionmaking — everything felt relevant and doable. It’s the kind of course that doesn’t just teach you tools, it 
-changes how you work.`,
+            broke it down brilliantly. From prompt writing to using AI in real-world tasks like reporting and decisionmaking — everything felt relevant and doable. It’s the kind of course that doesn’t just teach you tools, it 
+            changes how you work.`,
     },
     {
         id: 4,
@@ -38,10 +38,10 @@ changes how you work.`,
         role: "MARKETING INTERN SOCIAL MEDIA MANAGER",
         image: "/test4.png",
         text: `Receiving a PPO from SkillLoop was a proud milestone that reflected the growth I experienced 
-throughout the internship. It wasn’t just about completing tasks — it was about building leadership, time 
-management, and strategic thinking skills. With constant mentor support and a culture that encouraged 
-initiative, I evolved from a learner to a confident professional, fully prepared not just for interviews, but 
-for real-world challenges.`,
+            throughout the internship. It wasn’t just about completing tasks — it was about building leadership, time 
+            management, and strategic thinking skills. With constant mentor support and a culture that encouraged 
+            initiative, I evolved from a learner to a confident professional, fully prepared not just for interviews, but 
+            for real-world challenges.`,
     },
     {
         id: 5,
@@ -49,9 +49,9 @@ for real-world challenges.`,
         role: "HR INTERN",
         image: "/test5.png",
         text: `"My internship at SkillLoop was an eye-opener. From day one, I was given real responsibilities and 
-exposure to actual corporate-style operations. The training, support, and weekly tasks helped me grow 
-professionally and personally. I gained hands-on experience in HR coordination and team management, 
-which I can proudly reflect on in future interviews. It was truly a rewarding journey!`,
+            exposure to actual corporate-style operations. The training, support, and weekly tasks helped me grow 
+            professionally and personally. I gained hands-on experience in HR coordination and team management, 
+            which I can proudly reflect on in future interviews. It was truly a rewarding journey!`,
     },
     {
         id: 6,
@@ -59,10 +59,66 @@ which I can proudly reflect on in future interviews. It was truly a rewarding jo
         role: "MARKETING INTERN",
         image: "/test6.png",
         text: `My time as a Sales Intern at SkillLoop was filled with learning, challenges, and growth. From lead 
-generation to pitching and closing sales, I experienced the entire cycle hands-on. What stood out the most 
-was how SkillLoop trusted interns with real responsibilities — it pushed me to become more confident 
-and target-driven. The weekly reviews and performance feedback helped me improve quickly. I’d highly 
-recommend this to anyone looking to sharpen their sales and communication skills.`,
+            generation to pitching and closing sales, I experienced the entire cycle hands-on. What stood out the most 
+            was how SkillLoop trusted interns with real responsibilities — it pushed me to become more confident 
+            and target-driven. The weekly reviews and performance feedback helped me improve quickly. I’d highly 
+            recommend this to anyone looking to sharpen their sales and communication skills.`,
+    },
+    {
+        id: 7,
+        name: "NITYA LAMBA",
+        role: "SALES INTERN",
+        image: "/test7.png",
+        text: `My experience at SkillLoop as a Sales Intern was truly enriching. I learned the fundamentals of 
+            sales, improved my communication skills, and gained real-world exposure to lead conversion 
+            and client interaction. The supportive team and performance-driven environment made this 
+            internship both challenging and rewarding. It boosted my confidence and helped me develop a 
+            result-oriented mindset. I’m thankful for the opportunity and the guidance I received throughout 
+            the journey.`,
+    },
+    {
+        id: 8,
+        name: "ROHAN KAPOOR",
+        role: "SALES INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Rohan%20Kapoor&backgroundColor=f97316`,
+        text: `Interning at SkillLoop as a Sales Intern was an eye-opening experience. I gained hands-on 
+                exposure to lead generation, cold pitching, and effective communication. The performance-based 
+                structure kept me goal-focused and accountable. The mentorship from the team helped me 
+                overcome hesitation and build confidence in real-time client interaction. This internship truly 
+                enhanced my practical understanding of sales and teamwork.`,
+    },
+    {
+        id: 9,
+        name: "MEHAK ARORA",
+        role: "HR INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Mehak%20Arora&backgroundColor=f00f00`,
+        text: `Being an HR Intern at SkillLoop allowed me to dive into real-time tasks like recruitment, 
+            onboarding, and communication management. I gained clarity on how HR functions operate in a 
+            growing organization. The internship gave me a platform to work independently while receiving 
+            timely guidance when needed. It was a great mix of learning, responsibility, and exposure to 
+            professional ethics and HR workflows.`,
+    },
+    {
+        id: 10,
+        name: "ADITI SHARMA",
+        role: "SALES INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Aditi%20Sharma&backgroundColor=f973f6`,
+        text: `My internship journey at SkillLoop was extremely impactful. As a Sales Intern, I learned how to 
+            handle rejections, pitch effectively, and manage leads systematically. The supportive 
+            environment and regular performance tracking helped me stay consistent. I appreciated the 
+            freedom to improve at my own pace while still being held to clear targets. It’s an experience I’ll 
+            carry forward in my professional career.`,
+    },
+    {
+        id: 11,
+        name: "AYUSH IYER",
+        role: "MARKETING INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Ayush%20Iyer&backgroundColor=1d46f7`,
+        text: `My internship at SkillLoop as a Marketing Intern gave me meaningful insights into digital 
+            marketing, content planning, and campaign execution. I worked on real projects, explored market 
+            trends, and improved my creative thinking. The learning environment was fast-paced yet 
+            supportive. This role gave me the confidence to present ideas and contribute meaningfully to 
+            brand visibility and engagement.`,
     },
 ];
 

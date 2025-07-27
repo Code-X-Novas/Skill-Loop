@@ -4,7 +4,7 @@ function CourseCard({ title, description, image, isActive, id, slug }) {
     const navigate = useNavigate();
     return (
         <article
-            className="relative lg:w-[280px] md:w-[220px] w-[120px] lg:h-full md:h-[85%] h-[65%] rounded-2xl overflow-hidden text-white shadow-xl"
+            className="relative w-[280px] h-full rounded-2xl overflow-hidden text-white shadow-xl"
             style={{
                 backgroundImage: `url(${image})`,
                 backgroundSize: "cover",
@@ -17,7 +17,7 @@ function CourseCard({ title, description, image, isActive, id, slug }) {
                 {/* header */}
                 <div>
                     <h2
-                        className="lg:text-xl md:text-lg text-sm font-bold leading-tight mb-2"
+                        className="text-xl  font-bold leading-tight mb-2"
                         itemProp="name"
                     >
                         {title}
@@ -25,7 +25,7 @@ function CourseCard({ title, description, image, isActive, id, slug }) {
                     {/* <p className="font-semibold text-sm mb-2">{students} Students</p> */}
                     {isActive && (
                         <p
-                            className="lg:text-sm md:text-xs text-[10px] line-clamp-5 leading-snug"
+                            className="text-sm leading-snug"
                             itemProp="description"
                         >
                             {description}

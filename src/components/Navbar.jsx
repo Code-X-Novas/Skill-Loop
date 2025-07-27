@@ -108,6 +108,7 @@ function Navbar() {
                                 }
                                 alt="Profile"
                                 className="w-8 h-8 rounded-2xl object-cover"
+                                onClick={handleDashboard}
                             />
                         ) : (
                             " "

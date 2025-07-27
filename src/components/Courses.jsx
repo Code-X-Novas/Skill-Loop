@@ -142,7 +142,7 @@ const Courses = () => {
                     className="w-full px-4 flex flex-col items-center relative overflow-hidden"
                 >   
                     {/* card */}
-                    <div className="relative w-full max-w-6xl lg:h-[450px] md:h-[400px] h-[330px]">
+                    <div className="relative w-full max-w-6xl h-[450px]">
                         {courses.map((course, index) => {
                             let position = index - activeIndex;
 
@@ -163,7 +163,7 @@ const Courses = () => {
                                         zIndex: 10 - Math.abs(position),
                                         opacity,
                                         transition: "transform 0.5s, opacity 0.5s",
-                                        height: isActive ? "420px" : "350px",
+                                        height: isActive ? "420px" : "360px",
                                     }}
                                 >
                                     <CourseCard
@@ -189,7 +189,7 @@ const Courses = () => {
                     </div>
 
                     {/* Navigation */}
-                    <div className="flex items-center justify-center lg:mt-6 gap-6 z-10">
+                    <div className="flex items-center justify-center mt-6 gap-6 z-10">
                         <button
                             onClick={prev}
                             className="bg-white border-2 border-[#F9A825] hover:border-none text-orange-500 hover:bg-gradient-to-b hover:from-[#F4B860] hover:to-[#D35244] hover:text-white transition rounded-full w-10 h-10 flex items-center justify-center"
