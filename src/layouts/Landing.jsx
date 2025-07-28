@@ -9,7 +9,7 @@ import Openings from "./Openings";
 import Courses from "../components/Courses";
 
 function Landing() {
-    return (
+    return (    
         <>
             <Hero />
             <Info />

@@ -22,6 +22,7 @@ function Navbar() {
     const { user } = useSelector((store) => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const cartItems = user?.cart || [];
 
     const openSignInModal = () => {
         setAuthInitialView("signin");
@@ -94,53 +95,6 @@ function Navbar() {
                         className="h-16 w-16"
                     />
 
-                    {/* Hamburger menu - Mobile */}
-                    <button
-                        className="flex gap-3 lg:hidden"
-                        onClick={toggleMenu}
-                        aria-label="Toggle menu"
-                    >
-                        {user ? (
-                            <img
-                                src={
-                                    user?.photoURL ||
-                                    "https://imgs.search.brave.com/bWNFz9pFC1Ul5pZ7ql6Z9qc1cTlkBrZbXMdCTkoMqeY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3IvbWFuLWF2YXRh/ci1wcm9maWxlLXBp/Y3R1cmUtdmVjdG9y/LWlsbHVzdHJhdGlv/bl8yNjg4MzQtNTM4/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDA"
-                                }
-                                alt="Profile"
-                                className="w-8 h-8 rounded-2xl object-cover"
-                                onClick={handleDashboard}
-                            />
-                        ) : (
-                            " "
-                        )}
-
-                        <svg
-                            className={`w-8 h-8 ${
-                                isOpen ? "fixed z-50 right-4" : ""
-                            }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            {isOpen ? (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            ) : (
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            )}
-                        </svg>
-                    </button>
-
                     {/* Desktop Nav */}
                     <ul className="hidden lg:flex space-x-8 items-center">
                         {/* <li><a href="/" className="text-sm">Home</a></li> */}
@@ -175,14 +129,25 @@ function Navbar() {
                         </li>
                     </ul>
 
+                    {/* Auth and Cart */}
                     {user ? (
                         <div className="hidden lg:flex items-center space-x-4">
-                            <img
-                                src="/shopping.svg"
-                                onClick={() => navigate("/cart")}
-                                className="w-6 h-6 text-gray-700 cursor-pointer"
-                            />
-
+                            {/* Cart */}
+                            <div className="relative">
+                                <img
+                                    src="/shopping.svg"
+                                    onClick={() => navigate("/cart")}
+                                    className="w-6 h-6 text-gray-700 cursor-pointer"
+                                />
+                                {
+                                    cartItems.length > 0 && (
+                                        <span className="absolute -top-2 -right-1.5 animate-bounce bg-[#D35244] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                            {cartItems.length}
+                                        </span>
+                                    )}
+                            </div>
+                            
+                            {/* Profile Dropdown */}
                             <div ref={dropdownRef} className="relative">
                                 <div
                                     onClick={toggleProfileDropdown}
@@ -237,6 +202,73 @@ function Navbar() {
                             </button>
                         </div>
                     )}
+
+                    {/* Hamburger menu - Mobile */}
+                    <button
+                        className="flex gap-3 lg:hidden"
+                        
+                        aria-label="Toggle menu"
+                    >
+                        {user ? (
+                            <div className="flex items-center gap-4">
+                                {/* Cart icon with item count */}
+                                <div className="relative mt-1">
+                                    <img
+                                        src="/shopping.svg"
+                                        onClick={() => navigate("/cart")}
+                                        className="w-6 h-6 text-gray-700 cursor-pointer"
+                                    />
+                                    {
+                                        cartItems.length > 0 && (
+                                            <span className="absolute -top-2 -right-1.5 animate-bounce bg-[#D35244] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                                {cartItems.length}
+                                            </span>
+                                        )
+                                    }
+                                </div>
+
+                                {/* profile image */}
+                                <img
+                                    src={
+                                        user?.photoURL ||
+                                        "https://imgs.search.brave.com/bWNFz9pFC1Ul5pZ7ql6Z9qc1cTlkBrZbXMdCTkoMqeY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3IvbWFuLWF2YXRh/ci1wcm9maWxlLXBp/Y3R1cmUtdmVjdG9y/LWlsbHVzdHJhdGlv/bl8yNjg4MzQtNTM4/LmpwZz9zZW10PWFp/c19oeWJyaWQmdz03/NDA"
+                                    }
+                                    alt="Profile"
+                                    className="w-8 h-8 rounded-2xl object-cover"
+                                    onClick={handleDashboard}
+                                />
+                            </div>
+                        ) : (
+                            " "
+                        )}
+
+                        <svg
+                            className={`w-8 h-8 ${
+                                isOpen ? "fixed z-50 right-4" : ""
+                            }`}
+                            fill="none"
+                            onClick={toggleMenu}
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            {isOpen ? (
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            ) : (
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            )}
+                        </svg>
+                    </button>
 
                     {/* Mobile Menu */}
                     <AnimatePresence>
@@ -345,7 +377,8 @@ function Navbar() {
                                 />
                             </div>,
                             document.body
-                        )}
+                        )
+                    }
                 </div>
             </nav>
             <Outlet />

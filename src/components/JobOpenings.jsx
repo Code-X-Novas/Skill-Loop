@@ -25,8 +25,8 @@ function JobOpenings() {
 
                 // Sort jobs: "ppo" titled jobs come first
                 const sortedJobs = jobsData.sort((a, b) => {
-                    const isA_PPO = a.title?.toLowerCase() === "ppo";
-                    const isB_PPO = b.title?.toLowerCase() === "ppo";
+                    const isA_PPO = a.title?.toLowerCase() === "pre placement offer(ppo)";
+                    const isB_PPO = b.title?.toLowerCase() === "pre placement offer(ppo)";
                     return isB_PPO - isA_PPO; 
                 });
 

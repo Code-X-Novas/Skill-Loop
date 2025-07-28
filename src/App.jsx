@@ -37,6 +37,7 @@ import CreateJobPosting from "./pages/CreateJobPosting";
 import EditJobPosting from "./pages/EditJobPosting";
 import Internships from "./pages/Internships";
 import AdminTransactions from "./components/AdminTransaction";
+import Contact from "./pages/Contact";
 
 function App() {
     return (
@@ -62,6 +63,7 @@ function App() {
                     <Route path="/jobopenings" element={<JobOpenings />} />
                     <Route path="/internship" element={<Internships />} />
                     <Route path="/terms" element={<Terms />} />
+                    <Route path="/contact" element={<Contact />} />
                 </Route>
                 {/* <Route path="/adminsignin" element={<Navigate to="/dashboard" replace />} /> */}
 

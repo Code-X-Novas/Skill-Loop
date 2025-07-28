@@ -14,14 +14,14 @@ const testimonials = [
     },
     {
         id: 2,
-        name: "VARUN KUMAWAT",
-        role: "AI & Prompt Engineering",
-        image: "/test2.png",
-        text: `"As a core engineer, I used to think AI was only for coders — this course proved me wrong. From basic 
-            tools like ChatGPT and Copilot to building full AI-powered workflows, it made everything simple and 
-            practical. A perfect upskilling path for any engineer looking to stay ahead. The tiered format helped me 
-            grow step-by-step — from writing better prompts to solving real business problems. It’s not just a course, 
-            it’s a career booster `,
+        name: "AYUSH IYER",
+        role: "MARKETING INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Ayush%20Iyer&backgroundColor=1d46f7`,
+        text: `My internship at SkillLoop as a Marketing Intern gave me meaningful insights into digital 
+            marketing, content planning, and campaign execution. I worked on real projects, explored market 
+            trends, and improved my creative thinking. The learning environment was fast-paced yet 
+            supportive. This role gave me the confidence to present ideas and contribute meaningfully to 
+            brand visibility and engagement.`,
     },
     {
         id: 3,
@@ -34,17 +34,28 @@ const testimonials = [
     },
     {
         id: 4,
-        name: "RAVI MEENA",
-        role: "MARKETING INTERN SOCIAL MEDIA MANAGER",
-        image: "/test4.png",
-        text: `Receiving a PPO from SkillLoop was a proud milestone that reflected the growth I experienced 
-            throughout the internship. It wasn’t just about completing tasks — it was about building leadership, time 
-            management, and strategic thinking skills. With constant mentor support and a culture that encouraged 
-            initiative, I evolved from a learner to a confident professional, fully prepared not just for interviews, but 
-            for real-world challenges.`,
+        name: "VARUN KUMAWAT",
+        role: "AI & Prompt Engineering",
+        image: "/test2.png",
+        text: `"As a core engineer, I used to think AI was only for coders — this course proved me wrong. From basic 
+            tools like ChatGPT and Copilot to building full AI-powered workflows, it made everything simple and 
+            practical. A perfect upskilling path for any engineer looking to stay ahead. The tiered format helped me 
+            grow step-by-step — from writing better prompts to solving real business problems. It’s not just a course, 
+            it’s a career booster `,
     },
     {
         id: 5,
+        name: "ROHAN KAPOOR",
+        role: "SALES INTERN",
+        image: `https://api.dicebear.com/7.x/initials/svg?seed=Rohan%20Kapoor&backgroundColor=f97316`,
+        text: `Interning at SkillLoop as a Sales Intern was an eye-opening experience. I gained hands-on 
+                exposure to lead generation, cold pitching, and effective communication. The performance-based 
+                structure kept me goal-focused and accountable. The mentorship from the team helped me 
+                overcome hesitation and build confidence in real-time client interaction. This internship truly 
+                enhanced my practical understanding of sales and teamwork.`,
+    },
+    {
+        id: 6,
         name: "VAIBHAV TALREJA",
         role: "HR INTERN",
         image: "/test5.png",
@@ -52,17 +63,6 @@ const testimonials = [
             exposure to actual corporate-style operations. The training, support, and weekly tasks helped me grow 
             professionally and personally. I gained hands-on experience in HR coordination and team management, 
             which I can proudly reflect on in future interviews. It was truly a rewarding journey!`,
-    },
-    {
-        id: 6,
-        name: "GORI SHANKAR JANGID",
-        role: "MARKETING INTERN",
-        image: "/test6.png",
-        text: `My time as a Sales Intern at SkillLoop was filled with learning, challenges, and growth. From lead 
-            generation to pitching and closing sales, I experienced the entire cycle hands-on. What stood out the most 
-            was how SkillLoop trusted interns with real responsibilities — it pushed me to become more confident 
-            and target-driven. The weekly reviews and performance feedback helped me improve quickly. I’d highly 
-            recommend this to anyone looking to sharpen their sales and communication skills.`,
     },
     {
         id: 7,
@@ -78,17 +78,6 @@ const testimonials = [
     },
     {
         id: 8,
-        name: "ROHAN KAPOOR",
-        role: "SALES INTERN",
-        image: `https://api.dicebear.com/7.x/initials/svg?seed=Rohan%20Kapoor&backgroundColor=f97316`,
-        text: `Interning at SkillLoop as a Sales Intern was an eye-opening experience. I gained hands-on 
-                exposure to lead generation, cold pitching, and effective communication. The performance-based 
-                structure kept me goal-focused and accountable. The mentorship from the team helped me 
-                overcome hesitation and build confidence in real-time client interaction. This internship truly 
-                enhanced my practical understanding of sales and teamwork.`,
-    },
-    {
-        id: 9,
         name: "MEHAK ARORA",
         role: "HR INTERN",
         image: `https://api.dicebear.com/7.x/initials/svg?seed=Mehak%20Arora&backgroundColor=f00f00`,
@@ -99,7 +88,29 @@ const testimonials = [
             professional ethics and HR workflows.`,
     },
     {
+        id: 9,
+        name: "GORI SHANKAR JANGID",
+        role: "MARKETING INTERN",
+        image: "/test6.png",
+        text: `My time as a Sales Intern at SkillLoop was filled with learning, challenges, and growth. From lead 
+            generation to pitching and closing sales, I experienced the entire cycle hands-on. What stood out the most 
+            was how SkillLoop trusted interns with real responsibilities — it pushed me to become more confident 
+            and target-driven. The weekly reviews and performance feedback helped me improve quickly. I’d highly 
+            recommend this to anyone looking to sharpen their sales and communication skills.`,
+    },
+    {
         id: 10,
+        name: "RAVI MEENA",
+        role: "MARKETING INTERN SOCIAL MEDIA MANAGER",
+        image: "/test4.png",
+        text: `Receiving a PPO from SkillLoop was a proud milestone that reflected the growth I experienced 
+            throughout the internship. It wasn’t just about completing tasks — it was about building leadership, time 
+            management, and strategic thinking skills. With constant mentor support and a culture that encouraged 
+            initiative, I evolved from a learner to a confident professional, fully prepared not just for interviews, but 
+            for real-world challenges.`,
+    },
+    {
+        id: 11,
         name: "ADITI SHARMA",
         role: "SALES INTERN",
         image: `https://api.dicebear.com/7.x/initials/svg?seed=Aditi%20Sharma&backgroundColor=f973f6`,
@@ -110,15 +121,13 @@ const testimonials = [
             carry forward in my professional career.`,
     },
     {
-        id: 11,
-        name: "AYUSH IYER",
-        role: "MARKETING INTERN",
-        image: `https://api.dicebear.com/7.x/initials/svg?seed=Ayush%20Iyer&backgroundColor=1d46f7`,
-        text: `My internship at SkillLoop as a Marketing Intern gave me meaningful insights into digital 
-            marketing, content planning, and campaign execution. I worked on real projects, explored market 
-            trends, and improved my creative thinking. The learning environment was fast-paced yet 
-            supportive. This role gave me the confidence to present ideas and contribute meaningfully to 
-            brand visibility and engagement.`,
+        id: 12,
+        name: "TEJAS KULOTHIA",
+        role: "SALES INTERN",
+        image: "/test8.jpg",
+        text: `Getting a PPO at the end of my SkillLoop internship was an amazing experience. Throughout the journey, I 
+        gained practical exposure to sales strategies, improved my communication skills, and learned how to handle 
+        objections and pitch confidently. It truly gave me the kind of real-world learning that no classroom ever could.`,
     },
 ];
 

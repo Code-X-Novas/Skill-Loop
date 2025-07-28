@@ -113,10 +113,6 @@ function Internships() {
                             // Get middle slice of description if it’s long
                             const desc = internship.description || "";
                             const midStart = Math.floor(desc.length / 3);
-                            const middleDesc = desc.slice(
-                                midStart,
-                                midStart + 100
-                            );
 
                             return (
                                 <div
@@ -133,7 +129,7 @@ function Internships() {
                                                 internship.title}
                                         </h2>
                                         <p className="text-gray-500 md:text-sm text-xs mt-1 line-clamp-2">
-                                            {middleDesc}...
+                                            {desc}...
                                         </p>
                                     </div>
 

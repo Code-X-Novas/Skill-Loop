@@ -108,8 +108,8 @@ const Cart = () => {
     };
 
     const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-    const discount = 40;
-    const tax = 40;
+    const discount = 0;
+    const tax = 0;
     const total = subtotal - discount + tax;
 
     // const handleCartBuyNow = async () => {
@@ -476,7 +476,7 @@ const Cart = () => {
                                 </button>
                             </div>
 
-                            <button className="w-full mt-4 border text-gray-700 py-2 rounded-xl hover:bg-orange-50 transition">
+                            <button onClick={() => navigate("/coursedetail")} className="w-full cursor-pointer mt-4 border text-gray-700 py-2 rounded-xl hover:bg-orange-50 transition">
                                 Continue Exploring
                             </button>
                         </div>

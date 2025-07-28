@@ -10,6 +10,7 @@ function WhySkillLoop() {
                 viewport={{ once: true, amount: 0.9 }}
                 className="md:text-5xl text-4xl font-semibold text-left lg:mb-8 lg:my-0 my-8">Why SkillLoop ?
             </motion.h1>
+            
             <div className="lg:grid lg:grid-cols-2 flex flex-col gap-4">
                 <motion.div 
                     initial={{ opacity: 0, x: -100, y: 0 }}
@@ -26,7 +27,6 @@ function WhySkillLoop() {
                         <p className="md:text-2xl text-xl font-semibold z-10">Adaptive Learning Programs</p>
                         <div className="flex flex-col items-start justify-center gap-4 z-10">
                             <p className="md:text-sm text-xs uppercase text-white px-6 py-2 bg-[#F4B860] rounded-full z-10">Class Format</p>
-                            <p className="text-xs text-gray-600 z-10">Ideal for professionals balancing advanced studies with work commitments, offering flexible scheduling without fixed session constraints. Expert-Led Instruction</p>
                         </div>
                     </motion.div>
 

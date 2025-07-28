@@ -220,11 +220,11 @@ const Courses = () => {
                     </div>
 
                     {/* bottom */}
-                    <div className="text-gray-600 mt-4 text-xs">
+                    <div className="text-gray-600 max-w-4xl text-center md:mt-8 mt-5 md:text-sm text-xs">
                         Each course is slide-based, voiceover-enabled, and comes
                         with a certificate after completion. Learners must
                         purchase each tier separately. Courses are
-                        non-refundable and self-paced.
+                        non-refundable and self-placed.
                     </div>
                 </motion.div>
             </section>

@@ -81,7 +81,7 @@ const EditInternshipOffer = () => {
             });
 
             toast.success("Internship updated successfully!");
-            navigate("/postings");
+            navigate("/internships");
         } catch (error) {
             console.error("Error updating internship:", error);
             toast.error("Error: " + error.message);

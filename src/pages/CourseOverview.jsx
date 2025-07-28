@@ -36,7 +36,7 @@ const CourseOverview = () => {
     // const [isBuffering, setIsBuffering] = useState(false);
     // const [videoError, setVideoError] = useState(false);
 
-    const rpay = "4386 2894 0766 0153";
+    // const rpay = "4386 2894 0766 0153";
 
     const videoRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -46,6 +46,7 @@ const CourseOverview = () => {
 
     const [reviews, setReviews] = useState([]);
     const [newReview, setNewReview] = useState("");
+    const [watchedSeconds, setWatchedSeconds] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -182,6 +183,7 @@ const CourseOverview = () => {
                 { merge: true }
             );
             console.log("✅ Progress written to Firestore");
+            console.log("watchedSeconds:", watchedSeconds);
         };
 
         video.addEventListener("ended", handleEnded);
@@ -191,7 +193,7 @@ const CourseOverview = () => {
             video.removeEventListener("ended", handleEnded);
             console.log("❌ Video 'ended' listener removed");
         };
-    }, [videoRef.current, user, id, subCourse]);
+    }, [user, id, subCourse, watchedSeconds]);
 
     const handlePlayVideo = () => {
         if (videoRef.current) {
@@ -767,6 +769,7 @@ const CourseOverview = () => {
                                         ✅You Can Watch Now
                                     </button>
                                 )}
+                                
                                 <ul className="text-sm text-gray-600 space-y-2 mt-4">
                                     <li className="flex items-center gap-2">
                                         <CgNotes className="text-lg" />
@@ -805,8 +808,8 @@ const CourseOverview = () => {
                                 </button>
                             )}
                             <p className="text-xs text-center mt-1 text-black">
-                                <span className="text-red-500">*</span> It will
-                                be unlocked when video ends.
+                                <span className="text-red-500">*</span> 
+                                It will be unlocked when video ends.
                             </p>
                         </div>
                     </div>
