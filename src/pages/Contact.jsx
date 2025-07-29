@@ -21,9 +21,9 @@ const Contact = () => {
         }));
     };
 
-    const service_id = "service_email";
-    const template_id = "template_5eqkfz9";
-    const public_key = "AT3vgqrOqcq9Ky9V4";
+    const service_id = "service_0x39flq";
+    const template_id = "template_lc0ypzj";
+    const public_key = "ByajQjGu8m_UdsXEq";
 
     const handleSubmit = (e) => {
         e.preventDefault();
