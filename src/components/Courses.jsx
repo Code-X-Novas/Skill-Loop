@@ -88,7 +88,7 @@ const Courses = () => {
                 id="courses"
                 aria-label="SkillLoop Courses"
             >
-                <motion.h1
+                <motion.h2
                     initial={{ opacity: 0, x: -100 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
@@ -96,7 +96,7 @@ const Courses = () => {
                     className="text-3xl md:text-4xl lg:text-5xl font-bold"
                 >
                     Courses
-                </motion.h1>
+                </motion.h2>
 
                 <motion.p
                     initial={{ opacity: 0 }}

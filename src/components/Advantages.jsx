@@ -101,7 +101,7 @@ function AdvantageCarousel() {
 
     return (
         <section className="flex flex-col items-center justify-start w-full h-full">
-            <motion.h1
+            <motion.h2
                 initial={{ opacity: 0, x: 100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -109,7 +109,7 @@ function AdvantageCarousel() {
                 className="md:text-5xl text-4xl font-semibold leading-tight w-full md:text-center text-left"
             >
                 Our Advantages
-            </motion.h1>
+            </motion.h2>
 
             {/* Navigation Buttons */}
             <div className="flex items-end justify-end gap-6 my-6 z-10 w-full">

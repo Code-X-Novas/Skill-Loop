@@ -39,7 +39,7 @@ function Internships() {
     return (
         <>  
             {/* Heading */}
-            <motion.h1
+            <motion.h2
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -48,7 +48,7 @@ function Internships() {
                 className="md:text-5xl text-4xl md:mt-0 mt-5 font-bold z-10"
             >
                 Internships
-            </motion.h1>
+            </motion.h2>
 
             {/* Text */}
             <motion.p

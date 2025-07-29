@@ -93,6 +93,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <div className="relative">
                                 <img
                                     src="/shopping.svg"
+                                    alt="Cart"
                                     onClick={() => navigate("/cart")}
                                     className="w-6 h-6 text-gray-700 cursor-pointer"
                                 />

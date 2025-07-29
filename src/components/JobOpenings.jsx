@@ -45,7 +45,7 @@ function JobOpenings() {
     return (    
         <>  
             {/* Heading */}
-            <motion.h1
+            <motion.h2
                 initial={{ opacity: 0, x: -100 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -54,7 +54,7 @@ function JobOpenings() {
                 className="md:text-5xl text-4xl font-bold lg:mt-16 md:mt-8 mt-4"
             >
                 Job Openings
-            </motion.h1>
+            </motion.h2>
 
             {/* Text */}
             <motion.p

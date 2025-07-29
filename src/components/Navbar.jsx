@@ -136,6 +136,7 @@ function Navbar() {
                             <div className="relative">
                                 <img
                                     src="/shopping.svg"
+                                    alt="Cart"
                                     onClick={() => navigate("/cart")}
                                     className="w-6 h-6 text-gray-700 cursor-pointer"
                                 />
@@ -215,6 +216,7 @@ function Navbar() {
                                 <div className="relative mt-1">
                                     <img
                                         src="/shopping.svg"
+                                        alt="Cart"
                                         onClick={() => navigate("/cart")}
                                         className="w-6 h-6 text-gray-700 cursor-pointer"
                                     />

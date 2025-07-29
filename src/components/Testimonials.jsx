@@ -162,7 +162,7 @@ const Testimonials = () => {
             className="lg:p-16 md:p-8 p-4 mb-8 overflow-y-visible"
             id="testimonials"
         >
-            <motion.h1
+            <motion.h2
                 initial={{ opacity: 0, x: -100, y: 0 }}
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
@@ -170,7 +170,8 @@ const Testimonials = () => {
                 className="md:text-5xl text-4xl font-bold text-gray-900 mb-4"
             >
                 Testimonials
-            </motion.h1>
+            </motion.h2>
+            
             <div className="justify-center relative flex flex-col items-center md:gap-8 gap-2">
                 {/* quote */}
                 <motion.div

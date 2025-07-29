@@ -13,7 +13,7 @@ function Info() {
             <span className="absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 aspect-square w-full max-h-screen bg-[#F98B2510] rounded-full z-0 blur-3xl"></span>
 
             <div className="flex flex-col items-center justify-start gap-2 w-full relative z-10">
-                <motion.h1
+                <motion.h2
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
@@ -21,7 +21,7 @@ function Info() {
                     className="md:text-5xl text-4xl font-semibold leading-tight w-full"
                 >
                     About Us
-                </motion.h1>
+                </motion.h2>
 
                 <motion.div
                     initial={{ opacity: 0, x: -30 }}
