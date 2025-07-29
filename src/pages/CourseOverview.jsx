@@ -31,7 +31,7 @@ const CourseOverview = () => {
     const [activeTab, setActiveTab] = useState("description");
     const [isBought, setIsBought] = useState(false);
 
-    const [showCertGen, setShowCertGen] = useState(false);
+    const [showCertGen, setShowCertGen] = useState(true);
 
     // const [isBuffering, setIsBuffering] = useState(false);
     // const [videoError, setVideoError] = useState(false);
