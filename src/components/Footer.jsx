@@ -48,7 +48,7 @@ function Footer() {
                             rel="noopener noreferrer"
                             className="flex gap-x-3 items-center hover:text-black"
                         >
-                            <FaLinkedin /> linkedin.com/company/skillloop
+                            <FaLinkedin /> linkedin.com/company/myskillloop
                         </a>
                     </div>
 
