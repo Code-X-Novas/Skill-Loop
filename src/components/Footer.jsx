@@ -3,7 +3,7 @@ import { MdEmail } from "react-icons/md";
 
 function Footer() {
     return (
-        <div className="px-4 md:pt-16 pt-5 mx-auto w-full sm:max-w-xl md:max-w-full md:px-24 lg:px-8">
+        <div className="relative z-10 px-4 md:pt-16 pt-5 mx-auto w-full sm:max-w-xl md:max-w-full md:px-24 lg:px-8">
             {/* Top Flex Container to enable justify-between */}
             <div className="lg:flex lg:justify-between lg:items-start gap-10 mb-4">
                 {/* Logo + Description + Contact */}

@@ -55,11 +55,11 @@ const Contact = () => {
             <img
                 src={vector10}
                 alt="Vector"
-                className="absolute top-0 left-10 w-[700px] md:w-[1100px] z-0"
+                className="absolute top-0 left-10 w-[700px] md:w-[1200px]"
             />
 
             {/* Contact Form */}
-            <div className="flex flex-col items-center justify-center px-4 py-5">
+            <div className="flex relative z-10 flex-col items-center justify-center px-4 py-5">
                 <div className="max-w-3xl w-full rounded-xl md:px-8 py-5">
                     <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">
                         Contact Us
