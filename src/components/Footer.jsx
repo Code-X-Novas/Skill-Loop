@@ -5,7 +5,7 @@ function Footer() {
     return (
         <div className="px-4 md:pt-16 pt-5 mx-auto w-full sm:max-w-xl md:max-w-full md:px-24 lg:px-8">
             {/* Top Flex Container to enable justify-between */}
-            <div className="lg:flex lg:justify-between lg:items-start gap-10 md:mb-4">
+            <div className="lg:flex lg:justify-between lg:items-start gap-10 mb-4">
                 {/* Logo + Description + Contact */}
                 <div className="mb-10 lg:mb-0 max-w-md">
                     {/* Logo */}
@@ -61,7 +61,7 @@ function Footer() {
                         <p className="font-semibold tracking-wide text-gray-800">
                             Quick Links
                         </p>
-                        <ul className="mt-2 space-y-2">
+                        <ul className="mt-2 space-y-2 ">
                             {[
                                 "Home",
                                 "About Us",
@@ -72,7 +72,7 @@ function Footer() {
                                 <li key={item}>
                                     <a
                                         href="/"
-                                        className="text-gray-600 hover:text-deep-purple-accent-400 transition-colors duration-300"
+                                        className="text-gray-600 hover:text-black transition-colors duration-300"
                                     >
                                         {item}
                                     </a>
@@ -97,7 +97,7 @@ function Footer() {
                                 <li key={item}>
                                     <a
                                         href="/coursedetail"
-                                        className="text-gray-600 hover:text-deep-purple-accent-400 transition-colors duration-300"
+                                        className="text-gray-600 hover:text-black transition-colors duration-300"
                                     >
                                         {item}
                                     </a>
@@ -117,7 +117,7 @@ function Footer() {
                                     <li key={item}>
                                         <a
                                             href="/jobopenings"
-                                            className="text-gray-600 hover:text-deep-purple-accent-400 transition-colors duration-300"
+                                            className="text-gray-600 hover:text-black transition-colors duration-300"
                                         >
                                             {item}
                                         </a>
@@ -127,7 +127,7 @@ function Footer() {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>  
 
             {/* Bottom Bar */}
             <div className="flex flex-col justify-between pt-5 pb-10 border-t sm:flex-row">

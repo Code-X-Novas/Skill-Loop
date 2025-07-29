@@ -11,13 +11,13 @@ import vector10 from "../img/vector10.png";
 import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
 import Loading from "../components/Loader";
-import { useDispatch, useSelector } from "react-redux";
-import { setAuthUser } from "../redux/authSlice";
+import { useSelector } from "react-redux";
+// import { setAuthUser } from "../redux/authSlice";
 
 const CoursePlans = () => {
     const { slug, id } = useParams();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     const [course, setCourse] = useState(null);
     const [subCourses, setSubCourses] = useState([]);

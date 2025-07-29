@@ -2,6 +2,8 @@ import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
+import vector7 from "../img/vector7.png";
+import vector10 from "../img/vector10.png";
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -43,7 +45,20 @@ const Contact = () => {
     };
 
     return (
-        <>
+        <div className="relative bg-[#fff5e7] overflow-hidden"> 
+            {/* Vectors */}
+            <img
+                src={vector7}
+                alt="Vector"
+                className="absolute top-0 right-0 w-[100px] md:w-[500px] z-0"
+            />
+            <img
+                src={vector10}
+                alt="Vector"
+                className="absolute top-0 left-10 w-[700px] md:w-[1100px] z-0"
+            />
+
+            {/* Contact Form */}
             <div className="flex flex-col items-center justify-center px-4 py-5">
                 <div className="max-w-3xl w-full rounded-xl md:px-8 py-5">
                     <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">
@@ -129,11 +144,9 @@ const Contact = () => {
                 </div>
             </div>
 
-            {/* Footer */}
-            <div className="bg-[linear-gradient(to_right,white,#f0fdf4,#fefce8,white)]">
-                <Footer />
-            </div>
-        </>
+            <Footer />
+
+        </div>
     );
 };
 
