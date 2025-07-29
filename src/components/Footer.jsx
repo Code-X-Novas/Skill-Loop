@@ -5,6 +5,7 @@ function Footer() {
             <div className="lg:flex lg:justify-between lg:items-start gap-10 mb-8">
                 {/* Logo + Description */}
                 <div className="mb-10 lg:mb-0 max-w-md">
+                    {/* Logo */}
                     <a
                         href="/"
                         aria-label="Go home"
@@ -20,12 +21,19 @@ function Footer() {
                             Skill Loop
                         </span>
                     </a>
+
+                    {/* Description */}
                     <div className="mt-4">
                         <p className="text-sm text-gray-800">
                             Grow your skills with interactive courses,
                             internships, and job opportunities. Start your
                             journey today!
                         </p>
+                    </div>
+
+                    {/* Contact */}
+                    <div>
+                        
                     </div>
                 </div>
 
