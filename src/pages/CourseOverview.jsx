@@ -817,15 +817,6 @@ const CourseOverview = () => {
             </div>
 
             <div className="bg-[linear-gradient(to_right,white,#f0fdf4,#fefce8,white)]">
-                {/* {showCertGen && (
-  <CertificateGenerator
-    user={user}
-    course={{ ...course, id }}
-    subCourse={subCourse}
-    onComplete={() => setShowCertGen(false)}
-  />
-)} */}
-
                 {showCertGen && (
                     <CertificateGenerator
                         user={user}
