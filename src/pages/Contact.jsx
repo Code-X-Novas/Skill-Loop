@@ -19,9 +19,9 @@ const Contact = () => {
         }));
     };
 
-    const service_id = "service_hlywcpw";
-    const template_id = "template_ji4wnlg";
-    const public_key = "qE4e5hYew-5DMhwxe";
+    const service_id = "service_email";
+    const template_id = "template_5eqkfz9";
+    const public_key = "AT3vgqrOqcq9Ky9V4";
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -36,8 +36,9 @@ const Contact = () => {
             toast.success('Message sent successfully!');
             setFormData({ name: '', email: '', phone: '', message: '' });
         })
-        .catch(() => {
+        .catch((error) => {
             toast.error('Failed to send message. Try again.');
+            console.error("EmailJS Error:", error);
         });
     };
 
@@ -105,14 +106,14 @@ const Contact = () => {
                         {/* Comment */}
                         <div>
                             <label className="block text-sm text-gray-400 font-semibold mb-1">
-                                Your Comment
+                                Your Message
                             </label>
                             <textarea
                                 rows="5"
-                                name="comment"
-                                value={formData.comment}
+                                name="message"
+                                value={formData.message}
                                 onChange={handleChange}
-                                placeholder="Comment"
+                                placeholder="Message"
                                 className="w-full font-medium border-[2px] border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                             ></textarea>
                         </div>

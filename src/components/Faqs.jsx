@@ -39,7 +39,7 @@ function Faqs() {
         {
             id: 7,
             question: "Will I get a Letter of Recommendation (LOR)?",
-            answer: "Yes, top-performing interns will be awarded an LOR from the S&S Corporation leadership, in addition to their certificate and stipend.",
+            answer: "Yes, top-performing interns will be awarded an LOR from the SkillLoop leadership, in addition to their certificate and stipend.",
         },
         {
             id: 8,

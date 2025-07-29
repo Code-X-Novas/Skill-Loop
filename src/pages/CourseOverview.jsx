@@ -365,38 +365,38 @@ const CourseOverview = () => {
                 }
 
                 const transaction = {
-                uid: user.uid,
-                userName: user.name,
-                userEmail: user.email,
-                userContact: user.contact,
-                userCollege: user.college,
-                courseId: id,
-                subCourseId: subCourse.id,
-                courseTitle: courseTitle,
-                pricePaid: coursePrice,
-                paymentId,
-                paymentStatus: "SUCCESS",
-                paidAt: timestamp,
-                gateway: "Razorpay",
-                razorpay_order_id: orderId,
-                razorpay_signature: signature,
-                bank: null,
-                method: null,
+                    uid: user.uid,
+                    userName: user.name,
+                    userEmail: user.email,
+                    userContact: user.contact,
+                    userCollege: user.college,
+                    courseId: id,
+                    subCourseId: subCourse.id,
+                    courseTitle: courseTitle,
+                    pricePaid: coursePrice,
+                    paymentId,
+                    paymentStatus: "SUCCESS",
+                    paidAt: timestamp,
+                    gateway: "Razorpay",
+                    razorpay_order_id: orderId,
+                    razorpay_signature: signature,
+                    bank: null,
+                    method: null,
                 };
 
                 try {
-                const transactionRef = doc(collection(fireDB, "transactions"));
-                await setDoc(transactionRef, transaction);
-                console.log("Transaction saved:", transaction);
+                    const transactionRef = doc(collection(fireDB, "transactions"));
+                    await setDoc(transactionRef, transaction);
+                    console.log("Transaction saved:", transaction);
                 } catch (err) {
-                console.error("Failed to save transaction:", err);
+                    console.error("Failed to save transaction:", err);
                 }
 
                 // Send confirmation email
                 try {
-                await sendEmail(transaction);
+                    await sendEmail(transaction);
                 } catch (e) {
-                console.error("Email sending failed:", e);
+                    console.error("Email sending failed:", e);
                 }
 
                 // Update Redux or local auth state

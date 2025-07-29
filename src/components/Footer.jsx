@@ -1,9 +1,12 @@
+import { FaLinkedin, FaPhone } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+
 function Footer() {
     return (
         <div className="px-4 md:pt-16 pt-5 mx-auto w-full sm:max-w-xl md:max-w-full md:px-24 lg:px-8">
             {/* Top Flex Container to enable justify-between */}
-            <div className="lg:flex lg:justify-between lg:items-start gap-10 mb-8">
-                {/* Logo + Description */}
+            <div className="lg:flex lg:justify-between lg:items-start gap-10 md:mb-4">
+                {/* Logo + Description + Contact */}
                 <div className="mb-10 lg:mb-0 max-w-md">
                     {/* Logo */}
                     <a
@@ -32,24 +35,39 @@ function Footer() {
                     </div>
 
                     {/* Contact */}
-                    <div>
-                        
+                    <div className="mt-4 flex flex-col md:space-y-3 space-y-1 text-gray-600">
+                        <a href="tel:+917877295918" className="flex gap-x-3 items-center hover:text-black">
+                            <FaPhone /> +91 78772 95918
+                        </a>
+                        <a href="mailto:info@skillloop.co.in" className="flex gap-x-3 items-center hover:text-black">
+                            <MdEmail /> info@skillloop.co.in
+                        </a>
+                        <a
+                            href="https://www.linkedin.com/company/skillloop"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex gap-x-3 items-center hover:text-black"
+                        >
+                            <FaLinkedin /> linkedin.com/company/skillloop
+                        </a>
                     </div>
+
                 </div>
 
                 {/* Link Sections Grid */}
                 <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+                    {/* Quick Links */}
                     <div>
                         <p className="font-semibold tracking-wide text-gray-800">
-                            Product
+                            Quick Links
                         </p>
                         <ul className="mt-2 space-y-2">
                             {[
-                                "Web",
-                                "eCommerce",
-                                "Business",
-                                "Entertainment",
-                                "Portfolio",
+                                "Home",
+                                "About Us",
+                                "Advantages",
+                                "Why SkillLoop",
+                                "Testimonials",
                             ].map((item) => (
                                 <li key={item}>
                                     <a
@@ -63,21 +81,22 @@ function Footer() {
                         </ul>
                     </div>
 
+                    {/* Courses */}
                     <div>
                         <p className="font-semibold tracking-wide text-gray-800">
-                            Resources
+                            Courses
                         </p>
                         <ul className="mt-2 space-y-2">
                             {[
-                                "Media",
-                                "Brochure",
-                                "Nonprofit",
-                                "Educational",
-                                "Projects",
+                                "Finance",
+                                "Marketing",
+                                "Promt Engineering",
+                                "HR operations",
+                                "Bussiness Analytics",
                             ].map((item) => (
                                 <li key={item}>
                                     <a
-                                        href="/"
+                                        href="/coursedetail"
                                         className="text-gray-600 hover:text-deep-purple-accent-400 transition-colors duration-300"
                                     >
                                         {item}
@@ -87,16 +106,17 @@ function Footer() {
                         </ul>
                     </div>
 
+                    {/* Job Opportunities */}
                     <div>
                         <p className="font-semibold tracking-wide text-gray-800">
-                            Company
+                            Job Opportunities
                         </p>
                         <ul className="mt-2 space-y-2">
-                            {["Infopreneur", "Personal", "Wiki", "Forum"].map(
+                            {["Program Design", "HR Executive", "Sales Manager", "Marketing Manager"].map(
                                 (item) => (
                                     <li key={item}>
                                         <a
-                                            href="/"
+                                            href="/jobopenings"
                                             className="text-gray-600 hover:text-deep-purple-accent-400 transition-colors duration-300"
                                         >
                                             {item}
