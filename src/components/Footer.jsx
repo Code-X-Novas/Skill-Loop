@@ -43,7 +43,7 @@ function Footer() {
                             <MdEmail /> info@skillloop.co.in
                         </a>
                         <a
-                            href="https://www.linkedin.com/company/skillloop"
+                            href="https://www.linkedin.com/company/myskillloop/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex gap-x-3 items-center hover:text-black"
