@@ -64,14 +64,14 @@ const Courses = () => {
             provider: {
                 "@type": "Organization",
                 name: "SkillLoop",
-                url: "https://skill-loop-three.vercel.app",
+                url: "https://skillloop.co.in",
             },
             educationalLevel: "Professional",
             courseMode: "Online",
             teaches: course.skills || [],
             inLanguage: "en",
             availableLanguage: "English",
-            url: `https://skill-loop-three.vercel.app/courses/${course.seo?.slug}`,
+            url: `https://skillloop.co.in/courses/${course.seo?.slug}`,
         })),
     };
 
@@ -340,14 +340,14 @@ export default Courses;
 //       provider: {
 //         "@type": "Organization",
 //         name: "SkillLoop",
-//         url: "https://skill-loop-three.vercel.app",
+//         url: "https://skillloop.co.in",
 //       },
 //       educationalLevel: "Professional",
 //       courseMode: "Online",
 //       teaches: course.skills || [],
 //       inLanguage: "en",
 //       availableLanguage: "English",
-//       url: `https://skill-loop-three.vercel.app/courses/${course.seo?.slug}`,
+//       url: `https://skillloop.co.in/courses/${course.seo?.slug}`,
 //     })),
 //   };
 

@@ -5,7 +5,7 @@ const SEO = ({
     description = "SkillLoop bridges the gap between education and industry with job-ready skills in Data Analytics, HR, Marketing, Finance, and AI. Get practical internship experience and certification courses designed for MBA professionals.",
     keywords = "skillloop, Skill Loop, skill-loop, skill loop, learn app, MBA courses, Data Analytics, HR Operations, Digital Marketing, Finance Strategy, AI Prompt Engineering, EdTech, Internships, Professional Development, Business Intelligence, Career Growth",
     image = "/skillLoopLogo.svg",
-    url = "https://skill-loop-three.vercel.app",
+    url = "https://skillloop.co.in",
     type = "website",
     author = "SkillLoop Team"
 }) => {
@@ -15,8 +15,8 @@ const SEO = ({
         "@type": "EducationalOrganization",
         "name": "SkillLoop",
         "description": description,
-        "url": "https://skill-loop-three.vercel.app/",
-        "logo": "https://skill-loop-three.vercel.app/skillLoopLogo.svg",
+        "url": "https://skillloop.co.in/",
+        "logo": "https://skillloop.co.in/skillLoopLogo.svg",
         "foundingDate": "2024",
         "contactPoint": {
             "@type": "ContactPoint",

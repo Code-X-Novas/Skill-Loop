@@ -1,6 +1,6 @@
 // sitemap.xml generator for SkillLoop
 export const generateSitemap = () => {
-    const baseUrl = "https://skill-loop-three.vercel.app";
+    const baseUrl = "https://skillloop.co.in";
     const currentDate = new Date().toISOString().split("T")[0];
 
     const pages = [
@@ -35,7 +35,7 @@ export const generateSitemap = () => {
 
 // robots.txt content
 export const generateRobotsTxt = () => {
-    const baseUrl = "https://skill-loop-three.vercel.app";
+    const baseUrl = "https://skillloop.co.in";
 
     return `User-agent: *
     Allow: /

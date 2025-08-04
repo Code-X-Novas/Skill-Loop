@@ -4,28 +4,28 @@ export const seoConfig = {
     title: "SkillLoop - Learn Today, Lead Tomorrow",
     description: "SkillLoop bridges the gap between education and industry with job-ready skills in Data Analytics, HR, Marketing, Finance, and AI. Get practical internship experience and certification courses designed for MBA professionals.",
     keywords: "MBA courses, Data Analytics, HR Operations, Digital Marketing, Finance Strategy, AI Prompt Engineering, EdTech, Internships, Professional Development, Business Intelligence, Career Growth",
-    url: "https://skill-loop-three.vercel.app"
+    url: "https://skillloop.co.in"
   },
   
   courses: {
     title: "SkillLoop - Learn Today, Lead Tomorrow",
     description: "Explore our comprehensive MBA-focused certification courses in Data Analytics, HR Operations, Digital Marketing, Finance Strategy, and AI Prompt Engineering. Practical, industry-relevant skills for career growth.",
     keywords: "MBA certification, Data Analytics course, HR Analytics, Digital Marketing course, Finance tools, AI for business, professional certification, career development",
-    url: "https://skill-loop-three.vercel.app/#courses"
+    url: "https://skillloop.co.in/#courses"
   },
   
   internships: {
     title: "SkillLoop - Learn Today, Lead Tomorrow",
     description: "Gain practical experience through our internship-driven model. Work on live projects, real-world challenges, and performance-based rewards while building confidence and credibility.",
     keywords: "internship programs, practical experience, live projects, professional internships, career experience, hands-on learning",
-    url: "https://skill-loop-three.vercel.app/#internships"
+    url: "https://skillloop.co.in/#internships"
   },
   
   about: {
     title: "SkillLoop - Learn Today, Lead Tomorrow",
     description: "Learn about SkillLoop's mission to transform learners into industry-ready professionals. Our affordable, laser-focused certification courses combine education with practical internship experience.",
     keywords: "about SkillLoop, EdTech platform, MBA education, professional development, career transformation, industry-ready skills",
-    url: "https://skill-loop-three.vercel.app/#about"
+    url: "https://skillloop.co.in/#about"
   }
 };
 
@@ -85,7 +85,7 @@ export const courseStructuredData = (course) => ({
   "provider": {
     "@type": "Organization",
     "name": "SkillLoop",
-    "url": "https://skill-loop-three.vercel.app"
+    "url": "https://skillloop.co.in"
   },
   "educationalLevel": "Professional",
   "courseMode": "Online",
@@ -101,8 +101,8 @@ export const organizationStructuredData = {
   "name": "SkillLoop",
   "alternateName": "Skill Loop",
   "description": "SkillLoop is an EdTech platform that bridges the gap between education and industry with MBA-focused certification courses and practical internship experience.",
-  "url": "https://skill-loop-three.vercel.app",
-  "logo": "https://skill-loop-three.vercel.app/skillLoopLogo.svg",
+  "url": "https://skillloop.co.in",
+  "logo": "https://skillloop.co.in/skillLoopLogo.svg",
   "foundingDate": "2024",
   "slogan": "Learn Today, Lead Tomorrow",
   "knowsAbout": [

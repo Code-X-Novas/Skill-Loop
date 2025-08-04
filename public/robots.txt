@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://skill-loop-three.vercel.app/sitemap.xml
+Sitemap: https://skillloop.co.in/sitemap.xml
 
 # Crawl-delay for bots
 Crawl-delay: 1
