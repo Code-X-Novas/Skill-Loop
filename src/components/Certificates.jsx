@@ -25,12 +25,20 @@ const Certificates = () => {
         });
     };
 
-    const handleSingleDownload = (e, cert) => {
+    const handleSingleDownload = async (e, cert) => {
         e.stopPropagation();
-        const link = document.createElement("a");
-        link.href = cert.certificate;
-        link.download = `${cert.title}.png`;
-        link.click();
+        try {
+            const res = await fetch(cert.certificate, { mode: "cors" });
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `${cert.title}.png`;
+            link.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Download failed:", error);
+        }
     };
 
     return (
@@ -68,13 +76,13 @@ const Certificates = () => {
                                 {certificates.map((cert, index) => (
                                     <tr
                                         key={index}
-                                        onClick={() => setSelected(cert)}
+                                        id="certificate-download"
                                         className="hover:bg-gray-50 cursor-pointer"
                                     >
                                         <td className="py-3">
                                             <img
                                                 src={cert.certificate}
-
+                                                onClick={() => setSelected(cert)}
                                                 alt="Certificate"
                                                 className="w-32 rounded object-cover"
                                             />
@@ -165,7 +173,7 @@ const Certificates = () => {
                             />
                             <button
                                 onClick={(e) => handleSingleDownload(e, selected)}
-                                className="border text-sm px-4 py-1 rounded flex items-center gap-1"
+                                className="border cursor-pointer text-sm px-4 py-1 rounded flex items-center gap-1"
                             >
                                 <MdOutlineFileDownload className="w-4 h-4" />
                                 Download

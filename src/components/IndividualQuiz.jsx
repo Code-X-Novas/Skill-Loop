@@ -14,6 +14,7 @@ const IndividualQuiz = () => {
     const location = useLocation();
     const [course, setCourse] = useState(location.state?.course || {});
     const navigate = useNavigate();
+    console.log("course: ", course);
 
     useEffect(() => {
         if (user) {
@@ -100,7 +101,7 @@ const IndividualQuiz = () => {
                         },
                         {
                             label: "Attempted Questions",
-                            value: course.attemptedQuestions || 0,
+                            value: course?.attemptedQuestions || 0,
                             icon: (
                                 <TbCertificate
                                     size={32}
@@ -110,7 +111,7 @@ const IndividualQuiz = () => {
                         },
                         {
                             label: "Unattempted Questions",
-                            value: quizes - course.attemptedQuestions || quizes,
+                            value: quizes - course?.attemptedQuestions,
                             icon: (
                                 <TbChecklist
                                     size={32}
@@ -168,8 +169,8 @@ const IndividualQuiz = () => {
                         <div className=" flex justify-center">
                             <button
                                 onClick={() => {
-                                    const slug = course.uid
-                                    navigate(`/courses/${slug}/${course.courseId}/overview/quiz`, { state: { course: course } })
+                                    const slug = course.title.toLowerCase().replace(/\s+/g, '-');
+                                    navigate(`/courses/${slug}/${course.courseId}/overview/quiz`, { state: { subCourseId: course.subCourseId } })
                                 }}
                                 className="w-fit py-2 px-4 border cursor-pointer rounded-full bg-gradient-to-r from-green-400 via-green-600 to-green-600 text-white text-sm font-semibold"
                             >

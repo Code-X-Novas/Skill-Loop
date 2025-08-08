@@ -152,6 +152,8 @@ const CourseOverview = () => {
         const handleEnded = async () => {
             console.log("🎉 Video ended event fired!");
             setAttendQuiz(true);
+            const slug = course.slug
+            navigate(`/courses/${slug}/${id}/overview/quiz`);
             console.log("✅ canGenerateCertificate set to TRUE");
 
             const progressRef = doc(
@@ -178,6 +180,7 @@ const CourseOverview = () => {
         return () => {
             video.removeEventListener("ended", handleEnded);
             console.log("❌ Video 'ended' listener removed");
+            
         };
     }, [videoRef.current, user, subCourse, id]);
 
@@ -354,11 +357,11 @@ const CourseOverview = () => {
 
                 // Safely add enrolled student only if all required fields are defined
                 if (
-                user.uid &&
-                user.email &&
-                user.name &&
-                user.contact &&
-                user.college
+                    user.uid &&
+                    user.email &&
+                    user.name &&
+                    user.contact &&
+                    user.college
                 ) {
                 const enrolledStudent = {
                     uid: user.uid,
@@ -424,6 +427,9 @@ const CourseOverview = () => {
                 );
 
                 toast.success("Payment successful! Course unlocked.");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000) // 1 seconds delay
             },
             theme: {
                 color: "#D35244",
@@ -529,7 +535,7 @@ const CourseOverview = () => {
                                             <img
                                                 src={subCourse.subThumbnail}
                                                 alt="Course Thumbnail"
-                                                className="w-[750px] h-[400px] object-cover rounded-lg"
+                                                className="w-[750px] xl:h-[415px] lg:h-[380px] md:h-[280px] h-[220px] lg:translate-y-1.5 object-cover rounded-lg"
                                             />
                                             <button className="absolute text-white text-xl bg-gradient-to-r from-orange-400 via-orange-600 to-orange-600 px-4 py-2 rounded-full cursor-pointer">
                                                 ▶️ Play
@@ -753,8 +759,8 @@ const CourseOverview = () => {
                             <div className="mt-4 flex justify-center">
                                 <button
                                     onClick={() => {
-                                        const slug = course.slug
-                                        navigate(`/courses/${slug}/${id}/overview/quiz`)
+                                        const slug = course.seo.slug
+                                        navigate(`/courses/${slug}/${id}/overview/quiz`, { state: { subCourseId: subCourse.id } })
                                     }}
                                     className="w-fit py-2 px-4 border cursor-pointer rounded-full bg-gradient-to-r from-green-400 via-green-600 to-green-600 text-white text-sm font-semibold"
                                 >

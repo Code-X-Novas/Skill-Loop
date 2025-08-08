@@ -21,14 +21,14 @@ export default function Quiz() {
     const navigate = useNavigate();
 
     const location = useLocation();
-    const subcourseId = location.state?.course?.subCourseId || "";
+    const subcourseId = location.state?.subCourseId || "";
     console.log("subcourseId from location:", subcourseId);
 
     useEffect(() => {
         const getQuestions = async () => {
             // 1. Find subCourseId by matching courseId
             const matchedCourse = user?.yourCourses?.find(
-                (course) => course.courseId === id
+                (course) => course.courseId === id && course.subCourseId === subcourseId
             );
 
             if (matchedCourse) {
@@ -91,14 +91,15 @@ export default function Quiz() {
     ).length;
 
     const attemptedCount = questions.reduce((count, _, idx) => {
-        const hasOptionAnswer = answers[idx] !== null;
-        const hasScenarioAnswer = scenarioAnswers[idx]?.trim() !== "";
+        const hasOptionAnswer = answers[idx] !== null && answers[idx] !== undefined;
+        const hasScenarioAnswer = (scenarioAnswers[idx] ?? "").trim().length > 0;
         return count + (hasOptionAnswer || hasScenarioAnswer ? 1 : 0);
-    }, 0);
+    }, 0);  
 
     const handleSubmit = async () => {
         setSubmitted(true);
         const userRef = doc(fireDB, "users", user.uid);
+        console.log("subcourseId in handleSubmit: ", subcourseId);
         const progressRef = doc(fireDB, "userProgress", `${user.uid}_${id}_${subcourseId}`);
 
         setLoading(true);
@@ -223,11 +224,6 @@ export default function Quiz() {
                 </>
             ) : (
                 <>
-                    {/* Quiz title */}
-                    <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 text-[#FC8A10]">
-                        MBA Analytics Quiz
-                    </h1>
-
                     {/* Quiz Content */}
                     {!submitted && (
                         <div className="bg-white shadow rounded-lg p-4 space-y-4">

@@ -73,7 +73,6 @@ const IndividualGraph = ({ course, quizes }) => {
                     </div>
                 ))}
             </div>
-
         </div>
     );
 };
