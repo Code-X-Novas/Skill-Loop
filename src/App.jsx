@@ -38,6 +38,9 @@ import EditJobPosting from "./pages/EditJobPosting";
 import Internships from "./pages/Internships";
 import AdminTransactions from "./components/AdminTransaction";
 import Contact from "./pages/Contact";
+import Quiz from "./pages/Quiz";
+import QuizSection from "./components/QuizSection";
+import IndividualQuiz from "./components/IndividualQuiz";
 
 function App() {
     return (
@@ -46,18 +49,11 @@ function App() {
                 <Route path="/admin" element={<Admin />} />
                 <Route element={<Navbar />}>
                     <Route path="/" element={<Landing />} />
-                    <Route
-                        path="/courses/:slug/:id/enroll"
-                        element={<CoursePlans />}
-                    />
-                    <Route
-                        path="/courses/:slug/details"
-                        element={<CourseDetails />}
-                    />
-                    <Route
-                        path="/courses/:slug/:id/overview"
-                        element={<CourseOverview />}
-                    />
+                    <Route path="/courses/:slug/:id/enroll" element={<CoursePlans />} />
+                    <Route path="/courses/:slug/details" element={<CourseDetails />} />
+                    <Route path="/courses/:slug/:id/overview" element={<CourseOverview />} />
+                    <Route path="/courses/:slug/:id/overview/quiz" element={<Quiz />} />
+                    <Route path="/courses/:slug/:id/quiz" element={<IndividualQuiz />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/coursedetail" element={<CourseDetails />} />
                     <Route path="/jobopenings" element={<JobOpenings />} />
@@ -137,24 +133,13 @@ function App() {
                         </StudentProtectedRoute>
                     }
                 >
-                    <Route
-                        path="/student/dashboard"
-                        element={<UserDashboard />}
-                    />
+                    <Route path="/student/dashboard" element={<UserDashboard />} />
+                    <Route path="/student/quiz" element={<QuizSection />} />
                     <Route path="/student/courses" element={<YourCourse />} />
                     <Route path="/student/jobs" element={<AppliedJobs />} />
-                    <Route
-                        path="/student/internships"
-                        element={<AppliedInternships />}
-                    />
-                    <Route
-                        path="/student/certificates"
-                        element={<Certificates />}
-                    />
-                    <Route
-                        path="/student/transactions"
-                        element={<Transactions />}
-                    />
+                    <Route path="/student/internships" element={<AppliedInternships />} />
+                    <Route path="/student/certificates" element={<Certificates />} />
+                    <Route path="/student/transactions" element={<Transactions />} />
                     <Route path="/student/settings" element={<Settings />} />
                 </Route>
 

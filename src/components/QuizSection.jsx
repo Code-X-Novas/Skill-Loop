@@ -4,18 +4,59 @@ import { RiCalendarScheduleLine } from "react-icons/ri";
 import { TbCertificate, TbChecklist, TbShoppingBagSearch, } from "react-icons/tb";
 import CourseTopicCard from "./CourseTopicCard";
 import { fireDB } from "../firebase/FirebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import QuizGraph from "./QuizGraph";
 
-const UserDashboard = () => {
+const QuizSection = () => {
     const user = useSelector((state) => state.auth.user);
     const navigate = useNavigate();
+    const [courses, setCourses] = useState([]);
+    const [quizes, setQuizes] = useState(0);
+    const [attemptedQuiz, setAttemptedQuiz] = useState(0);
 
-    const courses = user?.yourCourses || [];
+    useEffect(() => {
+        if (user) {
+            setCourses(user.yourCourses || []);
+        }
+        const getQuestions = async () => {
+            for (const course of courses) {
+                const quizRef = collection(
+                    fireDB,
+                    "courses",
+                    course.courseId,
+                    "subCategories",
+                    course.subCourseId,
+                    "quiz"
+                );
+
+                const snapshot = await getDocs(quizRef);
+                const questions = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }))
+
+                setQuizes(questions.length);
+            }
+        };
+
+        let certCount = 0;
+        for (const course of courses) {
+            if (course.score !== undefined) {
+                certCount++;
+            }
+        }
+        console.log("Attempted Quiz Count:", certCount);
+        setAttemptedQuiz(certCount);
+
+        if (user) {
+            getQuestions();
+        }
+    }, [user, courses]);
+
+    console.log(courses);
     const [certificateCount, setCertificateCount] = useState(0);
-
-    const internshipCount = 2;
-    const appliedJobsCount = 3;
+    console.log("certificateCount", certificateCount);
 
     const statusColor = {
         Complete: "bg-[#E4EDE8] text-[#68946D]",
@@ -31,7 +72,7 @@ const UserDashboard = () => {
 
             for (const course of courses) {
                 // ✅ Count if certificateGenerated is true
-                if (course?.score !== null) {
+                if (course.certificateGenerated === true) {
                     certCount++;
                 }
 
@@ -63,10 +104,10 @@ const UserDashboard = () => {
             {/* Main content */}
             <div className="flex-1 flex flex-col gap-6">
                 {/* Top Stats */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {[
                         {
-                            label: "My Courses",
+                            label: "Total Quizes",
                             value: courses.length,
                             icon: (
                                 <RiCalendarScheduleLine
@@ -76,8 +117,8 @@ const UserDashboard = () => {
                             ),
                         },
                         {
-                            label: "Certificates",
-                            value: certificateCount,
+                            label: "Quiz Attempted",
+                            value: attemptedQuiz || 0,
                             icon: (
                                 <TbCertificate
                                     size={32}
@@ -86,8 +127,8 @@ const UserDashboard = () => {
                             ),
                         },
                         {
-                            label: "Internships",
-                            value: internshipCount,
+                            label: "Un - attempted Quiz",
+                            value: courses.length - attemptedQuiz || 0,
                             icon: (
                                 <TbChecklist
                                     size={32}
@@ -95,22 +136,12 @@ const UserDashboard = () => {
                                 />
                             ),
                         },
-                        {
-                            label: "Applied Jobs",
-                            value: appliedJobsCount,
-                            icon: (
-                                <TbShoppingBagSearch
-                                    size={32}
-                                    className="text-[#DDA89A]"
-                                />
-                            ),
-                        },
                     ].map((stat, idx) => (
                         <div
                             key={idx}
-                            className="border rounded-lg px-4 py-6 shadow-sm bg-white"
+                            className="border rounded-lg lg:px-4 md:px-3 px-4 lg:py-6 py-4 shadow-sm bg-white"
                         >
-                            <div className="flex items-center gap-2 mb-2">
+                            <div className="flex items-center lg:gap-2 md:gap-1 gap-2 mb-2">
                                 <div className="text-gray-500 font-semibold">
                                     {stat.icon}
                                 </div>
@@ -123,9 +154,9 @@ const UserDashboard = () => {
                     ))}
                 </div>
 
-                {/* My Courses Table */}
+                {/* My Quiz Table */}
                 <div className="bg-white rounded-lg p-4">
-                    <h2 className="text-lg font-semibold mb-4">My Courses</h2>
+                    <h2 className="text-lg font-semibold mb-4">My Quizes</h2>
 
                     {courses.length === 0 ? (
                         <p className="text-gray-500">
@@ -137,29 +168,26 @@ const UserDashboard = () => {
                                 <thead>
                                     <tr className="text-gray-500 border-b">
                                         <th className="py-2">Course Name</th>
-                                        <th className="py-2">Status</th>
-                                        <th className="py-2">Purchased At</th>
+                                        <th className="py-2">Result</th>
+                                        <th className="py-2">Re-Attempt</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {courses.map((course, idx) => {
-                                        const status = course.score !== null ? "Complete" : "Ongoing";
-
+                                        
                                         return (
                                             <tr
                                                 key={idx}
                                                 className="hover:bg-gray-50 cursor-pointer"
-                                                onClick={() =>
+                                                onClick={() => {
+                                                    const slug = course.title
+                                                        .toLowerCase()
+                                                        .replace(/\s+/g, "-");
                                                     navigate(
-                                                        `/courses/${course.slug}/${course.courseId}/overview`,
-                                                        {
-                                                            state: {
-                                                                plan: course.level,
-                                                                price: course.price,
-                                                            },
-                                                        }
+                                                        `/courses/${slug}/${course?.subCourseId}/quiz`,
+                                                        { state: { course } }
                                                     )
-                                                }
+                                                }}
                                             >
                                                 <td className="flex items-center gap-3 py-3">
                                                     <img
@@ -169,17 +197,28 @@ const UserDashboard = () => {
                                                     />
                                                     <span>{course.title}</span>
                                                 </td>
+                                                {
+                                                    course?.score !== undefined ? (
+                                                        <td>
+                                                            <span
+                                                                className={`px-3 py-1 text-xs font-medium rounded-full ${statusColor[status]}`}
+                                                            >
+                                                                {course?.score}/{quizes}
+                                                            </span>
+                                                        </td>
+                                                    ) : (
+                                                        <td>
+                                                            <span className="px-3 py-1 text-xs font-medium rounded-full bg-gray-200 text-gray-600">
+                                                                Not Attempted
+                                                            </span>
+                                                        </td>
+                                                    )
+
+                                                }
                                                 <td>
-                                                    <span
-                                                        className={`px-3 py-1 text-xs font-medium rounded-full ${statusColor[status]}`}
-                                                    >
-                                                        {status}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    {course.purchasedAt
-                                                        ? new Date( course.purchasedAt).toLocaleDateString()
-                                                        : "—"}
+                                                    <div className={`bg-[#FAD7A0] w-fit text-xs rounded-full px-3 py-1.5`}>
+                                                        {course?.score !== undefined ? `Re-Attempt` : `Attempt Now`}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         );
@@ -193,10 +232,10 @@ const UserDashboard = () => {
 
             {/* Course Topic Card */}
             <div className="w-full lg:w-[300px] flex-shrink-0">
-                <CourseTopicCard courses={courses} />
+                <QuizGraph courses={courses} quizes={attemptedQuiz} />
             </div>
         </div>
     );
 };
 
-export default UserDashboard;
+export default QuizSection;

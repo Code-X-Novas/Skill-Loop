@@ -21,32 +21,21 @@ const CourseOverview = () => {
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth.user);
-    const dispatch = useDispatch();
-
     const selectedLevel = location.state?.plan || "Basic";
-
+    const dispatch = useDispatch();
+    const videoRef = useRef(null);
+    
     const [course, setCourse] = useState(null);
     const [subCourse, setSubCourse] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("description");
     const [isBought, setIsBought] = useState(false);
-
-    const [showCertGen, setShowCertGen] = useState(true);
-
-    // const [isBuffering, setIsBuffering] = useState(false);
-    // const [videoError, setVideoError] = useState(false);
-
-    // const rpay = "4386 2894 0766 0153";
-
-    const videoRef = useRef(null);
+    const [score, setScore] = useState(null);
+    const [showCertGen, setShowCertGen] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-
-    // ✅ NEW states for watch tracking
-    const [canGenerateCertificate, setCanGenerateCertificate] = useState(false);
-
+    const [attendQuiz, setAttendQuiz] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [newReview, setNewReview] = useState("");
-    const [watchedSeconds, setWatchedSeconds] = useState(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -128,11 +117,9 @@ const CourseOverview = () => {
                         const progressSnap = await getDoc(progressRef);
                         if (progressSnap.exists()) {
                             const progressData = progressSnap.data();
-                            if (progressData?.watchedSeconds) {
-                                setWatchedSeconds(progressData.watchedSeconds);
-                            }
+                            console.log("Progress Data:", progressData);
                             if (progressData?.completed) {
-                                setCanGenerateCertificate(true);
+                                setAttendQuiz(true);
                             }
                         }
                     }
@@ -164,7 +151,7 @@ const CourseOverview = () => {
 
         const handleEnded = async () => {
             console.log("🎉 Video ended event fired!");
-            setCanGenerateCertificate(true);
+            setAttendQuiz(true);
             console.log("✅ canGenerateCertificate set to TRUE");
 
             const progressRef = doc(
@@ -183,7 +170,6 @@ const CourseOverview = () => {
                 { merge: true }
             );
             console.log("✅ Progress written to Firestore");
-            console.log("watchedSeconds:", watchedSeconds);
         };
 
         video.addEventListener("ended", handleEnded);
@@ -193,7 +179,35 @@ const CourseOverview = () => {
             video.removeEventListener("ended", handleEnded);
             console.log("❌ Video 'ended' listener removed");
         };
-    }, [user, id, subCourse, watchedSeconds]);
+    }, [videoRef.current, user, subCourse, id]);
+
+    useEffect(() => {
+        const calculateScore = async () => {
+            if (!user?.uid || !id ) return;
+
+            const userRef = doc(fireDB, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                const matchedCourse = userData?.yourCourses?.find(
+                    (course) => course.courseId === id && course.subCourseId === subCourse?.id
+                );
+                console.log("maatchedCourse:", matchedCourse);
+
+                if (matchedCourse.score != null) {
+                    setScore(matchedCourse.score);
+                    console.log(`Score for course ${id}:`, matchedCourse.score);
+                } else {
+                    console.warn("No score found for this course.");
+                }
+            } else {
+                console.warn("User not found in Firestore.");
+            }
+        };
+
+        calculateScore();
+    }, [user, id, subCourse]);
 
     const handlePlayVideo = () => {
         if (videoRef.current) {
@@ -401,12 +415,12 @@ const CourseOverview = () => {
 
                 // Update Redux or local auth state
                 dispatch(
-                setAuthUser({
-                    ...user,
-                    yourCourses: user.yourCourses
-                    ? [...user.yourCourses, purchasedCourse]
-                    : [purchasedCourse],
-                })
+                    setAuthUser({
+                        ...user,
+                        yourCourses: user.yourCourses
+                        ? [...user.yourCourses, purchasedCourse]
+                        : [purchasedCourse],
+                    })
                 );
 
                 toast.success("Payment successful! Course unlocked.");
@@ -425,8 +439,8 @@ const CourseOverview = () => {
     };
 
     console.log(
-        "🔑 Rendering cert button: canGenerateCertificate =",
-        canGenerateCertificate
+        "🔑 Rendering cert button: attendQuiz =",
+        attendQuiz && course?.score
     );
 
     const handleAddReview = async () => {
@@ -476,8 +490,6 @@ const CourseOverview = () => {
         );
     }
 
-    console.log("subcourse -", subCourse.videoUrl);
-
     return (
         <>
             <div className="max-w-6xl mx-auto px-4 py-2 text-gray-800">
@@ -495,7 +507,10 @@ const CourseOverview = () => {
                 </div>
 
                 <div className="grid md:grid-cols-3 gap-8 items-start mt-6">
+                    {/* Left side content */}
                     <div className="md:col-span-2">
+
+                        {/* Video Player */}
                         <div className="relative w-full max-h-[400px]">
                             {isBought ? (
                                 <>
@@ -538,91 +553,8 @@ const CourseOverview = () => {
                                 </div>
                             )}
                         </div>
-
-                        {/* <div className="relative w-full max-h-[400px]">
-  {isBought ? (
-    <>
-      <video
-        ref={videoRef}
-        src={subCourse.videoUrl}
-        className="w-full h-full object-cover rounded-lg"
-        controls
-        controlsList="nodownload"
-        onWaiting={() => setIsBuffering(true)}
-        onPlaying={() => setIsBuffering(false)}
-        onError={() => setVideoError(true)}
-      />
-
-     
-      {isBuffering && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-lg">
-          <svg
-            className="animate-spin h-12 w-12 text-orange-400"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v8H4z"
-            ></path>
-          </svg>
-        </div>
-      )}
-
-   
-      {!isPlaying && !isBuffering && !videoError && (
-        <div
-          onClick={handlePlayVideo}
-          className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg cursor-pointer"
-        >
-          <img
-            src={subCourse.subThumbnail}
-            alt="Course Thumbnail"
-            className="w-full h-full object-cover rounded-lg"
-          />
-          <button className="absolute text-white text-3xl font-bold bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 px-6 py-3 rounded-full shadow-lg hover:scale-105 transition">
-            ▶️ Play Video
-          </button>
-        </div>
-      )}
-
-   
-      {videoError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/70 rounded-lg text-white text-center p-4">
-          <p>
-            ⚠️ Sorry! This video cannot be played right now.<br />
-            Please contact support.
-          </p>
-        </div>
-      )}
-    </>
-  ) : (
-    <div className="relative">
-      <img
-        src={subCourse.subThumbnail}
-        alt="Locked Course"
-        className="w-full h-full object-cover rounded-lg"
-      />
-      <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center rounded-lg">
-        <CiLock className="text-4xl text-white mb-2" />
-        <p className="text-white font-semibold">
-          Buy this course to unlock the video
-        </p>
-      </div>
-    </div>
-  )}
-</div> */}
-
+                        
+                        {/* Tabs for Description, Course, Review */}
                         <div className="flex flex-wrap mt-6 font-semibold gap-4">
                             {["description", "course", "review"].map((tab) => (
                                 <button
@@ -735,8 +667,10 @@ const CourseOverview = () => {
                             </div>
                         )}
                     </div>
-
+                    
+                    {/* Right side content */}
                     <div className="md:col-span-1 md:top-20">
+                        {/* Box content */}
                         <div className="bg-white border rounded-xl p-6 shadow-md flex flex-col justify-between h-full">
                             <div className="mt-4">
                                 <div className="mb-4 flex gap-2">
@@ -791,8 +725,9 @@ const CourseOverview = () => {
                             </div>
                         </div>
 
+                        {/* Generate Certificate */}
                         <div className="mt-4">
-                            {canGenerateCertificate ? (
+                            {attendQuiz && score !== null ? (
                                 <button
                                     onClick={() => setShowCertGen(true)}
                                     className="w-full py-2 border cursor-pointer rounded-full bg-gradient-to-r from-orange-400 via-orange-600 to-orange-600 text-white text-sm font-semibold"
@@ -812,10 +747,26 @@ const CourseOverview = () => {
                                 It will be unlocked when video ends.
                             </p>
                         </div>
+                        
+                        {/* Quiz Button */}
+                        {attendQuiz && (
+                            <div className="mt-4 flex justify-center">
+                                <button
+                                    onClick={() => {
+                                        const slug = course.slug
+                                        navigate(`/courses/${slug}/${id}/overview/quiz`)
+                                    }}
+                                    className="w-fit py-2 px-4 border cursor-pointer rounded-full bg-gradient-to-r from-green-400 via-green-600 to-green-600 text-white text-sm font-semibold"
+                                >
+                                    Attend Quiz
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
-
+            
+            {/* Certificate Preview */}
             <div className="bg-[linear-gradient(to_right,white,#f0fdf4,#fefce8,white)]">
                 {showCertGen && (
                     <CertificateGenerator

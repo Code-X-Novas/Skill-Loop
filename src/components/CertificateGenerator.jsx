@@ -9,12 +9,15 @@ import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/authSlice";
 
 const CertificateGenerator = ({ user, course, subCourse, courseId, onClose }) => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const didRun = useRef(false);
     const dispatch = useDispatch(); 
 
     useEffect(() => {
-        if (didRun.current) return;
+        if (didRun.current) {
+            console.warn("Certificate generation already triggered");
+            return;
+        }
         didRun.current = true;
         const generateCertificate = async () => {
             try {
