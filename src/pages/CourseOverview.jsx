@@ -36,6 +36,7 @@ const CourseOverview = () => {
     const [attendQuiz, setAttendQuiz] = useState(false);
     const [reviews, setReviews] = useState([]);
     const [newReview, setNewReview] = useState("");
+    console.log("subcourse from overview: ", subCourse);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -152,8 +153,8 @@ const CourseOverview = () => {
         const handleEnded = async () => {
             console.log("🎉 Video ended event fired!");
             setAttendQuiz(true);
-            const slug = course.slug
-            navigate(`/courses/${slug}/${id}/overview/quiz`);
+            const slug = course.seo.slug
+            navigate(`/courses/${slug}/${id}/overview/quiz`, { state: { subCourseId: subCourse.id } })
             console.log("✅ canGenerateCertificate set to TRUE");
 
             const progressRef = doc(

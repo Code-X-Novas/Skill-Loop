@@ -31,7 +31,7 @@ const UserDashboard = () => {
 
             for (const course of courses) {
                 // ✅ Count if certificateGenerated is true
-                if (course?.score !== null) {
+                if (course?.score !== undefined) {
                     certCount++;
                 }
 
@@ -143,7 +143,7 @@ const UserDashboard = () => {
                                 </thead>
                                 <tbody>
                                     {courses.map((course, idx) => {
-                                        const status = course.score !== null ? "Complete" : "Ongoing";
+                                        const status = course.score !== undefined ? "Complete" : "Ongoing";
 
                                         return (
                                             <tr

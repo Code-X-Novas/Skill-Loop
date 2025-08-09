@@ -2,16 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { updateDoc, doc, arrayUnion, getDoc } from "firebase/firestore";
-import axios from "axios";
 import { fireDB } from "../firebase/FirebaseConfig";
 import { toast } from "react-toastify";
+// import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/authSlice";
+import axios from "axios";
 
 const CertificateGenerator = ({ user, course, subCourse, courseId, onClose }) => {
     const [loading, setLoading] = useState(false);
     const didRun = useRef(false);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
+    const previewRef = useRef();
 
     useEffect(() => {
         if (didRun.current) {
@@ -21,7 +23,8 @@ const CertificateGenerator = ({ user, course, subCourse, courseId, onClose }) =>
         didRun.current = true;
         const generateCertificate = async () => {
             try {
-                const certElement = document.getElementById("certificate-preview");
+                const certElement = document.getElementById("certificate-download");
+                certElement.classList.remove("hidden");
 
                 // 1️⃣ HTML to PNG
                 const canvas = await html2canvas(certElement, { scale: 2 });
@@ -113,6 +116,7 @@ const CertificateGenerator = ({ user, course, subCourse, courseId, onClose }) =>
                         yourCourses: updatedYourCourses,
                     })
                 );
+                certElement.classList.add("hidden");
 
                 setLoading(false);
                 toast.success("🎉 Certificate generated & saved!");
@@ -155,6 +159,7 @@ const CertificateGenerator = ({ user, course, subCourse, courseId, onClose }) =>
                 {/* Certificate Preview */}
                 <div
                     id="certificate-preview"
+                    ref={previewRef}
                     className="relative h-auto max-w-[1200px] mx-auto"
                 >
                     <img

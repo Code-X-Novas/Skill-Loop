@@ -6,23 +6,33 @@ import { MdOutlineFileDownload } from "react-icons/md";
 
 const Certificates = () => {
     const user = useSelector((state) => state.auth.user);
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState(null); // single
+    console.log("selected: ", selected);
 
     // ✅ Pull certificates with PNG URLs
-    const certificates =
-        user?.yourCourses?.filter(
-            (c) => c.certificateGenerated && c.certificate
-        ) || [];
+    const certificates = user?.yourCourses?.filter((c) => c.certificateGenerated && c.certificate) || [];
 
-    console.log(certificates)
+    console.log("Courses which have certificate: ",certificates)
 
-    const handleDownloadAll = () => {
-        certificates.forEach((cert) => {
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    const handleDownloadAll = async () => {
+        for (const cert of certificates) {
+            const res = await fetch(cert.certificate);
+            const blob = await res.blob();
+            const url = window.URL.createObjectURL(blob);
+
             const link = document.createElement("a");
-            link.href = cert.certificate;
+            link.href = url;
             link.download = `${cert.title}.png`;
+            document.body.appendChild(link);
             link.click();
-        });
+            document.body.removeChild(link);
+
+            window.URL.revokeObjectURL(url);
+
+            await delay(500); // half-second gap so browser allows it
+        }
     };
 
     const handleSingleDownload = async (e, cert) => {
