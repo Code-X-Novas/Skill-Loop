@@ -106,7 +106,7 @@ function AdvantageCarousel() {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="md:text-5xl text-4xl font-semibold leading-tight w-full md:text-center text-left"
+                className="md:text-5xl text-4xl font-semibold leading-tight w-full md:pl-1 text-left"
             >
                 Our Advantages
             </motion.h2>

@@ -133,7 +133,7 @@ export default function JobOpenings() {
                       key={job.id}
                       className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 flex flex-col space-y-4"
                     >
-                      <span className="inline-block bg-[#FDF1DF] text-[#D97706] md:text-sm text-xs font-medium px-3 py-1 rounded-md">
+                      <span className="inline-block bg-[#FDF1DF] text-[#D97706] md:text-sm text-xs font-medium px-3 py-1 rounded-md w-max">
                         {job.location || job.jobType || "N/A"}
                       </span>
 
@@ -155,7 +155,7 @@ export default function JobOpenings() {
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2">
+                      <div className="flex flex-wrap gap-2 items-center justify-between pt-2">
                         <div className="flex items-center space-x-3">
                           {job.company?.logo && (
                             <img
@@ -178,7 +178,7 @@ export default function JobOpenings() {
                           href={job.applicationLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="ml-auto text-xs bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded-full transition"
+                          className="text-xs bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded-full transition"
                         >
                           Apply Now
                         </a>

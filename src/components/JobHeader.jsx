@@ -2,11 +2,11 @@ import { Search, MapPin } from 'lucide-react';
 
 export function JobHeader() {
   return (
-    <div className="bg-[#F8EEDD] py-10 px-4 sm:px-8 lg:px-16">
+    <div className="bg-[#F8EEDD] py-10 px-4 md:px-8 lg:px-16">
       <h1 className="md:text-5xl text-4xl font-bold mb-2">Job Openings</h1>
       <p className="text-gray-700 mb-6">Search your career opportunity through 12,800 jobs</p>
-      <div className="flex flex-col sm:flex-row gap-4 bg-white px-6 py-4 sm:rounded-full rounded-xl shadow-md justify-between items-center">
-        <div className="relative w-full sm:w-1/2">
+      <div className="flex flex-col md:flex-row gap-4 bg-white px-6 py-4 md:rounded-full rounded-xl shadow-md justify-between items-center">
+        <div className="relative w-full md:w-1/2">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#5C5C60] w-5 h-5" />
           <input
             type="text"
@@ -14,7 +14,7 @@ export function JobHeader() {
             className="w-full rounded-lg py-2 pl-10 pr-4 outline-none focus:border-[#F4B860] transition"
           />
         </div>
-        <div className="relative w-full sm:w-1/3 sm:border-l sm:border-gray-300 sm:pl-4">
+        <div className="relative w-full md:w-1/3 md:border-l md:border-gray-300 md:pl-4">
           <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#5C5C60] w-5 h-5" />
           <select className="w-full rounded-lg py-2 pl-10 pr-4 outline-none">
             <option>All Locations</option>
