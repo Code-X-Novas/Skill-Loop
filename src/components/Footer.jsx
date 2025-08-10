@@ -1,7 +1,11 @@
 import { FaLinkedin, FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 function Footer() {
+
+    const navigate = useNavigate();
+
     return (
         <div className="relative z-10 px-4 md:pt-16 pt-5 mx-auto w-full sm:max-w-xl md:max-w-full md:px-24 lg:px-8">
             {/* Top Flex Container to enable justify-between */}
@@ -70,12 +74,12 @@ function Footer() {
                                 "Testimonials",
                             ].map((item) => (
                                 <li key={item}>
-                                    <a
-                                        href="/"
-                                        className="text-gray-600 hover:text-black transition-colors duration-300"
+                                    <p
+                                        onClick={() => navigate("/")}
+                                        className="text-gray-600 cursor-pointer hover:text-black transition-colors duration-300"
                                     >
                                         {item}
-                                    </a>
+                                    </p>
                                 </li>
                             ))}
                         </ul>
@@ -95,12 +99,12 @@ function Footer() {
                                 "Bussiness Analytics",
                             ].map((item) => (
                                 <li key={item}>
-                                    <a
-                                        href="/coursedetail"
-                                        className="text-gray-600 hover:text-black transition-colors duration-300"
+                                    <p
+                                        onClick={() => navigate("/coursedetail")}
+                                        className="text-gray-600 cursor-pointer hover:text-black transition-colors duration-300"
                                     >
                                         {item}
-                                    </a>
+                                    </p>
                                 </li>
                             ))}
                         </ul>
@@ -115,12 +119,12 @@ function Footer() {
                             {["Program Design", "HR Executive", "Sales Manager", "Marketing Manager"].map(
                                 (item) => (
                                     <li key={item}>
-                                        <a
-                                            href="/jobopenings"
-                                            className="text-gray-600 hover:text-black transition-colors duration-300"
+                                        <p
+                                            onClick={() => navigate("/jobopenings")}
+                                            className="text-gray-600 cursor-pointer hover:text-black transition-colors duration-300"
                                         >
                                             {item}
-                                        </a>
+                                        </p>
                                     </li>
                                 )
                             )}
