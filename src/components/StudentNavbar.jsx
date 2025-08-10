@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Menu, X } from "lucide-react";
+import { useState } from "react";
+import { Menu } from "lucide-react";
 import AuthModal from "./AuthModal";
 import { createPortal } from "react-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,10 +31,6 @@ function StudentNavbar({ toggleSidebar }) {
         setIsAuthModalOpen(false);
     };
 
-    const handleMenuClick = () => {
-        setIsMenuOpen((prev) => !prev);
-    };
-
     const closeMenu = () => {
         setIsMenuOpen(false);
     };
@@ -62,48 +58,62 @@ function StudentNavbar({ toggleSidebar }) {
                     {/* Desktop Nav */}
                     <ul className="hidden md:flex space-x-8 items-center">
                         <li>
-                            <a href="/" className="text-sm">
+                            <button
+                                onClick={() => handleNavClick("/")}
+                                className="text-sm"
+                            >
                                 Home
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="/coursedetail" className="text-sm">
+                            <button
+                                onClick={() => handleNavClick("/coursedetail")}
+                                className="text-sm"
+                            >
                                 Courses
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="/internship" className="text-sm">
+                            <button
+                                onClick={() => handleNavClick("/internship")}
+                                className="text-sm"
+                            >
                                 Internship
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="/jobopenings" className="text-sm">
+                            <button
+                                onClick={() => handleNavClick("/jobopenings")}
+                                className="text-sm"
+                            >
                                 Job Openings
-                            </a>
+                            </button>
                         </li>
                         <li>
-                            <a href="/contact" className="text-sm">
+                            <button
+                                onClick={() => handleNavClick("/contact")}
+                                className="text-sm"
+                            >
                                 Contact
-                            </a>
+                            </button>
                         </li>
                     </ul>
 
                     {/* Auth / Cart */}
                     {user ? (
                         <div className="relative">
-                                <img
-                                    src="/shopping.svg"
-                                    alt="Cart"
-                                    onClick={() => navigate("/cart")}
-                                    className="w-6 h-6 text-gray-700 cursor-pointer"
-                                />
-                                {
-                                    cartItems.length > 0 && (
-                                        <span className="absolute -top-2 -right-1.5 animate-bounce bg-[#D35244] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                                            {cartItems.length}
-                                        </span>
-                                    )}
-                            </div>
+                            <img
+                                src="/shopping.svg"
+                                alt="Cart"
+                                onClick={() => navigate("/cart")}
+                                className="w-6 h-6 text-gray-700 cursor-pointer"
+                            />
+                            {cartItems.length > 0 && (
+                                <span className="absolute -top-2 -right-1.5 animate-bounce bg-[#D35244] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                                    {cartItems.length}
+                                </span>
+                            )}
+                        </div>
                     ) : (
                         <div className="hidden lg:flex items-center space-x-4">
                             <button
