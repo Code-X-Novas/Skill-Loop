@@ -52,7 +52,7 @@ const StudentSidebar = ({ closeSidebar }) => {
                                 navigate(item.path);
                                 closeSidebar();
                             }}
-                            className={`flex items-center gap-3 px-6 py-2 rounded-full transition-all ${location.pathname === item.path ? 'bg-[#F8EEDD] text-[#D35244] font-semibold' : 'hover:bg-gray-100 text-[#535456]'
+                            className={`flex cursor-pointer items-center gap-3 px-6 py-2 rounded-full transition-all ${location.pathname === item.path ? 'bg-[#F8EEDD] text-[#D35244] font-semibold' : 'hover:bg-gray-100 text-[#535456]'
                                 }`}
                         >
                             {item.icon}

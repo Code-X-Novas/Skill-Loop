@@ -56,11 +56,11 @@ export default function YourCourse() {
                 <table className="w-full text-left text-sm min-w-[650px]">
                     <thead>
                         <tr className="text-gray-500 border-b">
-                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Course Name</th>
-                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Status</th>
-                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Level</th>
-                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Price</th>
-                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Purchased At</th>
+                            <th className="lg:p-3 p-2">Course Name</th>
+                            <th className="lg:p-3 p-2">Status</th>
+                            <th className="lg:p-3 p-2">Level</th>
+                            <th className="lg:p-3 p-2">Price</th>
+                            <th className="lg:p-3 p-2">Purchased At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +83,7 @@ export default function YourCourse() {
                                         )
                                     }
                                 >
-                                    <td className="flex items-center gap-3 lg:p-3 p-2 lg:text-sm md:text-xs">
+                                    <td className="flex items-center gap-3 lg:p-3 p-2 xl:text-base lg:text-sm md:text-xs">
                                         <img
                                             src={course.image}
                                             alt={course.title}

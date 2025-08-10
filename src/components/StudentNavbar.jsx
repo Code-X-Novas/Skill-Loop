@@ -47,7 +47,7 @@ function StudentNavbar({ toggleSidebar }) {
                     {/* Sidebar toggle */}
                     {toggleSidebar && (
                         <button
-                            className="md:hidden p-2 mr-2"
+                            className="md:hidden p-2 mr-2 cursor-pointer"
                             onClick={toggleSidebar}
                             aria-label="Toggle Sidebar"
                         >
@@ -60,7 +60,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <li>
                             <button
                                 onClick={() => handleNavClick("/")}
-                                className="text-sm"
+                                className="text-sm cursor-pointer hover:text-[#D35244]"
                             >
                                 Home
                             </button>
@@ -68,7 +68,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <li>
                             <button
                                 onClick={() => handleNavClick("/coursedetail")}
-                                className="text-sm"
+                                className="text-sm cursor-pointer hover:text-[#D35244]"
                             >
                                 Courses
                             </button>
@@ -76,7 +76,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <li>
                             <button
                                 onClick={() => handleNavClick("/internship")}
-                                className="text-sm"
+                                className="text-sm cursor-pointer hover:text-[#D35244]"
                             >
                                 Internship
                             </button>
@@ -84,7 +84,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <li>
                             <button
                                 onClick={() => handleNavClick("/jobopenings")}
-                                className="text-sm"
+                                className="text-sm cursor-pointer hover:text-[#D35244]"
                             >
                                 Job Openings
                             </button>
@@ -92,7 +92,7 @@ function StudentNavbar({ toggleSidebar }) {
                         <li>
                             <button
                                 onClick={() => handleNavClick("/contact")}
-                                className="text-sm"
+                                className="text-sm cursor-pointer hover:text-[#D35244]"
                             >
                                 Contact
                             </button>
@@ -101,12 +101,12 @@ function StudentNavbar({ toggleSidebar }) {
 
                     {/* Auth / Cart */}
                     {user ? (
-                        <div className="relative">
+                        <div className="relative cursor-pointer ">
                             <img
                                 src="/shopping.svg"
                                 alt="Cart"
                                 onClick={() => navigate("/cart")}
-                                className="w-6 h-6 text-gray-700 cursor-pointer"
+                                className="w-6 h-6 text-gray-700"
                             />
                             {cartItems.length > 0 && (
                                 <span className="absolute -top-2 -right-1.5 animate-bounce bg-[#D35244] text-white text-xs font-bold rounded-full w-4 h-4 flex items-center justify-center">
@@ -118,13 +118,13 @@ function StudentNavbar({ toggleSidebar }) {
                         <div className="hidden lg:flex items-center space-x-4">
                             <button
                                 onClick={openSignInModal}
-                                className="text-sm bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border border-[#FDF1DF] rounded-full py-2 px-6"
+                                className="text-sm cursor-pointer bg-gradient-to-b from-[#F4B860] to-[#D35244] bg-clip-text text-transparent border border-[#FDF1DF] rounded-full py-2 px-6"
                             >
                                 Login
                             </button>
                             <button
                                 onClick={openCreateAccountModal}
-                                className="text-sm bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-6"
+                                className="text-sm cursor-pointer bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-6"
                             >
                                 Create an Account
                             </button>
