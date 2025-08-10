@@ -5,12 +5,12 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
 
 const statusColor = {
-  Done: "bg-green-100 text-green-600",
+  SUCCESS: "bg-green-100 text-green-600",
   Failed: "bg-red-100 text-red-600",
 };
 
 const statusDot = {
-  Done: "bg-green-500",
+  SUCCESS: "bg-green-500",
   Failed: "bg-red-500",
 };
 
@@ -67,11 +67,11 @@ const Transactions = () => {
             <table className="w-full text-left text-sm border border-gray-300 min-w-[800px]">
               <thead className="text-gray-600 bg-gray-100 border-b border-gray-300">
                 <tr>
-                  <th className="py-3 px-4 border-r border-gray-300">Transaction ID</th>
-                  <th className="py-3 px-4 border-r border-gray-300">Course</th>
-                  <th className="py-3 px-4 border-r border-gray-300">Amount</th>
-                  <th className="py-3 px-4 border-r border-gray-300">Status</th>
-                  <th className="py-3 px-4">Date & Time</th>
+                  <th className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-300">Transaction ID</th>
+                  <th className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-300">Course</th>
+                  <th className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-300">Amount</th>
+                  <th className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-300">Status</th>
+                  <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Date & Time</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,19 +80,19 @@ const Transactions = () => {
                     key={index}
                     className="hover:bg-gray-50 border-b border-gray-300"
                   >
-                    <td className="py-3 px-4 border-r border-gray-200">
+                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-200">
                       {txn.paymentId || txn.id}
                     </td>
-                    <td className="py-3 px-4 border-r border-gray-200">
+                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-200">
                       {txn.courseTitle}{" "}
-                      <span className="text-gray-500">({txn.level})</span>
+                      <span className="text-gray-500">{txn.level}</span>
                     </td>
-                    <td className="py-3 px-4 border-r border-gray-200">
+                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-200">
                       ₹{txn.pricePaid?.toFixed(2)}
                     </td>
-                    <td className="py-3 px-4 border-r border-gray-200">
+                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs border-r border-gray-200">
                       <span
-                        className={`px-3 py-1 text-xs font-medium rounded-full flex items-center gap-2 w-fit ${
+                        className={`lg:px-3 px-2 py-1 text-xs font-medium rounded-full flex items-center gap-2 w-fit ${
                           statusColor[txn.paymentStatus] || ""
                         }`}
                       >
@@ -104,7 +104,7 @@ const Transactions = () => {
                         {txn.paymentStatus}
                       </span>
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                       {new Date(txn.paidAt).toLocaleString()}
                     </td>
                   </tr>

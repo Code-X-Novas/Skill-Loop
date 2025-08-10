@@ -53,14 +53,14 @@ export default function YourCourse() {
 
             {/* Table layout for md+ screens */}
             <div className="hidden md:block overflow-x-auto">
-                <table className="w-full text-left text-sm min-w-[600px]">
+                <table className="w-full text-left text-sm min-w-[650px]">
                     <thead>
                         <tr className="text-gray-500 border-b">
-                            <th className="py-2">Course Name</th>
-                            <th className="py-2">Status</th>
-                            <th className="py-2">Level</th>
-                            <th className="py-2">Price</th>
-                            <th className="py-2">Purchased At</th>
+                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Course Name</th>
+                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Status</th>
+                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Level</th>
+                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Price</th>
+                            <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Purchased At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,7 +83,7 @@ export default function YourCourse() {
                                         )
                                     }
                                 >
-                                    <td className="flex items-center gap-3 py-3">
+                                    <td className="flex items-center gap-3 lg:p-3 p-2 lg:text-sm md:text-xs">
                                         <img
                                             src={course.image}
                                             alt={course.title}
@@ -93,14 +93,14 @@ export default function YourCourse() {
                                     </td>
                                     <td>
                                         <span
-                                            className={`px-3 py-1 text-xs font-medium rounded-full ${statusColor[status]}`}
+                                            className={`lg:px-3 md:px-2 py-1 lg:text-xs md:text-[10px] font-medium rounded-full ${statusColor[status]}`}
                                         >
                                             {status}
                                         </span>
                                     </td>
-                                    <td>{course.level || "—"}</td>
-                                    <td>₹{course.price || "—"}</td>
-                                    <td>
+                                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{course.level || "—"}</td>
+                                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs">₹{course.price || "—"}</td>
+                                    <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                                         {course.purchasedAt
                                             ? new Date(course.purchasedAt).toLocaleDateString()
                                             : "—"}
