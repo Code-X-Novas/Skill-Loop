@@ -4,7 +4,7 @@ import { RiCalendarScheduleLine } from "react-icons/ri";
 import { TbCertificate, TbChecklist, TbShoppingBagSearch, } from "react-icons/tb";
 import CourseTopicCard from "./CourseTopicCard";
 import { fireDB } from "../firebase/FirebaseConfig";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import QuizGraph from "./QuizGraph";
 
@@ -16,8 +16,11 @@ const QuizSection = () => {
     const [attemptedQuiz, setAttemptedQuiz] = useState(0);
 
     useEffect(() => {
-        if (user) {
+        if(!user) return;
+        if(user.yourCourses && user.yourCourses.length > 0) {
             setCourses(user.yourCourses || []);
+        } else{
+            return;
         }
         const getQuestions = async () => {
             for (const course of courses) {
@@ -46,7 +49,6 @@ const QuizSection = () => {
                 certCount++;
             }
         }
-        console.log("Attempted Quiz Count:", certCount);
         setAttemptedQuiz(certCount);
 
         if (user) {
@@ -54,50 +56,10 @@ const QuizSection = () => {
         }
     }, [user, courses]);
 
-    console.log(courses);
-    const [certificateCount, setCertificateCount] = useState(0);
-    console.log("certificateCount", certificateCount);
-
     const statusColor = {
         Complete: "bg-[#E4EDE8] text-[#68946D]",
         Ongoing: "bg-[#D1EAFF] text-[#51749C]",
     };
-
-    useEffect(() => {
-        const fetchStatusesAndCertificates = async () => {
-            if (!user || courses.length === 0) return;
-
-            const newStatusMap = {};
-            let certCount = 0;
-
-            for (const course of courses) {
-                // ✅ Count if certificateGenerated is true
-                if (course.certificateGenerated === true) {
-                    certCount++;
-                }
-
-                const progressRef = doc(
-                    fireDB,
-                    "userProgress",
-                    `${user.uid}_${course.courseId}_${course.subCourseId}`
-                );
-                const progressSnap = await getDoc(progressRef);
-
-                if (progressSnap.exists()) {
-                    const data = progressSnap.data();
-                    newStatusMap[`${course.courseId}_${course.subCourseId}`] =
-                        data.completed ? "Complete" : "Ongoing";
-                } else {
-                    newStatusMap[`${course.courseId}_${course.subCourseId}`] =
-                        "Ongoing";
-                }
-            }
-
-            setCertificateCount(certCount);
-        };
-
-        fetchStatusesAndCertificates();
-    }, [user, courses]);
 
     return (
         <div className="p-4 md:p-6 flex flex-col xl:flex-row gap-6">

@@ -36,24 +36,24 @@ const AppliedJobs = () => {
 
       {/* Table for md+ screens */}
       <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-left text-sm min-w-[500px]">
+        <table className="w-full text-left text-sm min-w-[550px]">
           <thead>
             <tr className="text-gray-500 border-b">
-              <th className="py-2">Company</th>
-              <th className="py-2">Profile</th>
-              <th className="py-2">Applied On</th>
-              <th className="py-2">Status</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Company</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Profile</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Applied On</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Status</th>
             </tr>
           </thead>
           <tbody>
             {jobs.map((job, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="py-3">{job.company}</td>
-                <td className="py-3">{job.profile}</td>
-                <td className="py-3">{job.appliedOn}</td>
-                <td className="py-3">
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{job.company}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{job.profile}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{job.appliedOn}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                   <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full flex items-center gap-2 w-fit ${statusColor[job.status]}`}
+                    className={`lg:px-3 px-2 py-1 lg:text-xs md:text-[10px] font-medium rounded-full flex items-center gap-2 w-fit ${statusColor[job.status]}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${statusDot[job.status]}`} />
                     {job.status}

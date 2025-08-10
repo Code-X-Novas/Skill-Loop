@@ -75,11 +75,11 @@ const Certificates = () => {
                         <table className="w-full text-left text-sm min-w-[600px]">
                             <thead>
                                 <tr className="text-gray-500 border-b">
-                                    <th className="py-2">Certificate Preview</th>
-                                    <th className="py-2">Course Name</th>
-                                    <th className="py-2">Level</th>
-                                    <th className="py-2">Date</th>
-                                    <th className="py-2"></th>
+                                    <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Certificate Preview</th>
+                                    <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Course Name</th>
+                                    <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Level</th>
+                                    <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Date</th>
+                                    <th className="lg:p-3 p-2 lg:text-sm md:text-xs"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,7 +89,7 @@ const Certificates = () => {
                                         id="certificate-download"
                                         className="hover:bg-gray-50 cursor-pointer"
                                     >
-                                        <td className="py-3">
+                                        <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                                             <img
                                                 src={cert.certificate}
                                                 onClick={() => setSelected(cert)}
@@ -97,19 +97,19 @@ const Certificates = () => {
                                                 className="w-32 rounded object-cover"
                                             />
                                         </td>
-                                        <td className="py-3">{cert.title}</td>
-                                        <td className="py-3">{cert.level}</td>
-                                        <td className="py-3">
+                                        <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{cert.title}</td>
+                                        <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{cert.level}</td>
+                                        <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                                             {cert.purchasedAt
                                                 ? new Date(cert.purchasedAt).toLocaleDateString()
                                                 : "—"}
                                         </td>
-                                        <td className="py-3">
+                                        <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                                             <button
                                                 onClick={(e) => handleSingleDownload(e, cert)}
-                                                className="border text-sm px-4 py-1 rounded flex items-center gap-1 cursor-pointer"
+                                                className="border lg:px-4 px-3 py-1 rounded flex items-center gap-1 cursor-pointer"
                                             >
-                                                <MdOutlineFileDownload className="w-4 h-4" />
+                                                <MdOutlineFileDownload className="size-4" />
                                                 Download
                                             </button>
                                         </td>

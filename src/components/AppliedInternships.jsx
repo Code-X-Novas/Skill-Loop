@@ -39,26 +39,26 @@ const AppliedInternships = () => {
 
       {/* Table layout for md+ */}
       <div className="hidden md:block overflow-x-auto">
-        <table className="w-full text-left text-sm min-w-[600px]">
+        <table className="w-full text-left text-sm min-w-[780px]">
           <thead>
             <tr className="text-gray-500 border-b">
-              <th className="py-2">Company</th>
-              <th className="py-2">Profile</th>
-              <th className="py-2">Applied On</th>
-              <th className="py-2">Duration</th>
-              <th className="py-2">Status</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Company</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Profile</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Applied On</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Duration</th>
+              <th className="lg:p-3 p-2 lg:text-sm md:text-xs">Status</th>
             </tr>
           </thead>
           <tbody>
             {internships.map((internship, index) => (
               <tr key={index} className="hover:bg-gray-50">
-                <td className="py-3">{internship.company}</td>
-                <td className="py-3">{internship.profile}</td>
-                <td className="py-3">{internship.appliedOn}</td>
-                <td className="py-3">{internship.duration}</td>
-                <td className="py-3">
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship.company}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship.profile}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship.appliedOn}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship.duration}</td>
+                <td className="lg:p-3 p-2 lg:text-sm md:text-xs">
                   <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full flex items-center gap-2 w-fit ${statusColor[internship.status]}`}
+                    className={`lg:px-3 px-2 py-1 lg:text-xs md:text-[10px] font-medium rounded-full flex items-center gap-2 w-fit ${statusColor[internship.status]}`}
                   >
                     <span className={`w-2 h-2 rounded-full ${statusDot[internship.status]}`} />
                     {internship.status}
