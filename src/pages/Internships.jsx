@@ -44,6 +44,10 @@ export default function Internships() {
     setFilters(updatedFilters);
   };
 
+  useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
   const handleShowMore = () => {
     if (page < totalPages) {
       setPage((prev) => prev + 1);

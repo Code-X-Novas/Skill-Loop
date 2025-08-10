@@ -12,6 +12,10 @@ const CourseDetails = () => {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
         const fetchCourses = async () => {
             try {
                 const querySnapshot = await getDocs(

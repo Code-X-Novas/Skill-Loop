@@ -52,6 +52,10 @@ export default function JobOpenings() {
   };
 
   useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+  useEffect(() => {
     const fetchJobs = async () => {
       setLoading(true);
       try {
