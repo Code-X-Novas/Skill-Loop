@@ -98,8 +98,8 @@ export default function Settings() {
       <h2 className="text-lg font-semibold">My Profile</h2>
 
       {/* Avatar & Name */}
-      <div className="border rounded-lg p-4 flex justify-between items-center">
-        <div className="flex items-center gap-4">
+      <div className="border rounded-lg p-4 flex flex-wrap gap-4 justify-between items-center">
+        <div className="flex flex-wrap xs:flex-row flex-col items-center gap-4">
           <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-100 border">
             <img
               src={tempForm.photoURL || "https://picsum.photos/200"}
@@ -107,7 +107,7 @@ export default function Settings() {
               className="w-full h-full object-cover rounded-full"
             />
             {editMode && (
-              <label className="absolute bottom-0 right-0 bg-white p-1 rounded-full border cursor-pointer">
+              <label className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-1 rounded-full border cursor-pointer">
                 <FiUpload size={16} />
                 <input
                   type="file"
@@ -118,23 +118,33 @@ export default function Settings() {
               </label>
             )}
           </div>
-          <div>
+
+          <div className="flex flex-col min-w-0 flex-1">
             {editMode ? (
-              <input
-                type="text"
+              <textarea
                 name="name"
                 value={tempForm.name}
                 onChange={handleChange}
-                className="border rounded px-2 py-1"
+                onInput={(e) => {
+                  e.target.style.height = "auto"; // reset
+                  e.target.style.height = e.target.scrollHeight + "px"; // fit content
+                }}
+                rows={1}
+                className="w-full border rounded px-2 py-1 sm:text-base text-sm resize-none overflow-hidden min-w-0"
               />
             ) : (
-              <p className="font-semibold">{form.name}</p>
+              <p className="font-semibold break-words sm:text-base text-sm min-w-0">
+                {form.name}
+              </p>
             )}
-            <p className="text-sm text-gray-500">{form.email}</p>
+            <p className="text-sm text-gray-500 break-words truncate min-w-0">
+              {form.email}
+            </p>
           </div>
+
         </div>
 
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2 space-x-2">
           {editMode && (
             <button
               onClick={handleDiscard}
@@ -173,14 +183,14 @@ export default function Settings() {
         <div className="space-y-2 text-sm w-full">
           <div>
             <p className="text-gray-500">Email</p>
-            <p className="font-medium">{form.email}</p>
+            <p className="font-medium max-w-full break-all">{form.email}</p>
           </div>
 
           <div>
             <p className="text-gray-500">Contact</p>
             {editMode ? (
               <input
-                type="text"
+                type="number"
                 name="contact"
                 value={tempForm.contact}
                 onChange={handleChange}
