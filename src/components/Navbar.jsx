@@ -85,6 +85,11 @@ function Navbar() {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const handleNav = (path) => {
+        navigate(path);
+        closeMenu();
+    };
+
     return (
         <>
             <nav className="py-4 px-8">
@@ -105,7 +110,7 @@ function Navbar() {
                         </li>
                         {/* <li><a href="/coursedetail" className="text-sm">Courses</a></li> */}
                         <li>
-                            <NavLink to="/coursedetail" className={({ isActive }) =>`text-sm ${isActive ? "font-black" : ""}`} onClick={() => setIsActive(true)}>
+                            <NavLink to="/coursedetail" className={({ isActive }) => `text-sm ${isActive ? "font-black" : ""}`} onClick={() => setIsActive(true)}>
                                 Courses
                             </NavLink>
                         </li>
@@ -117,7 +122,7 @@ function Navbar() {
                         </li>
                         {/* <li><a href="/jobopenings" className="text-sm">Job Openings</a></li> */}
                         <li>
-                            <NavLink to="/jobopenings" className={({ isActive }) =>`text-sm ${isActive ? "font-black" : ""}`} onClick={() => setIsActive(true)}>
+                            <NavLink to="/jobopenings" className={({ isActive }) => `text-sm ${isActive ? "font-black" : ""}`} onClick={() => setIsActive(true)}>
                                 Job Openings
                             </NavLink>
                         </li>
@@ -147,7 +152,7 @@ function Navbar() {
                                         </span>
                                     )}
                             </div>
-                            
+
                             {/* Profile Dropdown */}
                             <div ref={dropdownRef} className="relative">
                                 <div
@@ -207,7 +212,7 @@ function Navbar() {
                     {/* Hamburger menu - Mobile */}
                     <button
                         className="flex gap-3 lg:hidden"
-                        
+
                         aria-label="Toggle menu"
                     >
                         {user ? (
@@ -245,9 +250,8 @@ function Navbar() {
                         )}
 
                         <svg
-                            className={`w-8 h-8 ${
-                                isOpen ? "fixed z-50 right-4" : ""
-                            }`}
+                            className={`w-8 h-8 ${isOpen ? "fixed z-50 right-4" : ""
+                                }`}
                             fill="none"
                             onClick={toggleMenu}
                             stroke="currentColor"
@@ -287,49 +291,44 @@ function Navbar() {
                             >
                                 <ul className="flex flex-col space-y-4">
                                     <li>
-                                        <a
-                                            href="/"
-                                            onClick={closeMenu}
-                                            className="text-sm block py-2"
+                                        <button
+                                            onClick={() => handleNav("/")}
+                                            className="text-sm block py-2 text-left"
                                         >
                                             Home
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
-                                        <a
-                                            href="/coursedetail"
-                                            onClick={closeMenu}
-                                            className="text-sm block py-2"
+                                        <button
+                                            onClick={() => handleNav("/coursedetail")}
+                                            className="text-sm block py-2 text-left"
                                         >
                                             Courses
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
-                                        <a
-                                            href="/internship"
-                                            onClick={closeMenu}
-                                            className="text-sm block py-2"
+                                        <button
+                                            onClick={() => handleNav("/internship")}
+                                            className="text-sm block py-2 text-left"
                                         >
                                             Internship
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
-                                        <a
-                                            href="/jobopenings"
-                                            onClick={closeMenu}
-                                            className="text-sm block py-2"
+                                        <button
+                                            onClick={() => handleNav("/jobopenings")}
+                                            className="text-sm block py-2 text-left"
                                         >
                                             Job Openings
-                                        </a>
+                                        </button>
                                     </li>
                                     <li>
-                                        <a
-                                            href="/contact"
-                                            onClick={closeMenu}
-                                            className="text-sm block py-2"
+                                        <button
+                                            onClick={() => handleNav("/contact")}
+                                            className="text-sm block py-2 text-left"
                                         >
                                             Contact
-                                        </a>
+                                        </button>
                                     </li>
 
                                     {/* Auth */}
@@ -354,9 +353,7 @@ function Navbar() {
                                             </li>
                                             <li className="pt-2">
                                                 <button
-                                                    onClick={
-                                                        openCreateAccountModal
-                                                    }
+                                                    onClick={openCreateAccountModal}
                                                     className="w-full text-sm block bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full py-2 px-8 text-center"
                                                 >
                                                     Create an Account
