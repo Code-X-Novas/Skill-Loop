@@ -47,27 +47,29 @@ const StudentSidebar = ({ closeSidebar }) => {
             <ul className="space-y-1">
                 {menuItems.map((item, index) => (
                     <li key={index}>
-                        <Link
-                            to={item.path}
-                            onClick={closeSidebar}
+                        <div
+                            onClick={() => {
+                                navigate(item.path);
+                                closeSidebar();
+                            }}
                             className={`flex items-center gap-3 px-6 py-2 rounded-full transition-all ${location.pathname === item.path ? 'bg-[#F8EEDD] text-[#D35244] font-semibold' : 'hover:bg-gray-100 text-[#535456]'
                                 }`}
                         >
                             {item.icon}
                             {item.label}
-                        </Link>
+                        </div>
                     </li>
                 ))}
             </ul>
             <div className="border-t mt-4 pt-4 px-6">
-                <Link
-                    to='/student/settings'
+                <div
+                    onClick={() => navigate('/student/settings')}
                     className={`flex items-center gap-3 px-6 py-2 rounded-full transition-all ${location.pathname === '/student/settings' ? 'bg-[#F8EEDD] text-[#D35244] font-semibold' : 'hover:bg-gray-100 text-[#535456]'
                         }`}
                 >
                     <CiSettings size={18} />
                     Settings
-                </Link>
+                </div>
                 <button
                     onClick={handleLogout}
                     className="flex items-center gap-3 px-6 py-2 rounded-full text-red-600 cursor-pointer hover:bg-red-50 transition-all"
