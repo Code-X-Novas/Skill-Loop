@@ -86,7 +86,7 @@ export default function Internships() {
         <InternshipHeader />
 
         {/* Mobile Filter Toggle */}
-        <div className="md:hidden flex justify-end px-4 sm:px-8 lg:px-16 mt-4">
+        <div className="xl:hidden flex justify-end px-4 sm:px-8 xl:px-16 mt-4">
           <button
             onClick={() => setShowMobileFilter(!showMobileFilter)}
             className="px-4 py-2 border rounded-md border-gray-300 text-sm"
@@ -97,14 +97,14 @@ export default function Internships() {
 
         {/* Dropdown Filter for Mobile */}
         {showMobileFilter && (
-          <div className="md:hidden px-4 sm:px-8 lg:px-16 py-4 bg-white z-10">
+          <div className="xl:hidden px-4 sm:px-8 xl:px-16 py-4 bg-white z-10">
             <JobSidebar filters={filters} onChange={handleFilterChange} />
           </div>
         )}
 
         <div className="flex flex-col sm:flex-row px-4 sm:px-8 lg:px-16 py-8 gap-8">
           {/* Sidebar for Desktop */}
-          <div className="hidden md:block">
+          <div className="hidden xl:block">
             <JobSidebar filters={filters} onChange={handleFilterChange} />
           </div>
 

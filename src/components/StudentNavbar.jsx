@@ -72,7 +72,7 @@ function StudentNavbar({ toggleSidebar }) {
                             </a>
                         </li>
                         <li>
-                            <a href="#internships" className="text-sm">
+                            <a href="/internship" className="text-sm">
                                 Internship
                             </a>
                         </li>

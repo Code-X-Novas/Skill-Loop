@@ -5,6 +5,10 @@
     --font-primary: "Poppins", sans-serif;
 }
 
+@theme{
+    --breakpoint-xs: 18rem;
+}
+
 body {
     font-family: var(--font-primary);
     overflow-x: hidden;
