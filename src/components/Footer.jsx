@@ -144,13 +144,13 @@ function Footer() {
                         "Refund Policy",
                         "Terms & Conditions",
                     ].map((text) => (
-                        <a
+                        <p
                             key={text}
-                            href="/terms"
+                            onClick={() => navigate("/terms")}
                             className="text-gray-500 underline"
                         >
                             {text}
-                        </a>
+                        </p>
                     ))}
                 </div>
             </div>
