@@ -147,7 +147,7 @@ function Footer() {
                         <p
                             key={text}
                             onClick={() => navigate("/terms")}
-                            className="text-gray-500 underline"
+                            className="text-gray-500 cursor-pointer hover:text-[#F4A261] underline"
                         >
                             {text}
                         </p>
