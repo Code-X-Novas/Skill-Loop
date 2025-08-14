@@ -4,8 +4,8 @@ const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const cors = require("cors")({ origin: true });
 
-const gmailEmail = import.meta.env.EMAIL_USER;
-const gmailPassword = import.meta.env.EMAIL_PASS;
+const gmailEmail = "myskillloop@gmail.com";
+const gmailPassword = "cmjwgpkwzqofdkhz";
 
 const transporter = nodemailer.createTransport({
     service: "gmail",
