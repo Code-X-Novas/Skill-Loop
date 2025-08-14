@@ -1,5 +1,4 @@
 import { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import vector7 from "../img/vector7.png";
@@ -21,31 +20,41 @@ const Contact = () => {
         }));
     };
 
-    const service_id = "service_0x39flq";
-    const template_id = "template_lc0ypzj";
-    const public_key = "ByajQjGu8m_UdsXEq";
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         console.log("Form Submitted:", formData);
-        emailjs.send(
-            service_id,
-            template_id,
-            formData,
-            public_key
-        )
-        .then(() => {
-            toast.success('Message sent successfully!');
-            setFormData({ name: '', email: '', phone: '', message: '' });
-        })
-        .catch((error) => {
-            toast.error('Failed to send message. Try again.');
-            console.error("EmailJS Error:", error);
-        });
+        try {
+            const res = await fetch("https://us-central1-skillloop-945f8.cloudfunctions.net/sendContactEmail",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                }
+            );
+
+            const data = await res.json();
+            console.log("Response from server:", data);
+            if (data.success) {
+                toast.success("Message sent successfully!");
+                setFormData({
+                    name: "",
+                    email: "",
+                    phone: "",
+                    message: "",
+                });
+            } else {
+                toast.error("Failed to send message.");
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error("Error sending message.");
+        }
     };
 
     return (
-        <div className="relative bg-[#fff5e7] overflow-hidden"> 
+        <div className="relative bg-[#fff5e7] overflow-hidden">
             {/* Vectors */}
             <img
                 src={vector7}
