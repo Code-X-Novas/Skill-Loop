@@ -93,6 +93,7 @@ const Contact = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Name"
+                                required
                                 className="w-full font-medium border-[2px] border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                             />
                         </div>
@@ -109,6 +110,7 @@ const Contact = () => {
                                     value={formData.email}
                                     onChange={handleChange}
                                     placeholder="Email"
+                                    required
                                     className="w-full font-medium border-[2px] border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                                 />
                             </div>
@@ -138,6 +140,7 @@ const Contact = () => {
                                 value={formData.message}
                                 onChange={handleChange}
                                 placeholder="Message"
+                                required
                                 className="w-full font-medium border-[2px] border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                             ></textarea>
                         </div>
