@@ -24,7 +24,7 @@ const CourseOverview = () => {
     const selectedLevel = location.state?.plan || "Basic";
     const dispatch = useDispatch();
     const videoRef = useRef(null);
-    
+
     const [course, setCourse] = useState(null);
     const [subCourse, setSubCourse] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -181,13 +181,13 @@ const CourseOverview = () => {
         return () => {
             video.removeEventListener("ended", handleEnded);
             console.log("❌ Video 'ended' listener removed");
-            
+
         };
     }, [videoRef.current, user, subCourse, id]);
 
     useEffect(() => {
         const calculateScore = async () => {
-            if (!user?.uid || !id ) return;
+            if (!user?.uid || !id) return;
 
             const userRef = doc(fireDB, "users", user.uid);
             const userSnap = await getDoc(userRef);
@@ -294,17 +294,17 @@ const CourseOverview = () => {
             return;
         }
 
-        if( !subCourse ||
+        if (!subCourse ||
             !subCourse.id ||
             !subCourse.price ||
             !subCourse.subThumbnail ||
             !subCourse.level ||
             !course ||
-            !course.title ) {
+            !course.title) {
             toast.error("Required course information is missing.");
             return;
-            }
-        
+        }
+
         // Defensive checks for required fields
         if (
             !user.uid ||
@@ -323,118 +323,119 @@ const CourseOverview = () => {
             const coursePrice = subCourse.price;
 
             const orderOptions = {
-            key: "rzp_test_bEgUYtg6yXPfNV", // Replace with LIVE key in production
-            amount: parseInt(coursePrice * 100),
-            currency: "INR",
-            name: "SkillLoop",
-            description: `Purchase: ${courseTitle}`,
-            order_receipt: `order_rcptid_${user.name}`,
-            handler: async function (response) {
-                const paymentId = response.razorpay_payment_id;
-                const orderId = response.razorpay_order_id || null;
-                const signature = response.razorpay_signature || null;
-                const timestamp = new Date().toISOString();
+                key: "rzp_test_bEgUYtg6yXPfNV", 
+                amount: parseInt(coursePrice * 100),
+                currency: "INR",
+                name: "SkillLoop",
+                description: `Purchase: ${courseTitle}`,
+                image: "/skillLoopLogo.svg",
+                order_receipt: `order_rcptid_${user.name}`,
+                handler: async function (response) {
+                    const paymentId = response.razorpay_payment_id;
+                    const orderId = response.razorpay_order_id || null;
+                    const signature = response.razorpay_signature || null;
+                    const timestamp = new Date().toISOString();
 
-                const userRef = doc(fireDB, "users", user.uid);
-                const courseRef = doc(fireDB, "courses", id);
-                const subCourseRef = doc(courseRef, "subCategories", subCourse.id);
+                    const userRef = doc(fireDB, "users", user.uid);
+                    const courseRef = doc(fireDB, "courses", id);
+                    const subCourseRef = doc(courseRef, "subCategories", subCourse.id);
 
-                const purchasedCourse = {
-                courseId: id,
-                subCourseId: subCourse.id,
-                title: courseTitle,
-                level: subCourse.level,
-                price: coursePrice,
-                image: subCourse.subThumbnail,
-                paymentId,
-                purchasedAt: timestamp,
-                };
+                    const purchasedCourse = {
+                        courseId: id,
+                        subCourseId: subCourse.id,
+                        title: courseTitle,
+                        level: subCourse.level,
+                        price: coursePrice,
+                        image: subCourse.subThumbnail,
+                        paymentId,
+                        purchasedAt: timestamp,
+                    };
 
-                console.log("Saving to user:", purchasedCourse);
+                    console.log("Saving to user:", purchasedCourse);
 
-                await updateDoc(userRef, {
-                yourCourses: arrayUnion(purchasedCourse),
-                });
+                    await updateDoc(userRef, {
+                        yourCourses: arrayUnion(purchasedCourse),
+                    });
 
-                // Safely add enrolled student only if all required fields are defined
-                if (
-                    user.uid &&
-                    user.email &&
-                    user.name &&
-                    user.contact &&
-                    user.college
-                ) {
-                const enrolledStudent = {
-                    uid: user.uid,
-                    email: user.email,
-                    name: user.name,
-                    contact: user.contact,
-                    college: user.college,
-                    paymentId,
-                    purchasedAt: timestamp,
-                };
-                console.log("Saving to subCourse:", enrolledStudent);
+                    // Safely add enrolled student only if all required fields are defined
+                    if (
+                        user.uid &&
+                        user.email &&
+                        user.name &&
+                        user.contact &&
+                        user.college
+                    ) {
+                        const enrolledStudent = {
+                            uid: user.uid,
+                            email: user.email,
+                            name: user.name,
+                            contact: user.contact,
+                            college: user.college,
+                            paymentId,
+                            purchasedAt: timestamp,
+                        };
+                        console.log("Saving to subCourse:", enrolledStudent);
 
-                await updateDoc(subCourseRef, {
-                    enrolledStudents: arrayUnion(enrolledStudent),
-                });
-                } else {
-                console.warn("User missing data for enrolledStudents write");
-                }
+                        await updateDoc(subCourseRef, {
+                            enrolledStudents: arrayUnion(enrolledStudent),
+                        });
+                    } else {
+                        console.warn("User missing data for enrolledStudents write");
+                    }
 
-                const transaction = {
-                    uid: user.uid,
-                    userName: user.name,
-                    userEmail: user.email,
-                    userContact: user.contact,
-                    userCollege: user.college,
-                    courseId: id,
-                    subCourseId: subCourse.id,
-                    courseTitle: courseTitle,
-                    pricePaid: coursePrice,
-                    paymentId,
-                    paymentStatus: "SUCCESS",
-                    paidAt: timestamp,
-                    gateway: "Razorpay",
-                    razorpay_order_id: orderId,
-                    razorpay_signature: signature,
-                    bank: null,
-                    method: null,
-                };
+                    const transaction = {
+                        uid: user.uid,
+                        userName: user.name,
+                        userEmail: user.email,
+                        userContact: user.contact,
+                        userCollege: user.college,
+                        courseId: id,
+                        subCourseId: subCourse.id,
+                        courseTitle: courseTitle,
+                        pricePaid: coursePrice,
+                        paymentId,
+                        paymentStatus: "SUCCESS",
+                        paidAt: timestamp,
+                        gateway: "Razorpay",
+                        razorpay_order_id: orderId,
+                        razorpay_signature: signature,
+                        bank: null,
+                        method: null,
+                    };
 
-                try {
-                    const transactionRef = doc(collection(fireDB, "transactions"));
-                    await setDoc(transactionRef, transaction);
-                    console.log("Transaction saved:", transaction);
-                } catch (err) {
-                    console.error("Failed to save transaction:", err);
-                }
+                    try {
+                        const transactionRef = doc(collection(fireDB, "transactions"));
+                        await setDoc(transactionRef, transaction);
+                        console.log("Transaction saved:", transaction);
+                    } catch (err) {
+                        console.error("Failed to save transaction:", err);
+                    }
 
-                // Send confirmation email
-                try {
-                    await sendEmail(transaction);
-                } catch (e) {
-                    console.error("Email sending failed:", e);
-                }
+                    // Send confirmation email
+                    try {
+                        await sendEmail(transaction);
+                    } catch (e) {
+                        console.error("Email sending failed:", e);
+                    }
 
-                // Update Redux or local auth state
-                dispatch(
-                    setAuthUser({
-                        ...user,
-                        yourCourses: user.yourCourses
-                        ? [...user.yourCourses, purchasedCourse]
-                        : [purchasedCourse],
-                    })
-                );
+                    // Update Redux or local auth state
+                    dispatch(
+                        setAuthUser({
+                            ...user,
+                            yourCourses: user.yourCourses
+                                ? [...user.yourCourses, purchasedCourse]
+                                : [purchasedCourse],
+                        })
+                    );
 
-                toast.success("Payment successful! Course unlocked.");
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000) // 1 seconds delay
-            },
-            theme: {
-                color: "#D35244",
-            },
+                    toast.success("Payment successful! Course unlocked.");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000) // 1 seconds delay
+                },
+                theme: {
+                    color: "#D35244",
+                },
             };
 
             const razorpay = new window.Razorpay(orderOptions);
@@ -560,7 +561,7 @@ const CourseOverview = () => {
                                 </div>
                             )}
                         </div>
-                        
+
                         {/* Tabs for Description, Course, Review */}
                         <div className="flex flex-wrap mt-6 font-semibold gap-4">
                             {["description", "course", "review"].map((tab) => (
@@ -587,33 +588,33 @@ const CourseOverview = () => {
 
                         {(activeTab === "description" ||
                             activeTab === "course") && (
-                            <div className="mt-12">
-                                <h2 className="text-xl font-bold mb-2">
-                                    Highlights
-                                </h2>
-                                <ul className="list-disc ml-6 text-gray-700">
-                                    {subCourse.highlightedHeadings.map(
-                                        (h, i) => (
-                                            <li key={i}>{h}</li>
-                                        )
-                                    )}
-                                </ul>
-                            </div>
-                        )}
+                                <div className="mt-12">
+                                    <h2 className="text-xl font-bold mb-2">
+                                        Highlights
+                                    </h2>
+                                    <ul className="list-disc ml-6 text-gray-700">
+                                        {subCourse.highlightedHeadings.map(
+                                            (h, i) => (
+                                                <li key={i}>{h}</li>
+                                            )
+                                        )}
+                                    </ul>
+                                </div>
+                            )}
 
                         {(activeTab === "description" ||
                             activeTab === "course") && (
-                            <div className="mt-12">
-                                <h2 className="text-xl font-bold mb-2">
-                                    Sections
-                                </h2>
-                                <ul className="list-disc ml-6 text-gray-700">
-                                    {subCourse.sections.map((s, i) => (
-                                        <li key={i}>{s}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
+                                <div className="mt-12">
+                                    <h2 className="text-xl font-bold mb-2">
+                                        Sections
+                                    </h2>
+                                    <ul className="list-disc ml-6 text-gray-700">
+                                        {subCourse.sections.map((s, i) => (
+                                            <li key={i}>{s}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
 
                         {activeTab === "review" && (
                             <div className="mt-12 space-y-4">
@@ -674,7 +675,7 @@ const CourseOverview = () => {
                             </div>
                         )}
                     </div>
-                    
+
                     {/* Right side content */}
                     <div className="md:col-span-1 md:top-20">
                         {/* Box content */}
@@ -710,7 +711,7 @@ const CourseOverview = () => {
                                         ✅You Can Watch Now
                                     </button>
                                 )}
-                                
+
                                 <ul className="text-sm text-gray-600 space-y-2 mt-4">
                                     <li className="flex items-center gap-2">
                                         <CgNotes className="text-lg" />
@@ -750,11 +751,11 @@ const CourseOverview = () => {
                                 </button>
                             )}
                             <p className="text-xs text-center mt-1 text-black">
-                                <span className="text-red-500">*</span> 
+                                <span className="text-red-500">*</span>
                                 It will be unlocked when video ends.
                             </p>
                         </div>
-                        
+
                         {/* Quiz Button */}
                         {attendQuiz && (
                             <div className="mt-4 flex justify-center">
@@ -772,7 +773,7 @@ const CourseOverview = () => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Certificate Preview */}
             <div className="bg-[linear-gradient(to_right,white,#f0fdf4,#fefce8,white)]">
                 {showCertGen && (

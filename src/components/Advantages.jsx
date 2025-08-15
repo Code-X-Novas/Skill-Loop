@@ -5,24 +5,23 @@ import AdvantageCard from "./AdvantageCard";
 const advantages = [
     {
         id: 1,
-        title: "Affordable, High-Impact Courses",
+        title: "Real Internship Experience",
         description:
-            "Gain industry-relevant skills like Excel, Power BI, Tableau, and HR analytics at just ₹599–₹999 — no overpriced fluff.",
-        color: "#A6CEAB",
+            "Our HR and Sales internship model gives hands-on exposure in recruitment, onboarding, and client handling — not just theory.",
+        color: "#F4B860",
     },
     {
         id: 2,
         title: "Tiered Learning Structure",
         description:
-            "Choose from Basic, Intermediate, or Advanced levels — learn at your own pace and budget.",
+        "Choose from Basic, Intermediate, or Advanced levels — learn at your own pace and budget.",
         color: "#AADDD7",
     },
     {
         id: 3,
-        title: "Real Internship Experience",
-        description:
-            "Our HR and Sales internship model gives hands-on exposure in recruitment, onboarding, and client handling — not just theory.",
-        color: "#F4B860",
+        title: "Direct Path to Employment",
+        description: "Our programs are designed with a strong job focus, offering practical projects, interview preparation, and industry mentorship to ensure learners are not just skilled but truly employable.",
+        color: "#A6CEAB",
     },
     {
         id: 4,

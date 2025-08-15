@@ -12,6 +12,7 @@ function Info() {
         >
             <span className="absolute top-1/2 left-0 transform -translate-x-1/2 -translate-y-1/2 aspect-square w-full max-h-screen bg-[#F98B2510] rounded-full z-0 blur-3xl"></span>
 
+            {/* About us */}
             <div className="flex flex-col items-center justify-start gap-2 w-full relative z-10">
                 <motion.h2
                     initial={{ opacity: 0, x: -30 }}
@@ -55,7 +56,10 @@ function Info() {
                                 className="overflow-hidden"
                             >
                                 <p className="mt-4">
-                                    SkillLoop was founded with a bold vision: to
+                                    SkillLoop was founded by alumni of 
+                                    <span className="font-semibold"> NIT Jaipur</span> and 
+                                    <span className="font-semibold"> IIM Calicut</span>, 
+                                    with a bold vision: to
                                     bridge the gap between what education
                                     delivers and what the industry demands. Our
                                     goal is simple yet revolutionary — to{" "}
