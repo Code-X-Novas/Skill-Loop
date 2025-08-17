@@ -92,12 +92,13 @@ function Navbar() {
 
     return (
         <>
-            <nav className="py-4 px-8">
+            <nav className="py-4 lg:px-16 md:px-10 sm:px-6">
                 <div className="container mx-auto flex justify-between items-center">
                     <img
                         src="/skillLoopLogo.svg"
                         alt="SkillLoop Logo"
-                        className="h-16 w-16"
+                        className="h-16 w-16 cursor-pointer"
+                        onClick={() => navigate("/")}
                     />
 
                     {/* Desktop Nav */}
@@ -369,7 +370,7 @@ function Navbar() {
                     {/* Auth Modal */}
                     {isAuthModalOpen &&
                         createPortal(
-                            <div className="fixed inset-0 overflow-y-auto backdrop-blur-[1px] bg-white/80 z-50">
+                            <div className="fixed inset-0 backdrop-blur-[1px] bg-white/80 z-50">
                                 <AuthModal
                                     onClose={closeAuthModal}
                                     initialView={authInitialView}

@@ -322,6 +322,8 @@ const CourseOverview = () => {
             const courseTitle = `${course.title} - ${subCourse.level}`;
             const coursePrice = subCourse.price;
 
+            //my : rzp_test_BvqFX2Hzptda8Z
+
             const orderOptions = {
                 key: "rzp_test_bEgUYtg6yXPfNV", 
                 amount: parseInt(coursePrice * 100),

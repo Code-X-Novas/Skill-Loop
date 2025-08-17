@@ -1,18 +1,17 @@
 import { useState } from "react";
 import { X, Loader } from "lucide-react";
 import { fireDB, auth, googleProvider } from "../firebase/FirebaseConfig";
-import {
-    createUserWithEmailAndPassword,
-    signInWithPopup,
-    updateProfile,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPopup, updateProfile, } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setAuthUser } from "../redux/authSlice";
 
 const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
     const [formData, setFormData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const dispatch = useDispatch();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -23,9 +22,9 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
     };
 
     const handleSubmit = async () => {
-        const { name, college, email, contact, referral, password } = formData;
+        const { name, email, contact, referral, password } = formData;
 
-        if (!name || !college || !email || !contact || !password) {
+        if (!name || !email || !contact || !password) {
             setError("Please fill in all required fields.");
             return;
         }
@@ -34,7 +33,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
             setLoading(true);
             setError("");
 
-            // Check if email already exists in Firebase Auth
+            // Check if email already exists in Firestore
             const existingDoc = await getDoc(doc(fireDB, "users", email));
             if (existingDoc.exists()) {
                 setError("User already exists. Please sign in.");
@@ -42,25 +41,42 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                 return;
             }
 
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
+            // Create user in Firebase Auth (this automatically logs in the user)
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
             await updateProfile(user, { displayName: name });
 
+            // Add user to Firestore
             await setDoc(doc(fireDB, "users", user.uid), {
                 name,
-                college,
                 email,
                 contact,
                 referral: referral || "",
                 createdAt: serverTimestamp(),
             });
 
+            // 🔥 Fetch the newly created user from Firestore
+            const userRef = doc(fireDB, "users", user.uid);
+            const userSnap = await getDoc(userRef);
+
+            if (!userSnap.exists()) {
+                throw new Error("User data not found in Firestore.");
+            }
+
+            const userData = userSnap.data();
+
+            // 🔥 Dispatch to Redux
+            dispatch(
+                setAuthUser({
+                    ...userData,
+                    uid: user.uid,
+                    role: "student",
+                })
+            );
+
             toast.success("Account created successfully");
+
             if (onClose) onClose();
         } catch (err) {
             setError(err.message || "Failed to create account");
@@ -86,11 +102,29 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                     name: user.displayName,
                     email: user.email,
                     contact: "",
-                    college: "",
                     referral: "",
                     createdAt: serverTimestamp(),
                 });
             }
+
+            // 🔥 Fetch the newly created user from Firestore
+            const userRef = doc(fireDB, "users", user.uid);
+            const userSnap2 = await getDoc(userRef);
+
+            if (!userSnap2.exists()) {
+                throw new Error("User data not found in Firestore.");
+            }
+
+            const userData = userSnap2.data();
+
+            // 🔥 Dispatch to Redux
+            dispatch(
+                setAuthUser({
+                    ...userData,
+                    uid: user.uid,
+                    role: "student",
+                })
+            );
 
             toast.success("Account created successfully");
             if (onClose) onClose();
@@ -103,8 +137,8 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen p-4 sm:p-6 md:p-8">
-            <div className="w-full max-w-sm sm:max-w-md relative">
+        <div className="flex items-center justify-center min-h-screen p-4 sm:p-6">
+            <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg relative overflow-y-auto scrollbar-hide">
                 {onClose && (
                     <button
                         onClick={onClose}
@@ -120,7 +154,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
 
                 {/* form */}
                 <div className="p-[1px] rounded-2xl sm:rounded-3xl bg-[radial-gradient(circle_at_bottom,#211B86,#FFB47B)]">
-                    <div className="bg-white/98 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 relative overflow-hidden">
+                    <div className="bg-white/98 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 relative ">
                         <div className="text-center mb-6 sm:mb-8 relative z-10">
                             <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
                                 Create Account
@@ -130,6 +164,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                             </p>
                         </div>
 
+                        {/* Form */}
                         <div className="space-y-4 sm:space-y-6 relative z-10">
                             {error && (
                                 <div className="text-red-600 text-sm font-medium">
@@ -137,103 +172,90 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                                 </div>
                             )}
 
-                            {/* Name */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
-                                <label
-                                    htmlFor="name"
-                                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Name<span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    name="name"
-                                    onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
-                                    placeholder="Enter your name"
-                                />
+                            {/* name and email */}
+                            <div className="flex gap-3">
+                                {/* Name */}
+                                <div className="bg-[#dcd6d4] justify-between flex flex-col p-2.5 rounded-lg sm:rounded-xl">
+                                    <label
+                                        htmlFor="name"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                                    >
+                                        Name<span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        name="name"
+                                        onChange={handleInputChange}
+                                        className="w-full lg:placeholder:text-sm placeholder:text-xs focus:outline-none text-sm sm:text-base"
+                                        placeholder="Enter your name"
+                                    />
+                                </div>
+
+                                {/* Email */}
+                                <div className="bg-[#dcd6d4] p-2.5 rounded-lg sm:rounded-xl">
+                                    <label
+                                        htmlFor="email"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                                    >
+                                        Email ID
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        onChange={handleInputChange}
+                                        className="w-full lg:placeholder:text-sm placeholder:text-xs focus:outline-none text-sm sm:text-base"
+                                        placeholder="Enter your email ID"
+                                    />
+                                </div>
                             </div>
 
-                            {/* College Name */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
-                                <label
-                                    htmlFor="college"
-                                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    College Name
-                                    <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    id="college"
-                                    name="college"
-                                    onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
-                                    placeholder="Enter your college name"
-                                />
-                            </div>
+                            {/* Password and Contact Number */}
+                            <div className="flex gap-3">
+                                {/* Password */}
+                                <div className="bg-[#dcd6d4] p-2.5 rounded-lg sm:rounded-xl">
+                                    <label
+                                        htmlFor="password"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                                    >
+                                        Password
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        name="password"
+                                        onChange={handleInputChange}
+                                        className="w-full lg:placeholder:text-sm placeholder:text-xs focus:outline-none text-sm sm:text-base"
+                                        placeholder="Enter a password"
+                                    />
+                                </div>
 
-                            {/* Email */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
-                                <label
-                                    htmlFor="email"
-                                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Email ID
-                                    <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
-                                    placeholder="Enter your email ID"
-                                />
-                            </div>
-
-                            {/* Password */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Password
-                                    <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
-                                    placeholder="Enter a password"
-                                />
-                            </div>
-
-                            {/* Contact Number */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
-                                <label
-                                    htmlFor="contact"
-                                    className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
-                                >
-                                    Contact Number
-                                    <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="tel"
-                                    id="contact"
-                                    name="contact"
-                                    maxLength="10"
-                                    onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
-                                    placeholder="Enter your contact number"
-                                />
+                                {/* Contact Number */}
+                                <div className="bg-[#dcd6d4] p-2.5 rounded-lg sm:rounded-xl">
+                                    <label
+                                        htmlFor="contact"
+                                        className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
+                                    >
+                                        Contact Number
+                                        <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        id="contact"
+                                        name="contact"
+                                        maxLength="10"
+                                        onChange={handleInputChange}
+                                        className="w-full lg:placeholder:text-sm placeholder:text-xs focus:outline-none text-sm sm:text-base"
+                                        placeholder="Enter your contact number"
+                                    />
+                                </div>
                             </div>
 
                             {/* Referral Name */}
-                            <div className="bg-[#dcd6d4] p-3 rounded-lg sm:rounded-xl">
+                            <div className="bg-[#dcd6d4] p-2.5 rounded-lg sm:rounded-xl">
                                 <label
                                     htmlFor="referral"
                                     className="block text-xs sm:text-sm font-medium text-gray-700 mb-1"
@@ -248,7 +270,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                                     id="referral"
                                     name="referral"
                                     onChange={handleInputChange}
-                                    className="w-full focus:outline-none text-sm sm:text-base"
+                                    className="w-full lg:placeholder:text-sm placeholder:text-xs focus:outline-none text-sm sm:text-base"
                                     placeholder="Enter referral name if any"
                                 />
                             </div>
@@ -302,7 +324,8 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                                 )}
                             </button>
                         </div>
-
+                                
+                        {/* Last text */}
                         <div className="text-center sm:mt-4 mt-2 relative z-10">
                             <p className="text-gray-600 text-[11px] sm:text-xs">
                                 Already have an account?
