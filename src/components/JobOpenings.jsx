@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { collection, getDocs } from "firebase/firestore";
-import { fireDB } from "../firebase/FirebaseConfig";
+import { arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { auth, fireDB } from "../firebase/FirebaseConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { setAuthUser } from "../redux/authSlice";
 
 function JobOpenings() {
     const navigate = useNavigate();
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const user = useSelector((state) => state.auth.user);
+
+    // for dialog
+    const [showDialog, setShowDialog] = useState(false);
+    const [appliedJobId, setAppliedJobId] = useState(null);
 
     const handleViewAll = () => {
         navigate("/jobopenings");
@@ -27,7 +36,7 @@ function JobOpenings() {
                 const sortedJobs = jobsData.sort((a, b) => {
                     const isA_PPO = a.title?.toLowerCase() === "pre placement offer(ppo)";
                     const isB_PPO = b.title?.toLowerCase() === "pre placement offer(ppo)";
-                    return isB_PPO - isA_PPO; 
+                    return isB_PPO - isA_PPO;
                 });
 
                 setJobs(sortedJobs);
@@ -41,9 +50,28 @@ function JobOpenings() {
         fetchJobs();
     }, []);
 
+    // Detect when user comes back from Google Form
+    useEffect(() => {
+        const handleFocus = () => {
+            const jobId = localStorage.getItem("appliedJobId");
+            if (jobId) {
+                setAppliedJobId(jobId);
+                setShowDialog(true);
+            }
+        };
+        window.addEventListener("focus", handleFocus);
+        return () => window.removeEventListener("focus", handleFocus);
+    }, []);
 
-    return (    
-        <>  
+    // Handle Apply Now Click
+    const handleApplyClick = (jobId, link) => {
+        localStorage.setItem("appliedJobId", jobId);
+        window.open(link, "_blank"); // open Google Form in new tab
+    };
+
+
+    return (
+        <>
             {/* Heading */}
             <motion.h2
                 initial={{ opacity: 0, x: -100 }}
@@ -88,7 +116,7 @@ function JobOpenings() {
                     View All
                 </motion.button>
             </div>
-            
+
             {/* Job Cards */}
             <motion.div
                 // initial={{ opacity: 0, x: 100 }}
@@ -114,9 +142,9 @@ function JobOpenings() {
                             return (
                                 <div
                                     key={job.id}
-                                    className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 w-80 flex-shrink-0 space-y-4"
+                                    className="bg-white justify-between flex flex-col rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 w-80 flex-shrink-0 space-y-4"
                                 >
-                                    <span className="inline-block bg-[#FDF1DF] text-[#D97706] md:text-sm text-xs font-medium px-3 py-1 rounded-md">
+                                    <span className="inline-block w-fit bg-[#FDF1DF] text-[#D97706] md:text-sm text-xs font-medium px-3 py-1 rounded-md">
                                         {job.location || job.jobType || "N/A"}
                                     </span>
 
@@ -163,14 +191,19 @@ function JobOpenings() {
                                             </div>
                                         </div>
 
-                                        <a
-                                            href={job.applicationLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="ml-auto text-xs bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded-full transition"
+                                        <button
+                                            onClick={() => handleApplyClick(job.id, job.applicationLink)}
+                                            disabled={!user || user?.appliedJobs?.some((i) => i.id === job.id)} // 👈 add disabled
+                                            className={`text-xs font-semibold py-1 px-3 rounded-full transition
+                                                            ${user?.appliedJobs?.some((i) => i.id === job.id)
+                                                    ? "bg-green-500 text-white cursor-not-allowed"
+                                                    : "bg-yellow-400 hover:bg-yellow-500 cursor-pointer text-black"
+                                                }`}
                                         >
-                                            Apply Now
-                                        </a>
+                                            {user?.appliedJobs?.some((i) => i.id === job.id)
+                                                ? "Applied"
+                                                : "Apply Now"}
+                                        </button>
                                     </div>
                                 </div>
                             );
@@ -178,8 +211,131 @@ function JobOpenings() {
                     </div>
                 )}
             </motion.div>
+
+            {/* Apply Confirmation Dialog */}
+            {showDialog && appliedJobId && (
+                <ApplyConfirmDialog
+                    jobId={appliedJobId}
+                    onClose={() => setShowDialog(false)}
+                />
+            )}
         </>
     );
 }
 
 export default JobOpenings;
+
+
+function ApplyConfirmDialog({ jobId, onClose }) {
+
+    const dispatch = useDispatch();
+
+    const handleResponse = async (applied) => {
+        if (applied) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) {
+                toast.error("You must be logged in to apply for jobs.");
+                return;
+            }
+
+            try {
+                // Fetch job details
+                const jobRef = doc(fireDB, "jobOpenings", jobId);
+                const jobSnap = await getDoc(jobRef);
+                if (!jobSnap.exists()) {
+                    toast.error("Job not found.");
+                    return;
+                }
+                const jobData = jobSnap.data();
+
+                // Fetch user details
+                const userRef = doc(fireDB, "users", userId);
+                const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    toast.error("User not found.");
+                    return;
+                }
+                const userData = userSnap.data();
+
+                // Build student object
+                const studentDetails = {
+                    id: userId,
+                    name: userData.name || "",
+                    email: userData.email || "",
+                    college: userData.college || "",
+                    contact: userData.contact || "",
+                    date: new Date().toISOString(),
+                };
+
+                // Check if already applied in this job
+                const alreadyApplied =
+                    jobData.appliedStudents?.some((s) => s.id === userId) || false;
+
+                if (!alreadyApplied) {
+                    // Update job db with student details
+                    await updateDoc(jobRef, {
+                        appliedStudents: arrayUnion(studentDetails),
+                    });
+                }
+
+                // Build job details object for user's record
+                const appliedJobDetails = {
+                    id: jobId,
+                    title: jobData.title || "",
+                    company: jobData.company?.name || "",
+                    logo: jobData.company?.logo || "",
+                    location: jobData.location || "",
+                    jobType: jobData.jobType || "",
+                    MinSalary: jobData.MinSalary || "",
+                    MaxSalary: jobData.MaxSalary || "",
+                    startDate: jobData.startDate || "",
+                    applicationLink: jobData.applicationLink || "",
+                    description: jobData.description || "",
+                    date: new Date().toISOString(),
+                };
+
+                // Check if job already exists in user's appliedJobs
+                const alreadyInUser =
+                    userData.appliedJobs?.some((j) => j.id === jobId) || false;
+
+                if (!alreadyInUser) {
+                    await updateDoc(userRef, {
+                        appliedJobs: arrayUnion(appliedJobDetails),
+                    });
+                }
+
+                dispatch(setAuthUser({ ...userData, appliedJobs: [...userData.appliedJobs, appliedJobDetails] }));
+
+                toast.success("Application confirmed ✅");
+            } catch (error) {
+                console.error("Error updating application:", error);
+                toast.error("Something went wrong. Try again.");
+            }
+        }
+
+        localStorage.removeItem("appliedJobId");
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-xl shadow-xl text-center space-y-4 w-80">
+                <h2 className="text-lg font-semibold">Have you applied for this job?</h2>
+                <div className="flex justify-center gap-4">
+                    <button
+                        onClick={() => handleResponse(true)}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                    >
+                        Yes
+                    </button>
+                    <button
+                        onClick={() => handleResponse(false)}
+                        className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+                    >
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}

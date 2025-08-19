@@ -62,6 +62,7 @@ function Navbar() {
     };
 
     const handleDashboard = () => {
+        console.log("user from Navbar:", user);
         if (user?.role === "student") {
             navigate("/student/dashboard");
         } else if (user?.role === "admin") {

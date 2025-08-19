@@ -2,7 +2,7 @@ import { useState } from "react";
 import { X, Loader } from "lucide-react";
 import { fireDB, auth, googleProvider } from "../firebase/FirebaseConfig";
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile, } from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/authSlice";
@@ -21,6 +21,131 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
         }));
     };
 
+    // const handleSubmit = async () => {
+    //     const { name, email, contact, referral, password } = formData;
+
+    //     if (!name || !email || !contact || !password) {
+    //         setError("Please fill in all required fields.");
+    //         return;
+    //     }
+
+    //     try {
+    //         setLoading(true);
+    //         setError("");
+
+    //         // Check if email already exists in Firestore
+    //         const existingDoc = await getDoc(doc(fireDB, "users", email));
+    //         if (existingDoc.exists()) {
+    //             setError("User already exists. Please sign in.");
+    //             setLoading(false);
+    //             return;
+    //         }
+
+    //         // Create user in Firebase Auth (this automatically logs in the user)
+    //         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    //         const user = userCredential.user;
+
+    //         await updateProfile(user, { displayName: name });
+
+    //         // Add user to Firestore
+    //         await setDoc(doc(fireDB, "users", user.uid), {
+    //             name,
+    //             email,
+    //             contact,
+    //             referral: referral || "",
+    //             createdAt: serverTimestamp(),
+    //         });
+
+    //         // 🔥 Fetch the newly created user from Firestore
+    //         const userRef = doc(fireDB, "users", user.uid);
+    //         const userSnap = await getDoc(userRef);
+
+    //         if (!userSnap.exists()) {
+    //             throw new Error("User data not found in Firestore.");
+    //         }
+
+    //         const userData = userSnap.data();
+
+    //         // 🔥 Dispatch to Redux
+    //         dispatch(
+    //             setAuthUser({
+    //                 ...userData,
+    //                 uid: user.uid,
+    //                 role: "student",
+    //             })
+    //         );
+
+    //         toast.success("Account created successfully");
+
+    //         if (onClose) onClose();
+    //     } catch (err) {
+    //         setError(err.message || "Failed to create account");
+    //         toast.error("Failed to create account");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    // const handleGoogleSignIn = async () => {
+    //     try {
+    //         setLoading(true);
+    //         setError("");
+
+    //         const result = await signInWithPopup(auth, googleProvider);
+    //         const user = result.user;
+
+    //         const userDocRef = doc(fireDB, "users", user.uid);
+    //         const userSnap = await getDoc(userDocRef);
+
+    //         if (!userSnap.exists()) {
+    //             await setDoc(userDocRef, {
+    //                 name: user.displayName,
+    //                 email: user.email,
+    //                 contact: "",
+    //                 referral: "",
+    //                 createdAt: serverTimestamp(),
+    //             });
+    //         }
+
+    //         // 🔥 Fetch the newly created user from Firestore
+    //         const userRef = doc(fireDB, "users", user.uid);
+    //         const userSnap2 = await getDoc(userRef);
+
+    //         if (!userSnap2.exists()) {
+    //             throw new Error("User data not found in Firestore.");
+    //         }
+
+    //         const userData = userSnap2.data();
+
+    //         // 🔥 Dispatch to Redux
+    //         dispatch(
+    //             setAuthUser({
+    //                 ...userData,
+    //                 uid: user.uid,
+    //                 role: "student",
+    //             })
+    //         );
+
+    //         toast.success("Account created successfully");
+    //         if (onClose) onClose();
+    //     } catch (err) {
+    //         setError(err.message || "Google Sign-In failed");
+    //         toast.error("Google Sign-In failed");
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
+    const serializeFirestoreData = (data) => {
+        const result = { ...data };
+        for (const key in result) {
+            if (result[key] instanceof Timestamp) {
+                result[key] = result[key].toDate().toISOString(); // convert
+            }
+        }
+        return result;
+    };
+
     const handleSubmit = async () => {
         const { name, email, contact, referral, password } = formData;
 
@@ -33,7 +158,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
             setLoading(true);
             setError("");
 
-            // Check if email already exists in Firestore
+            // ✅ Check if email already exists in Firestore
             const existingDoc = await getDoc(doc(fireDB, "users", email));
             if (existingDoc.exists()) {
                 setError("User already exists. Please sign in.");
@@ -41,13 +166,13 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                 return;
             }
 
-            // Create user in Firebase Auth (this automatically logs in the user)
+            // ✅ Create user in Firebase Auth
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
             await updateProfile(user, { displayName: name });
 
-            // Add user to Firestore
+            // ✅ Add user to Firestore
             await setDoc(doc(fireDB, "users", user.uid), {
                 name,
                 email,
@@ -56,7 +181,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                 createdAt: serverTimestamp(),
             });
 
-            // 🔥 Fetch the newly created user from Firestore
+            // ✅ Fetch the newly created user from Firestore
             const userRef = doc(fireDB, "users", user.uid);
             const userSnap = await getDoc(userRef);
 
@@ -64,9 +189,9 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                 throw new Error("User data not found in Firestore.");
             }
 
-            const userData = userSnap.data();
+            const userData = serializeFirestoreData(userSnap.data());
 
-            // 🔥 Dispatch to Redux
+            // ✅ Dispatch to Redux
             dispatch(
                 setAuthUser({
                     ...userData,
@@ -76,7 +201,6 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
             );
 
             toast.success("Account created successfully");
-
             if (onClose) onClose();
         } catch (err) {
             setError(err.message || "Failed to create account");
@@ -107,17 +231,16 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                 });
             }
 
-            // 🔥 Fetch the newly created user from Firestore
-            const userRef = doc(fireDB, "users", user.uid);
-            const userSnap2 = await getDoc(userRef);
+            // ✅ Fetch again to ensure data is up-to-date
+            const userSnap2 = await getDoc(userDocRef);
 
             if (!userSnap2.exists()) {
                 throw new Error("User data not found in Firestore.");
             }
 
-            const userData = userSnap2.data();
+            const userData = serializeFirestoreData(userSnap2.data());
 
-            // 🔥 Dispatch to Redux
+            // ✅ Dispatch to Redux
             dispatch(
                 setAuthUser({
                     ...userData,
@@ -324,7 +447,7 @@ const CreateAccount = ({ onClose, onSwitchToSignIn }) => {
                                 )}
                             </button>
                         </div>
-                                
+
                         {/* Last text */}
                         <div className="text-center sm:mt-4 mt-2 relative z-10">
                             <p className="text-gray-600 text-[11px] sm:text-xs">

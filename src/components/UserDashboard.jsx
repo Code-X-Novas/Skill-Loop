@@ -14,8 +14,8 @@ const UserDashboard = () => {
     const courses = user?.yourCourses || [];
     const [certificateCount, setCertificateCount] = useState(0);
 
-    const internshipCount = 2;
-    const appliedJobsCount = 3;
+    const internshipCount = user?.appliedInternships?.length || 0;
+    const appliedJobsCount = user?.appliedJobs?.length || 0;
 
     const statusColor = {
         Complete: "bg-[#E4EDE8] text-[#68946D]",
@@ -57,6 +57,7 @@ const UserDashboard = () => {
 
         fetchStatusesAndCertificates();
     }, [user, courses]);
+
 
     return (
         <div className="p-4 md:p-6 flex flex-col xl:flex-row gap-6">
@@ -178,7 +179,7 @@ const UserDashboard = () => {
                                                 </td>
                                                 <td>
                                                     {course.purchasedAt
-                                                        ? new Date( course.purchasedAt).toLocaleDateString()
+                                                        ? new Date(course.purchasedAt).toLocaleDateString()
                                                         : "—"}
                                                 </td>
                                             </tr>

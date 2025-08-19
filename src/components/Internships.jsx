@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { collection, getDocs } from "firebase/firestore";
-import { fireDB } from "../firebase/FirebaseConfig";
+import { arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { auth, fireDB } from "../firebase/FirebaseConfig";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { setAuthUser } from "../redux/authSlice";
 
 function Internships() {
     const [internshipData, setInternshipData] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
+
+    const [showDialog, setShowDialog] = useState(false);
+    const [appliedInternshipId, setAppliedInternshipId] = useState(null);
 
     useEffect(() => {
         const fetchInternships = async () => {
@@ -33,11 +40,28 @@ function Internships() {
 
     const handleViewAll = () => {
         navigate("/internship");
-        // window.scrollTo(0, 0);
     };
 
+    const handleApplyClick = (internshipId, link) => {
+        localStorage.setItem("appliedInternshipId", internshipId);
+        window.open(link, "_blank");
+    };
+
+    // Detect return from Google Form
+    useEffect(() => {
+        const handleFocus = () => {
+            const internshipId = localStorage.getItem("appliedInternshipId");
+            if (internshipId) {
+                setAppliedInternshipId(internshipId);
+                setShowDialog(true);
+            }
+        };
+        window.addEventListener("focus", handleFocus);
+        return () => window.removeEventListener("focus", handleFocus);
+    }, []);
+
     return (
-        <>  
+        <>
             {/* Heading */}
             <motion.h2
                 initial={{ opacity: 0, x: -100, y: 0 }}
@@ -112,7 +136,7 @@ function Internships() {
                         {internshipData.map((internship) => {
                             // Get middle slice of description if it’s long
                             const desc = internship.description || "";
-                            const midStart = Math.floor(desc.length / 3);
+                            // const midStart = Math.floor(desc.length / 3);
 
                             return (
                                 <div
@@ -161,25 +185,37 @@ function Internships() {
                                                     {internship.company?.name}
                                                 </p>
                                                 <p className="md:text-sm text-xs text-gray-500">
-                                                    {internship.company?.address || "Remote" }
+                                                    {internship.company?.address || "Remote"}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        {internship.googleFormLink && (
-                                            <a
-                                                href={internship.googleFormLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="ml-auto text-xs bg-yellow-400 hover:bg-yellow-500 text-black font-semibold py-1 px-3 rounded-full transition"
-                                            >
-                                                Apply Now
-                                            </a>
-                                        )}
+                                        {/* Apply Button */}
+                                        <button
+                                            onClick={() => handleApplyClick(internship.id, internship.googleFormLink)}
+                                            disabled={!user || user?.appliedInternships?.some((i) => i.id === internship.id)} // 👈 add disabled
+                                            className={`text-xs font-semibold py-1 px-3 rounded-full transition
+                                                            ${user?.appliedInternships?.some((i) => i.id === internship.id)
+                                                    ? "bg-green-500 text-white cursor-not-allowed"
+                                                    : "bg-yellow-400 hover:bg-yellow-500 cursor-pointer text-black"
+                                                }`}
+                                        >
+                                            {user?.appliedInternships?.some((i) => i.id === internship.id)
+                                                ? "Applied"
+                                                : "Apply Now"}
+                                        </button>
                                     </div>
                                 </div>
                             );
                         })}
+
+                        {/* Confirmation Dialog */}
+                        {showDialog && appliedInternshipId && (
+                            <ApplyConfirmDialog
+                                internshipId={appliedInternshipId}
+                                onClose={() => setShowDialog(false)}
+                            />
+                        )}
                     </div>
                 )}
             </motion.div>
@@ -188,3 +224,118 @@ function Internships() {
 }
 
 export default Internships;
+
+
+// Apply Confirm Dialog
+function ApplyConfirmDialog({ internshipId, onClose }) {
+
+    const dispatch = useDispatch();
+
+    const handleResponse = async (applied) => {
+        if (applied) {
+            const userId = auth.currentUser?.uid;
+            if (!userId) {
+                toast.error("You must be logged in to apply for internships.");
+                return;
+            }
+
+            try {
+                // Fetch internship details
+                const internshipRef = doc(fireDB, "internships", internshipId);
+                const internshipSnap = await getDoc(internshipRef);
+                if (!internshipSnap.exists()) {
+                    toast.error("Internship not found.");
+                    return;
+                }
+                const internshipData = internshipSnap.data();
+
+                // Fetch user details
+                const userRef = doc(fireDB, "users", userId);
+                const userSnap = await getDoc(userRef);
+                if (!userSnap.exists()) {
+                    toast.error("User not found.");
+                    return;
+                }
+                const userData = userSnap.data();
+
+                // Build student object
+                const studentDetails = {
+                    id: userId,
+                    name: userData.name || "",
+                    email: userData.email || "",
+                    college: userData.college || "",
+                    contact: userData.contact || "",
+                    date: new Date().toISOString(),
+                };
+
+                // Check if already enrolled
+                const alreadyEnrolled =
+                    internshipData.enrolledInterns?.some((s) => s.id === userId) || false;
+
+                if (!alreadyEnrolled) {
+                    await updateDoc(internshipRef, {
+                        enrolledInterns: arrayUnion(studentDetails),
+                    });
+                }
+
+                // Build internship details for user's record
+                const appliedInternshipDetails = {
+                    id: internshipId,
+                    internshipName: internshipData.internshipName || "",
+                    company: internshipData.company?.name || "",
+                    logo: internshipData.company?.logo || "",
+                    place: internshipData.place || "",
+                    MinStipend: internshipData.MinStipend || "",
+                    MaxStipend: internshipData.MaxStipend || "",
+                    startDate: internshipData.startDate || "",
+                    googleFormLink: internshipData.googleFormLink || "",
+                    description: internshipData.description || "",
+                    duration: internshipData.duration || "",
+                    date: new Date().toISOString(),
+                };
+
+                const alreadyInUser =
+                    userData.appliedInternships?.some((i) => i.id === internshipId) || false;
+
+                if (!alreadyInUser) {
+                    await updateDoc(userRef, {
+                        appliedInternships: arrayUnion(appliedInternshipDetails),
+                    });
+                }
+
+                dispatch(setAuthUser({ ...userData, appliedInternships: [...userData.appliedInternships, appliedInternshipDetails] }));
+
+                toast.success("Internship application confirmed ✅");
+
+            } catch (error) {
+                console.error("Error updating internship application:", error);
+                toast.error("Something went wrong. Try again.");
+            }
+        }
+
+        localStorage.removeItem("appliedInternshipId");
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-xl shadow-xl text-center space-y-4 w-80">
+                <h2 className="text-lg font-semibold">Have you applied for this internship?</h2>
+                <div className="flex justify-center gap-4">
+                    <button
+                        onClick={() => handleResponse(true)}
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"
+                    >
+                        Yes
+                    </button>
+                    <button
+                        onClick={() => handleResponse(false)}
+                        className="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400"
+                    >
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}

@@ -61,7 +61,6 @@ const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
 
             onClose?.();
         } catch (err) {
-            setError(err.message || "Sign in failed");
             toast.error(err.message || "Sign in failed");
         } finally {
             setLoading(false);
