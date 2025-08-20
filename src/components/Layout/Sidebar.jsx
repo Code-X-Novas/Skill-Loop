@@ -47,7 +47,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="h-screen w-64 bg-orange-200 text-black py-6 flex flex-col justify-between rounded-2xl sidebar-shadow font-semibold">
+        <div className="h-screen fixed w-64 bg-orange-200 text-black py-6 flex flex-col justify-between rounded-2xl sidebar-shadow font-semibold">
             <div>
                 <div className="px-6 mb-8">
                     <h2 className="text-xl font-bold text-gray-800">

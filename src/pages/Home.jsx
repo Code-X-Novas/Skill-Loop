@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { fireDB } from "../firebase/FirebaseConfig";
+import Loader from "../components/Loader"
 
 const Home = () => {
     const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Home = () => {
     const [totalInternships, setTotalInternships] = useState(0);
     const [totalCertificates, setTotalCertificates] = useState(0);
     const [studentsList, setStudentsList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!user || (user.role !== "admin" && user.role !== "superadmin")) {
@@ -27,6 +29,7 @@ const Home = () => {
         const fetchData = async () => {
             try {
                 console.log("Fetching dashboard data...");
+                setLoading(true);
                 let coursesCount = 0;
                 let enrolledCount = 0;
                 let certificatesCount = 0;
@@ -102,11 +105,17 @@ const Home = () => {
                 console.log("Internships:", internshipsSnap.size);
             } catch (error) {
                 console.error("❌ Dashboard fetch error:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchData();
     }, []);
+
+    if (loading) {
+        return <Loader />
+    }
 
     return (
         <div className="flex-1 p-8 space-y-8 bg-white overflow-auto">

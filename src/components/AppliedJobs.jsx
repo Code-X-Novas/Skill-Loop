@@ -11,7 +11,7 @@ const AppliedJobs = () => {
 
             {/* Table for md+ screens */}
             {
-                jobs.length === 0 ? (
+                jobs === undefined || jobs.length === 0 ? (
                     <p className="text-gray-500 text-sm">You have not applied to any jobs yet.</p>
                 ) : (
                     <div className="hidden md:block overflow-x-auto">
@@ -24,7 +24,7 @@ const AppliedJobs = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {jobs.map((job, index) => (
+                                {jobs && jobs.map((job, index) => (
                                     <tr key={index} className="hover:bg-gray-50">
                                         <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{job?.company}</td>
                                         <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{job?.title}</td>
@@ -46,7 +46,7 @@ const AppliedJobs = () => {
 
             {/* Card layout for mobile */}
             <div className="md:hidden space-y-4">
-                {jobs.map((job, index) => (
+                {jobs && jobs.map((job, index) => (
                     <div
                         key={index}
                         className="border rounded-lg p-4 shadow-sm space-y-1"

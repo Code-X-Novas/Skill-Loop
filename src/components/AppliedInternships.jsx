@@ -9,7 +9,7 @@ const AppliedInternships = () => {
         <div className="bg-white p-4 sm:p-6 rounded-lg">
             <h2 className="text-lg font-semibold mb-4">My Applied Internships</h2>
 
-            {internships.length === 0 ? (
+            { internships && internships.length === 0 ? (
                 <p className="text-gray-500 text-sm">You have not applied to any internships yet.</p>
             ) : (
                 <>
@@ -25,7 +25,7 @@ const AppliedInternships = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {internships.map((internship, index) => (
+                                {internships && internships.map((internship, index) => (
                                     <tr key={index} className="hover:bg-gray-50">
                                         <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship?.company}</td>
                                         <td className="lg:p-3 p-2 lg:text-sm md:text-xs">{internship?.internshipName}</td>
@@ -47,7 +47,7 @@ const AppliedInternships = () => {
 
                     {/* Card layout for mobile */}
                     <div className="md:hidden space-y-4">
-                        {internships.map((internship, index) => (
+                        {internships && internships.map((internship, index) => (
                             <div key={index} className="border rounded-lg p-4 shadow-sm space-y-1">
                                 <p className="text-sm">
                                     <span className="font-medium text-gray-600">Company: </span>
