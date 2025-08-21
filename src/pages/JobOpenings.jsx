@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { JobHeader } from "../components/JobHeader.jsx";
 import { JobSidebar } from "../components/Layout/JobSidebar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -29,13 +29,72 @@ const initialFilters = {
 
 const JOBS_PER_PAGE = 6;
 
+function deriveExperienceBucket(job) {
+    // Try explicit label first
+    const explicit = (job.experienceLevel || job.level || "").toString();
+    const known = ["Entry Level", "Mid-Level", "Senior Level", "No Experience"];
+    if (explicit) {
+        const match = known.find((k) => k.toLowerCase() === explicit.toLowerCase());
+        if (match) return match;
+    }
+
+    // Collect potential numeric sources
+    const minSources = [job.minExperience, job.minimumExperience, job.expMin, job.experienceMin];
+    const maxSources = [job.maxExperience, job.maximumExperience, job.expMax, job.experienceMax];
+    const singleSources = [job.experience, job.experienceYears, job.exp];
+
+    let min = undefined;
+    let max = undefined;
+
+    for (const v of minSources) {
+        if (v !== undefined && v !== null && v !== "") { min = Number(v); break; }
+    }
+    for (const v of maxSources) {
+        if (v !== undefined && v !== null && v !== "") { max = Number(v); break; }
+    }
+    if (min === undefined && max === undefined) {
+        for (const v of singleSources) {
+            if (v !== undefined && v !== null && v !== "") { min = Number(v); break; }
+        }
+    }
+
+    // If still not found, try parsing from a string field
+    if (min === undefined && max === undefined) {
+        const raw = (job.experience || job.experienceRequired || job.requirements || "").toString();
+        if (raw) {
+            const nums = (raw.match(/\d+/g) || []).map((n) => Number(n));
+            if (nums.length >= 1) min = nums[0];
+            if (nums.length >= 2) max = nums[1];
+            if (nums.length === 1 && /\+/.test(raw)) {
+                max = Number.POSITIVE_INFINITY;
+            }
+        }
+    }
+
+    const hasMin = typeof min === "number" && !Number.isNaN(min);
+    const hasMax = typeof max === "number" && !Number.isNaN(max);
+    const effectiveMax = hasMax ? max : (hasMin ? min : undefined);
+
+    if (hasMin || hasMax) {
+        if ((hasMin && min === 0) && (effectiveMax === 0)) return "No Experience";
+        if ((hasMin && min <= 0) && (effectiveMax !== undefined && effectiveMax <= 2)) return "Entry Level"; // 0–2
+        if ((hasMin && min >= 2) && (effectiveMax !== undefined && effectiveMax <= 5)) return "Mid-Level"; // 2–4 or 2–5
+        return "Senior Level";
+    }
+
+    return "";
+}
+
 export default function JobOpenings() {
     const [filters, setFilters] = useState(initialFilters);
     const [allJobs, setAllJobs] = useState([]);
+    const [filteredJobs, setFilteredJobs] = useState([]);
     const [visibleJobs, setVisibleJobs] = useState([]);
     const [page, setPage] = useState(1);
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [keyword, setKeyword] = useState("");
+    const [location, setLocation] = useState("All Locations");
 
     const user = useSelector((state) => state.auth.user);
 
@@ -43,7 +102,7 @@ export default function JobOpenings() {
     const [showDialog, setShowDialog] = useState(false);
     const [appliedJobId, setAppliedJobId] = useState(null);
 
-    const totalPages = Math.ceil(allJobs.length / JOBS_PER_PAGE);
+    const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
 
     const handleFilterChange = (label) => {
         const updatedFilters = { ...filters };
@@ -53,6 +112,7 @@ export default function JobOpenings() {
         updatedFilters.types = updateGroup(updatedFilters.types);
         updatedFilters.experience = updateGroup(updatedFilters.experience);
         setFilters(updatedFilters);
+        setPage(1);
     };
 
     const handleShowMore = () => {
@@ -86,14 +146,79 @@ export default function JobOpenings() {
         fetchJobs();
     }, []);
 
-    // Pagination
-    useEffect(() => {
-        const endIndex = page * JOBS_PER_PAGE;
-        const filtered = allJobs;
-        const paginated = filtered.slice(0, endIndex);
+    // Location options computed from data
+    const locationOptions = useMemo(() => {
+        const places = new Set();
+        allJobs.forEach((j) => {
+            if (j.location) places.add(j.location);
+            if (j.company?.address) places.add(j.company.address);
+        });
+        return ["All Locations", ...Array.from(places)];
+    }, [allJobs]);
 
-        setVisibleJobs(paginated);
-    }, [allJobs, page, filters]);
+    // Apply filtering and pagination
+    useEffect(() => {
+        const selectedTypes = filters.types.filter((f) => f.checked).map((f) => f.label);
+        const selectedExperience = filters.experience.filter((f) => f.checked).map((f) => f.label);
+
+        const normalizedKeyword = keyword.trim().toLowerCase();
+        const normalizedLocation = location;
+
+        const filtered = allJobs.filter((job) => {
+            // Keyword
+            if (normalizedKeyword) {
+                const haystack = [
+                    job.title,
+                    job.description,
+                    job.company?.name,
+                    job.company?.address,
+                    job.location,
+                    job.jobType,
+                ]
+                    .filter(Boolean)
+                    .join(" \u2022 ")
+                    .toLowerCase();
+                if (!haystack.includes(normalizedKeyword)) return false;
+            }
+
+            // Location
+            if (normalizedLocation && normalizedLocation !== "All Locations") {
+                const matchesLoc = (job.location || "").toLowerCase() === normalizedLocation.toLowerCase();
+                const matchesAddr = (job.company?.address || "").toLowerCase() === normalizedLocation.toLowerCase();
+                if (!matchesLoc && !matchesAddr) return false;
+            }
+
+            // Type of employment
+            if (selectedTypes.length > 0) {
+                const typeCandidates = new Set();
+                const explicit = (job.jobType || job.type || job.employmentType || "").toString();
+                if (explicit) typeCandidates.add(explicit);
+                if ((job.location || "").toString().toLowerCase() === "remote") typeCandidates.add("Remote");
+
+                const matchesType = selectedTypes.some((t) => {
+                    for (const cand of typeCandidates) {
+                        if (cand && cand.toString().toLowerCase() === t.toLowerCase()) return true;
+                    }
+                    return false;
+                });
+                if (!matchesType) return false;
+            }
+
+            // Experience level mapping
+            if (selectedExperience.length > 0) {
+                const bucket = deriveExperienceBucket(job);
+                if (!bucket) return false;
+                const matchesExp = selectedExperience.some((e) => e.toLowerCase() === bucket.toLowerCase());
+                if (!matchesExp) return false;
+            }
+
+            return true;
+        });
+
+        setFilteredJobs(filtered);
+        const endIndex = page * JOBS_PER_PAGE;
+        setVisibleJobs(filtered.slice(0, endIndex));
+    }, [allJobs, page, filters, keyword, location]);
 
     // Detect when user comes back from Google Form
     useEffect(() => {
@@ -117,7 +242,14 @@ export default function JobOpenings() {
     return (
         <>
             <div className="min-h-screen">
-                <JobHeader />
+                <JobHeader
+                    keyword={keyword}
+                    onKeywordChange={setKeyword}
+                    location={location}
+                    onLocationChange={(val) => { setLocation(val); setPage(1); }}
+                    locations={locationOptions}
+                    onSearch={() => setPage(1)}
+                />
 
                 {/* Mobile Filter Toggle */}
                 <div className="xl:hidden flex justify-end px-4 sm:px-8 xl:px-16 mt-4">
@@ -154,7 +286,7 @@ export default function JobOpenings() {
                     ) : (
                         <div className="flex-1">
                             <p className="text-xl my-4">
-                                Showing <span className="font-bold">{visibleJobs.length}</span> jobs
+                                Showing <span className="font-bold">{visibleJobs.length}</span> of {filteredJobs.length} jobs
                             </p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -99,14 +99,8 @@ function App() {
                     <Route path="/internships" element={<ManageInternship />} />
                     <Route path="/postings" element={<ManagePosting />} />
                     <Route path="/students" element={<ManageStudents />} />
-                    <Route
-                        path="/admin_transaction"
-                        element={<AdminTransactions />}
-                    />
-                    <Route
-                        path="/admin-management"
-                        element={<AdminManagement />}
-                    />
+                    <Route path="/admin_transaction" element={<AdminTransactions />} />
+                    <Route path="/admin-management" element={<AdminManagement />} />
                 </Route>
 
                 {/* ✅ Protected LayoutWithoutSidebar */}

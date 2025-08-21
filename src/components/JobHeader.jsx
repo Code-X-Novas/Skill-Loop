@@ -1,6 +1,13 @@
 import { Search, MapPin } from 'lucide-react';
 
-export function JobHeader() {
+export function JobHeader({
+  keyword = "",
+  onKeywordChange = () => {},
+  location = "All Locations",
+  onLocationChange = () => {},
+  locations = ["All Locations"],
+  onSearch = () => {},
+}) {
   return (
     <div className="bg-[#F8EEDD] py-10 px-4 md:px-8 lg:px-16">
       <h1 className="md:text-5xl text-4xl font-bold mb-2">Job Openings</h1>
@@ -11,16 +18,29 @@ export function JobHeader() {
           <input
             type="text"
             placeholder="Job Title or Keyword"
+            value={keyword}
+            onChange={(e) => onKeywordChange(e.target.value)}
             className="w-full rounded-lg py-2 pl-10 pr-4 outline-none focus:border-[#F4B860] transition"
           />
         </div>
         <div className="relative w-full md:w-1/3 md:border-l md:border-gray-300 md:pl-4">
           <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#5C5C60] w-5 h-5" />
-          <select className="w-full rounded-lg py-2 pl-10 pr-4 outline-none">
-            <option>All Locations</option>
+          <select
+            className="w-full rounded-lg py-2 pl-10 pr-4 outline-none"
+            value={location}
+            onChange={(e) => onLocationChange(e.target.value)}
+          >
+            {locations.map((loc) => (
+              <option key={loc} value={loc}>{loc}</option>
+            ))}
           </select>
         </div>
-        <button className="bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full px-6 py-2">Find Jobs</button>
+        <button
+          onClick={onSearch}
+          className="bg-gradient-to-r from-[#F4B860] to-[#D35244] text-white rounded-full px-6 py-2"
+        >
+          Find Jobs
+        </button>
       </div>
     </div>
   );

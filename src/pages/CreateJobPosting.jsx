@@ -19,16 +19,35 @@ const CreateJobPosting = () => {
     const [jobType, setJobType] = useState("Full-Time"); // or Part-Time, Contract, etc.
     const [salaryMin, setSalaryMin] = useState("");
     const [salaryMax, setSalaryMax] = useState("");
+    const [minExperience, setMinExperience] = useState("");
+    const [maxExperience, setMaxExperience] = useState("");
     const [companyName, setCompanyName] = useState("");
     const [companyLogo, setCompanyLogo] = useState("");
     const [companyAddress, setCompanyAddress] = useState("");
     const [location, setLocation] = useState("Remote");
     const [applicationLink, setApplicationLink] = useState("");
 
+    const deriveExperienceLevel = (minExpRaw, maxExpRaw) => {
+        const min = minExpRaw === "" || minExpRaw === null || minExpRaw === undefined ? undefined : Number(minExpRaw);
+        const max = maxExpRaw === "" || maxExpRaw === null || maxExpRaw === undefined ? undefined : Number(maxExpRaw);
+        const hasMin = typeof min === "number" && !Number.isNaN(min);
+        const hasMax = typeof max === "number" && !Number.isNaN(max);
+        const effectiveMax = hasMax ? max : (hasMin ? min : undefined);
+
+        if (hasMin || hasMax) {
+            if ((hasMin && min === 0) && (effectiveMax === 0)) return "No Experience";
+            if ((hasMin && min <= 0) && (effectiveMax !== undefined && effectiveMax <= 2)) return "Entry Level";
+            if ((hasMin && min >= 2) && (effectiveMax !== undefined && effectiveMax <= 5)) return "Mid-Level";
+            return "Senior Level";
+        }
+        return "";
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const jobRef = doc(collection(fireDB, "jobOpenings"));
+            const expLevel = deriveExperienceLevel(minExperience, maxExperience);
             await setDoc(jobRef, {
                 title: jobTitle,
                 description,
@@ -43,6 +62,10 @@ const CreateJobPosting = () => {
                 },
                 location,
                 applicationLink,
+                // Experience fields
+                minExperience: minExperience === "" ? null : Number(minExperience),
+                maxExperience: maxExperience === "" ? null : Number(maxExperience),
+                experienceLevel: expLevel,
                 applicants: [],
             });
 
@@ -143,6 +166,23 @@ const CreateJobPosting = () => {
                             onChange={(e) => setSalaryMax(e.target.value)}
                             type="text"
                             required
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <InputField
+                            label="Minimum Experience (years)"
+                            value={minExperience}
+                            onChange={(e) => setMinExperience(e.target.value)}
+                            type="number"
+                            min="0"
+                        />
+                        <InputField
+                            label="Maximum Experience (years)"
+                            value={maxExperience}
+                            onChange={(e) => setMaxExperience(e.target.value)}
+                            type="number"
+                            min="0"
                         />
                     </div>
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { JobSidebar } from "../components/Layout/JobSidebar.jsx";
 import Footer from "../components/Footer.jsx";
 import Background from "../ui/Background.jsx";
@@ -30,10 +30,13 @@ const INTERNSHIPS_PER_PAGE = 6;
 export default function Internships() {
     const [filters, setFilters] = useState(initialFilters);
     const [allInternships, setAllInternships] = useState([]);
+    const [filteredInternships, setFilteredInternships] = useState([]);
     const [visibleInternships, setVisibleInternships] = useState([]);
     const [page, setPage] = useState(1);
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [keyword, setKeyword] = useState("");
+    const [location, setLocation] = useState("All Locations");
 
     const user = useSelector((state) => state.auth.user);
 
@@ -41,7 +44,7 @@ export default function Internships() {
     const [showDialog, setShowDialog] = useState(false);
     const [appliedInternshipId, setAppliedInternshipId] = useState(null);
 
-    const totalPages = Math.ceil(allInternships.length / INTERNSHIPS_PER_PAGE);
+    const totalPages = Math.ceil(filteredInternships.length / INTERNSHIPS_PER_PAGE);
 
     const handleFilterChange = (label) => {
         const updatedFilters = { ...filters };
@@ -51,6 +54,7 @@ export default function Internships() {
         updatedFilters.types = updateGroup(updatedFilters.types);
         updatedFilters.experience = updateGroup(updatedFilters.experience);
         setFilters(updatedFilters);
+        setPage(1);
     };
 
     useEffect(() => {
@@ -84,12 +88,92 @@ export default function Internships() {
         fetchInternships();
     }, []);
 
+    // Compute unique locations from data
+    const locationOptions = useMemo(() => {
+        const places = new Set();
+        allInternships.forEach((i) => {
+            if (i.place) places.add(i.place);
+            if (i.company?.address) places.add(i.company.address);
+        });
+        return ["All Locations", ...Array.from(places)];
+    }, [allInternships]);
+
+    // Apply filters and pagination
     useEffect(() => {
+        const selectedTypes = filters.types.filter((f) => f.checked).map((f) => f.label);
+        const selectedExperience = filters.experience.filter((f) => f.checked).map((f) => f.label);
+
+        const normalizedKeyword = keyword.trim().toLowerCase();
+        const normalizedLocation = location;
+
+        const filtered = allInternships.filter((internship) => {
+            // Keyword filter
+            if (normalizedKeyword) {
+                const haystack = [
+                    internship.internshipName,
+                    internship.description,
+                    internship.company?.name,
+                    internship.company?.address,
+                    internship.place,
+                    internship.duration,
+                ]
+                    .filter(Boolean)
+                    .join(" \u2022 ")
+                    .toLowerCase();
+                if (!haystack.includes(normalizedKeyword)) {
+                    return false;
+                }
+            }
+
+            // Location filter
+            if (normalizedLocation && normalizedLocation !== "All Locations") {
+                const matchesPlace = (internship.place || "").toLowerCase() === normalizedLocation.toLowerCase();
+                const matchesAddress = (internship.company?.address || "").toLowerCase() === normalizedLocation.toLowerCase();
+                if (!matchesPlace && !matchesAddress) {
+                    return false;
+                }
+            }
+
+            // Type of Employment filter
+            if (selectedTypes.length > 0) {
+                const stipend = parseFloat(internship.MinStipend ?? 0) || 0;
+                const typeCandidates = new Set();
+                // Derive known types from available fields
+                if (internship.place === "Remote") typeCandidates.add("Remote");
+                if (stipend > 0) typeCandidates.add("Paid");
+                if (stipend <= 0) typeCandidates.add("Unpaid");
+                // If dataset includes explicit employment type, use it
+                const explicitType = (internship.employmentType || internship.type || internship.jobType || "").toString();
+                if (explicitType) typeCandidates.add(explicitType);
+
+                const matchesType = selectedTypes.some((t) => {
+                    // Case-insensitive match across derived/explicit types
+                    for (const cand of typeCandidates) {
+                        if (cand && cand.toString().toLowerCase() === t.toLowerCase()) return true;
+                    }
+                    return false;
+                });
+                if (!matchesType) return false;
+            }
+
+            // Experience Level filter (if present in data)
+            if (selectedExperience.length > 0) {
+                const expField = (internship.experienceLevel || internship.experience || internship.level || "").toString();
+                if (!expField) return false;
+                const matchesExp = selectedExperience.some(
+                    (e) => e.toLowerCase() === expField.toLowerCase()
+                );
+                if (!matchesExp) return false;
+            }
+
+            return true;
+        });
+
+        setFilteredInternships(filtered);
+
         const endIndex = page * INTERNSHIPS_PER_PAGE;
-        const filtered = allInternships; // later you can apply real filters here
-        const paginated = filtered.slice(0, endIndex);
-        setVisibleInternships(paginated);
-    }, [allInternships, page, filters]);
+        setVisibleInternships(filtered.slice(0, endIndex));
+    }, [allInternships, page, filters, keyword, location]);
 
     // Detect return from Google Form
     useEffect(() => {
@@ -113,7 +197,17 @@ export default function Internships() {
     return (
         <>
             <div className="min-h-screen">
-                <InternshipHeader />
+                <InternshipHeader
+                    keyword={keyword}
+                    onKeywordChange={setKeyword}
+                    location={location}
+                    onLocationChange={(val) => {
+                        setLocation(val);
+                        setPage(1);
+                    }}
+                    locations={locationOptions}
+                    onSearch={() => setPage(1)}
+                />
 
                 {/* Mobile Filter Toggle */}
                 <div className="xl:hidden flex justify-end px-4 sm:px-8 xl:px-16 mt-4">
@@ -149,7 +243,7 @@ export default function Internships() {
                     ) : (
                         <div className="flex-1">
                             <p className="text-xl my-4">
-                                Showing <span className="font-bold">{visibleInternships.length}</span> internships
+                                Showing <span className="font-bold">{visibleInternships.length}</span> of {filteredInternships.length} internships
                             </p>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
