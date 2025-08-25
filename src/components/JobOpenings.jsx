@@ -193,7 +193,7 @@ function JobOpenings() {
 
                                         <button
                                             onClick={() => handleApplyClick(job.id, job.applicationLink)}
-                                            disabled={!user || user?.appliedJobs?.some((i) => i.id === job.id)} // 👈 add disabled
+                                            disabled={user?.appliedJobs?.some((i) => i.id === job.id)} // 👈 add disabled
                                             className={`text-xs font-semibold py-1 px-3 rounded-full transition
                                                             ${user?.appliedJobs?.some((i) => i.id === job.id)
                                                     ? "bg-green-500 text-white cursor-not-allowed"

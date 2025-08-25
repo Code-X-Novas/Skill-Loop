@@ -298,7 +298,7 @@ export default function Internships() {
                                                 {/* Apply Button */}
                                                 <button
                                                     onClick={() => handleApplyClick(internship.id, internship.googleFormLink)}
-                                                    disabled={!user || user?.appliedInternships?.some((i) => i.id === internship.id)} // 👈 add disabled
+                                                    disabled={user?.appliedInternships?.some((i) => i.id === internship.id)} // 👈 add disabled
                                                     className={`text-xs font-semibold py-1 px-3 rounded-full transition
                                                             ${user?.appliedInternships?.some((i) => i.id === internship.id)
                                                             ? "bg-green-500 text-white cursor-not-allowed"
