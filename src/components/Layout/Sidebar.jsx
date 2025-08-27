@@ -6,7 +6,7 @@ import { IoMdPerson } from "react-icons/io";
 import { MdLogout, MdSupervisorAccount } from "react-icons/md";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { signOut } from 'firebase/auth';
+import { sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { auth } from '../../firebase/FirebaseConfig';
 import { setAuthUser } from '../../redux/authSlice';
 import { toast } from 'react-toastify';
@@ -46,15 +46,33 @@ const Sidebar = () => {
         }
     };
 
+    const handleChangePassword = async () => {
+        console.log(auth.currentUser?.email);
+        try {
+            if (!auth.currentUser?.email) {
+                toast.error("No user email found. Please login again.");
+                return;
+            }
+
+            await sendPasswordResetEmail(auth, auth.currentUser.email);
+            toast.success("Password reset email sent! Check your inbox.");
+        } catch (err) {
+            toast.error(err.message || "Password change failed");
+        }
+    };
+
     return (
         <div className="h-screen fixed w-64 bg-orange-200 text-black py-6 flex flex-col justify-between rounded-2xl sidebar-shadow font-semibold">
+            {/* upper */}
             <div>
+                {/* Haeding */}
                 <div className="px-6 mb-8">
                     <h2 className="text-xl font-bold text-gray-800">
                         {user?.role === 'superadmin' ? 'Super Admin' : 'Admin'} Panel
                     </h2>
                 </div>
 
+                {/* menu items */}
                 <ul className="space-y-2">
                     {menuItems.map((item, index) => (
                         <li key={index}>
@@ -73,10 +91,17 @@ const Sidebar = () => {
                 </ul>
             </div>
 
+            {/* lower */}
             <div className="px-6">
+                <div
+                    onClick={handleChangePassword}
+                    className="flex cursor-pointer items-center gap-3 px-4 py-3 text-black rounded-lg transition-all"
+                >
+                    Change Password
+                </div>
                 <Link
                     onClick={handleLogout}
-                    className="flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                    className="flex items-center gap-3 px-4 py-3 text-red-600 rounded-lg transition-all"
                 >
                     <MdLogout />
                     Logout
