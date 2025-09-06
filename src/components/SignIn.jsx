@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "../redux/authSlice";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 // import { useNavigate } from "react-router-dom";
 
 const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
@@ -16,6 +16,16 @@ const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
 
     const dispatch = useDispatch();
     // const navigate = useNavigate();
+
+    const serializeFirestoreData = (data) => {
+        const result = { ...data };
+        for (const key in result) {
+            if (result[key] instanceof Timestamp) {
+                result[key] = result[key].toDate().toISOString(); // convert
+            }
+        }
+        return result;
+    };
 
     const togglePassword = () => setShowPassword(!showPassword);
 
@@ -80,10 +90,24 @@ const SignIn = ({ onClose, onSwitchToCreateAccount }) => {
             const userSnap = await getDoc(userRef);
 
             if (!userSnap.exists()) {
+                // Create user if they don't exist
+                await setDoc(userRef, {
+                    name: user.displayName,
+                    email: user.email,
+                    contact: "",
+                    referral: "",
+                    createdAt: serverTimestamp(),
+                });
+            }
+
+            // ✅ Fetch again to ensure data is up-to-date
+            const userSnap2 = await getDoc(userRef);
+
+            if (!userSnap2.exists()) {
                 throw new Error("User data not found in Firestore.");
             }
 
-            const userData = userSnap.data();
+            const userData = serializeFirestoreData(userSnap2.data());
 
             dispatch(
                 setAuthUser({
